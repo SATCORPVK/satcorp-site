@@ -99,7 +99,9 @@ body {
   justify-content: center;
   padding: 60px 16px;
   text-align: center;
-  background: url('assets/satcorp5.0.png') no-repeat center / cover;
+
+  /* FIXED: match repo filename casing */
+  background: url('assets/Satcorp5.0.PNG') no-repeat center / cover;
 }
 
 .hero::before {
@@ -156,7 +158,8 @@ body {
 
 /* Biotech section */
 .biotech {
-  background: url('assets/signal.kyrax5.0.jpg') no-repeat center 75% / cover;
+  /* FIXED: match repo filename casing + keep moved-down position */
+  background: url('assets/signal.kyrax5.0.JPG') no-repeat center 75% / cover;
   position: relative;
 }
 
