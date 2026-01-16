@@ -5,13 +5,13 @@
 
 /* Colour palette */
 :root {
-  --base-bg: #0b0a10;            /* dark backdrop reminiscent of night sky */
-  --primary: #00bfff;            /* neon blue accent */
-  --secondary: #8a2be2;          /* vivid purple accent */
-  --highlight: #9b5de5;          /* violet highlight */
-  --text-main: #eae5df;          /* soft beige text */
-  --text-muted: #9e97a5;         /* muted text colour */
-  --edge: rgba(155,93,229,0.24); /* subtle border colour */
+  --base-bg: #0b0a10;
+  --primary: #00bfff;
+  --secondary: #8a2be2;
+  --highlight: #9b5de5;
+  --text-main: #eae5df;
+  --text-muted: #9e97a5;
+  --edge: rgba(155,93,229,0.24);
   --radius: 12px;
   --font-serif: "Times New Roman", serif;
   --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -41,10 +41,7 @@ body {
 /* Vanta background container */
 #vanta-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: -10;
 }
 
@@ -58,7 +55,6 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: border-color 0.2s ease;
   box-shadow: 0 0 12px rgba(37,243,255,0.3);
 }
 
@@ -88,7 +84,6 @@ body {
   font-size: 14px;
   text-decoration: none;
   color: var(--text-muted);
-  transition: color 0.25s;
 }
 
 .nav a:hover {
@@ -102,17 +97,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   padding: 60px 16px;
-  background: url('assets/satcorp5.0.png') no-repeat center/cover;
+  text-align: center;
+  background: url('assets/satcorp5.0.png') no-repeat center / cover;
 }
 
-/* Dark overlay on hero for legibility */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(11,10,16,0.7) 0%, rgba(11,10,16,0.85) 90%);
+  background: linear-gradient(
+    to bottom,
+    rgba(11,10,16,0.7),
+    rgba(11,10,16,0.85)
+  );
   z-index: -1;
 }
 
@@ -122,7 +120,6 @@ body {
 
 .main-title {
   font-size: clamp(36px, 6vw, 72px);
-  line-height: 1.1;
   margin-bottom: 20px;
   font-family: var(--font-tech);
   background: linear-gradient(90deg, #f5e8d3, #d0a574, #f5e8d3);
@@ -140,73 +137,27 @@ body {
 
 /* Buttons */
 .btn {
-  display: inline-block;
   padding: 12px 24px;
   font-family: var(--font-mono);
-  font-size: 14px;
   border-radius: var(--radius);
   border: 1px solid var(--edge);
-  cursor: pointer;
-  transition: all 0.25s;
   background: rgba(11,11,24,0.6);
   color: var(--text-main);
+  cursor: pointer;
   backdrop-filter: blur(4px);
 }
 
-.btn.primary:hover {
-  border-color: var(--secondary);
-  box-shadow: 0 0 24px rgba(37,243,255,0.3);
-  color: var(--secondary);
-}
-
-.btn.secondary:hover {
-  border-color: var(--primary);
-  box-shadow: 0 0 24px rgba(195,106,45,0.3);
-  color: var(--primary);
-}
-
-/* Panel sections */
+/* Panels */
 .panel {
   padding: 100px 16px;
   border-top: 1px solid var(--edge);
   position: relative;
 }
 
-.panel::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: min(920px, 92vw);
-  height: 1px;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(37,243,255,0.45),
-    rgba(155,93,229,0.35),
-    transparent);
-  opacity: 0.9;
-}
-
-.panel h2 {
-  font-size: clamp(28px, 4vw, 48px);
-  margin-bottom: 18px;
-  font-family: var(--font-tech);
-  color: var(--secondary);
-}
-
-.panel p {
-  font-size: 16px;
-  line-height: 1.6;
-  max-width: 75ch;
-  color: var(--text-main);
-}
-
-/* Biotech section styling: uses second reference image */
+/* Biotech section */
 .biotech {
-  background: url('assets/signal.kyrax5.0.jpg') no-repeat center/cover;
+  background: url('assets/signal.kyrax5.0.jpg') no-repeat center 75% / cover;
   position: relative;
-  color: var(--text-main);
 }
 
 .biotech::before {
@@ -217,109 +168,22 @@ body {
   z-index: -1;
 }
 
-.panel-inner {
-  backdrop-filter: blur(4px);
-  padding: 40px;
-  border-radius: var(--radius);
-  border: 1px solid var(--edge);
-  max-width: 800px;
-  margin-inline: auto;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-top: 40px;
-}
-
-.card {
-  padding: 24px;
-  border-radius: var(--radius);
-  background: rgba(11,11,24,0.55);
-  border: 1px solid var(--edge);
-  backdrop-filter: blur(3px);
-  color: var(--text-main);
-}
-
-.card h3 {
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: var(--primary);
-}
-
-.card p {
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-/* SVG line drawing style */
-#mountain-svg {
-  width: 100%;
-  max-width: 900px;
-  margin: 40px auto 0;
-  display: block;
-  color: var(--secondary);
-}
-
-/* Contact / end section */
-.end {
-  text-align: center;
-}
-
-.end h2 {
-  margin-bottom: 20px;
-}
-
-.end p {
-  margin-bottom: 30px;
-}
-
-/* Tech-glass module style for panels and cards */
+/* Glass panels */
 .panel-inner,
 .card {
-  background: linear-gradient(180deg, rgba(11,11,24,0.72), rgba(11,11,24,0.42));
+  background: linear-gradient(
+    180deg,
+    rgba(11,11,24,0.72),
+    rgba(11,11,24,0.42)
+  );
   border: 1px solid rgba(37,243,255,0.18);
+  border-radius: var(--radius);
   box-shadow:
-    0 0 0 1px rgba(155,93,229,0.10) inset,
     0 12px 40px rgba(0,0,0,0.35),
     0 0 28px rgba(37,243,255,0.10);
-  position: relative;
 }
 
-.panel-inner::before,
-.card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(37,243,255,0.22) 40%,
-    rgba(155,93,229,0.18) 60%,
-    transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.panel-inner:hover::before,
-.card:hover::before {
-  opacity: 1;
-}
-
-/* System label style */
-.syslabel {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  color: rgba(37,243,255,0.85);
-  margin-bottom: 14px;
-  text-transform: uppercase;
-  opacity: 0.9;
-}
-
-/* Boot overlay styles */
+/* Boot overlay */
 #boot {
   position: fixed;
   inset: 0;
@@ -328,33 +192,4 @@ body {
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
-}
-
-.boot-inner {
-  width: min(760px, 92vw);
-  border: 1px solid rgba(37,243,255,0.18);
-  padding: 22px;
-  border-radius: 14px;
-  background: rgba(11,11,24,0.55);
-  box-shadow: 0 0 30px rgba(37,243,255,0.12);
-}
-
-.boot-title {
-  letter-spacing: 0.22em;
-  color: rgba(37,243,255,0.9);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
-
-.boot-lines {
-  color: rgba(234,229,223,0.9);
-  font-size: 12px;
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
-/* Ensure z-index layering for overlays */
-.hero::before,
-.biotech::before {
-  z-index: -1;
 }
