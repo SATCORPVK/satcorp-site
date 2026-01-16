@@ -1,113 +1,255 @@
-// SATCORP website interactive scripts
+/*
+ * SATCORP website styles
+ * This stylesheet defines colours, typography and layout for a surreal AI‑governed frontier theme.
+ */
 
-// 1) Vanta animated background
-// Attach a dynamic network to our background using Vanta.js. This creates a subtle sci‑fi energy field.
-VANTA.NET({
-  el: "#vanta-bg",
-  mouseControls: true,
-  touchControls: true,
-  gyroControls: false,
-  color: 0x25f3ff,
-  backgroundColor: 0x0b0a10,
-  points: 12.0,
-  maxDistance: 24.0,
-  spacing: 18.0
-});
-
-// 2) Custom cursor
-// Make a small glowing orb follow the user’s mouse and briefly expand on click.
-const customCursor = document.getElementById("custom-cursor");
-window.addEventListener("mousemove", (e) => {
-  customCursor.style.left = `${e.clientX}px`;
-  customCursor.style.top = `${e.clientY}px`;
-});
-
-window.addEventListener("mousedown", () => {
-  customCursor.animate(
-    [
-      { transform: "translate(-50%, -50%) scale(1)" },
-      { transform: "translate(-50%, -50%) scale(2)" },
-      { transform: "translate(-50%, -50%) scale(1)" }
-    ],
-    { duration: 250, easing: "ease-out" }
-  );
-});
-
-// 3) Typewriter effect
-// Read the data-text attribute and gradually reveal it, giving a retro console feel.
-const typewriterElem = document.querySelector(".typewriter");
-const typewriterText = typewriterElem?.dataset.text || "";
-let typeIndex = 0;
-function typeLoop() {
-  typewriterElem.textContent = typewriterText.slice(0, typeIndex++);
-  if (typeIndex <= typewriterText.length) requestAnimationFrame(typeLoop);
-}
-if (typewriterText) {
-  typeLoop();
+/* Colour palette */
+:root {
+  --base-bg: #0b0a10;            /* dark backdrop reminiscent of night sky */
+  --primary: #c36a2d;            /* copper‑orange accent */
+  --secondary: #25f3ff;          /* glowing teal accent */
+  --highlight: #9b5de5;          /* violet highlight */
+  --text-main: #eae5df;          /* soft beige text */
+  --text-muted: #9e97a5;         /* muted text colour */
+  --edge: rgba(155,93,229,0.24); /* subtle border colour */
+  --radius: 12px;
+  --font-serif: "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-// 4) Confetti triggers
-// Launch confetti on button clicks and once when reaching the end section.
-function launchConfetti(options = {}) {
-  confetti(Object.assign({
-    particleCount: 100,
-    spread: 80,
-    origin: { y: 0.7 }
-  }, options));
+/* Global resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-document.getElementById("hero-confetti").addEventListener("click", () => {
-  launchConfetti({ origin: { y: 0.6 } });
-});
-
-document.getElementById("end-confetti").addEventListener("click", () => {
-  launchConfetti({ origin: { y: 0.8 }, particleCount: 150 });
-});
-
-// 5) GSAP ScrollTrigger animations
-gsap.registerPlugin(ScrollTrigger);
-
-// Reveal elements smoothly as they enter the viewport
-gsap.utils.toArray(".reveal").forEach((el) => {
-  gsap.fromTo(
-    el,
-    { y: 30, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        toggleActions: "play none none reverse"
-      }
-    }
-  );
-});
-
-// SVG line drawing on scroll
-const svgPath = document.getElementById("mountain-path");
-if (svgPath) {
-  const pathLen = svgPath.getTotalLength();
-  svgPath.style.strokeDasharray = pathLen;
-  svgPath.style.strokeDashoffset = pathLen;
-  gsap.to(svgPath, {
-    strokeDashoffset: 0,
-    ease: "none",
-    scrollTrigger: {
-      trigger: svgPath,
-      start: "top 85%",
-      end: "bottom 40%",
-      scrub: true
-    }
-  });
+html, body {
+  height: 100%;
+  scroll-behavior: smooth;
 }
 
-// Fire confetti when end section enters the viewport (once)
-ScrollTrigger.create({
-  trigger: document.getElementById("contact"),
-  start: "top 70%",
-  once: true,
-  onEnter: () => launchConfetti({ particleCount: 60, spread: 60, origin: { y: 0.9 } })
-});
+body {
+  font-family: var(--font-sans);
+  background: var(--base-bg);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* Vanta background container */
+#vanta-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+}
+
+/* Custom cursor */
+#custom-cursor {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: border-color 0.2s ease;
+  box-shadow: 0 0 12px rgba(37,243,255,0.3);
+}
+
+/* Header / navigation */
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: rgba(11, 10, 16, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+  border-bottom: 1px solid var(--edge);
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--secondary);
+}
+
+.nav a {
+  margin-left: 18px;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color 0.25s;
+}
+
+.nav a:hover {
+  color: var(--secondary);
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 16px;
+  background: url('KYRAXV4.7.png') no-repeat center/cover;
+}
+
+/* Dark overlay on hero for legibility */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(11,10,16,0.7) 0%, rgba(11,10,16,0.85) 90%);
+  z-index: -1;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.main-title {
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  font-family: var(--font-serif);
+  background: linear-gradient(90deg, #f5e8d3, #d0a574, #f5e8d3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text-muted);
+  margin-bottom: 30px;
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--edge);
+  cursor: pointer;
+  transition: all 0.25s;
+  background: rgba(11,11,24,0.6);
+  color: var(--text-main);
+  backdrop-filter: blur(4px);
+}
+
+.btn.primary:hover {
+  border-color: var(--secondary);
+  box-shadow: 0 0 24px rgba(37,243,255,0.3);
+  color: var(--secondary);
+}
+
+.btn.secondary:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 24px rgba(195,106,45,0.3);
+  color: var(--primary);
+}
+
+/* Panel sections */
+.panel {
+  padding: 100px 16px;
+  border-top: 1px solid var(--edge);
+}
+
+.panel h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  margin-bottom: 18px;
+  font-family: var(--font-serif);
+  color: var(--secondary);
+}
+
+.panel p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 75ch;
+  color: var(--text-main);
+}
+
+/* Biotech section styling: uses second reference image */
+.biotech {
+  background: url('signal-2025-06-26-20-19-38-932.jpg') no-repeat center/cover;
+  position: relative;
+  color: var(--text-main);
+}
+.biotech::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(11,10,16,0.8);
+  z-index: -1;
+}
+.panel-inner {
+  backdrop-filter: blur(4px);
+  background: rgba(11,11,24,0.55);
+  padding: 40px;
+  border-radius: var(--radius);
+  border: 1px solid var(--edge);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+/* Features section */
+.features .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.card {
+  padding: 24px;
+  border-radius: var(--radius);
+  background: rgba(11,11,24,0.55);
+  border: 1px solid var(--edge);
+  backdrop-filter: blur(3px);
+  color: var(--text-main);
+}
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: var(--primary);
+}
+.card p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* SVG line drawing style */
+#mountain-svg {
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto 0;
+  display: block;
+  color: var(--secondary);
+}
+
+/* Contact / end section */
+.end {
+  text-align: center;
+}
+
+.end h2 {
+  margin-bottom: 20px;
+}
+
+.end p {
+  margin-bottom: 30px;
+}
