@@ -3,139 +3,157 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SΛTCORP // FRONTIER OPS</title>
+  <title>SΛTCORP // FUTURE INTERFACE</title>
   <meta name="theme-color" content="#070713" />
-
   <link rel="stylesheet" href="style.css" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- FX layers -->
-  <div class="scanlines" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="spotlight" aria-hidden="true"></div>
-  <div class="grid" aria-hidden="true"></div>
+  <!-- Ambient FX -->
+  <div class="fx fx-noise" aria-hidden="true"></div>
+  <div class="fx fx-scan" aria-hidden="true"></div>
+  <div class="fx fx-glow" aria-hidden="true"></div>
 
-  <!-- Top HUD bar -->
+  <!-- Header -->
   <header class="topbar">
-    <div class="brand">
+    <a class="brand" href="#top" aria-label="SATCORP Home">
       <span class="brandMark">SΛTCORP</span>
-      <span class="brandSub">Frontier Ops // v1.0</span>
-    </div>
+      <span class="brandSub mono">FUTURE INTERFACE • v1.0</span>
+    </a>
 
-    <nav class="nav">
-      <a href="#mission">Mission</a>
-      <a href="#systems">Systems</a>
-      <a href="#intel">Intel</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#platform">Platform</a>
+      <a href="#modules">Modules</a>
+      <a href="#signals">Signals</a>
       <a href="#contact">Contact</a>
     </nav>
 
-    <div class="status">
-      <span class="dot"></span>
-      <span class="mono">STATUS: ONLINE</span>
+    <div class="status mono">
+      <span class="dot" aria-hidden="true"></span>
+      <span>ONLINE</span>
     </div>
   </header>
 
-  <!-- HERO -->
-  <main>
-    <section class="hero" id="top">
-      <div class="heroInner">
-        <div class="kicker mono">SIGNAL LOCKED • ORBITAL RELAY • CLEARANCE GRANTED</div>
+  <!-- Hero -->
+  <main id="top">
+    <section class="hero">
+      <div class="wrap heroGrid">
+        <div class="heroCopy">
+          <div class="kicker mono">ORBITAL RELAY • CLEARANCE GRANTED • SYNTHNET ACTIVE</div>
+          <h1 class="title">FUTURE INTERFACE</h1>
+          <p class="lede">
+            A modern, futuristic web system—glass HUD design, clean motion, and modular sections built for scale.
+          </p>
 
-        <h1 class="title glitch" data-text="FRONTIER OPS">
-          FRONTIER OPS
-        </h1>
-
-        <p class="lede">
-          A hardened interface for a synthetic future—biotech, autonomy, and networked intelligence under one directive.
-        </p>
-
-        <div class="ctaRow">
-          <a class="btn primary" href="#mission">Enter Interface</a>
-          <button class="btn ghost" id="btnPulse" type="button">Pulse Scan</button>
-        </div>
-
-        <div class="hudStats">
-          <div class="stat">
-            <div class="label mono">NODE COUNT</div>
-            <div class="value" data-count="1288">0</div>
+          <div class="ctaRow">
+            <a class="btn primary" href="#platform">Enter</a>
+            <button class="btn ghost" id="pulseBtn" type="button">Pulse</button>
           </div>
-          <div class="stat">
-            <div class="label mono">UPLINK</div>
-            <div class="value" data-count="99">0</div>
-          </div>
-          <div class="stat">
-            <div class="label mono">THREAT</div>
-            <div class="value danger" data-count="3">0</div>
+
+          <div class="miniGrid">
+            <div class="miniCard">
+              <div class="miniLabel mono">NODES</div>
+              <div class="miniValue" data-count="1288">0</div>
+            </div>
+            <div class="miniCard">
+              <div class="miniLabel mono">UPLINK</div>
+              <div class="miniValue" data-count="99">0</div>
+            </div>
+            <div class="miniCard">
+              <div class="miniLabel mono">LATENCY</div>
+              <div class="miniValue" data-count="14">0</div>
+            </div>
           </div>
         </div>
 
-        <div class="divider"></div>
+        <div class="heroHUD">
+          <div class="hudPanel">
+            <div class="hudTop">
+              <div class="hudTag mono">CORE</div>
+              <div class="hudTag mono">SECURE</div>
+            </div>
 
-        <div class="chips">
-          <span class="chip mono">AI GOVERNANCE</span>
-          <span class="chip mono">BIO-SYNTH</span>
-          <span class="chip mono">SIGNAL WARFARE</span>
-          <span class="chip mono">HUD INTERFACES</span>
+            <div class="hudTitle mono">SYSTEM OVERVIEW</div>
+
+            <div class="hudRows">
+              <div class="hudRow">
+                <span class="mono">RELAY</span>
+                <span class="pill mono">LOCKED</span>
+              </div>
+              <div class="hudRow">
+                <span class="mono">SYNTHNET</span>
+                <span class="pill mono">ACTIVE</span>
+              </div>
+              <div class="hudRow">
+                <span class="mono">INTERFACE</span>
+                <span class="pill mono">READY</span>
+              </div>
+            </div>
+
+            <div class="hudBar">
+              <div class="hudBarFill" style="--w: 86%"></div>
+            </div>
+
+            <div class="hudHint mono">Scroll to deploy modules ↓</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- MISSION -->
-    <section class="section" id="mission">
+    <!-- Platform -->
+    <section class="section" id="platform">
       <div class="wrap">
         <div class="sectionHead">
-          <div class="sys mono">MODULE: MISSION // PRIORITY: ALPHA</div>
-          <h2>Command the frontier.</h2>
+          <div class="sys mono">MODULE: PLATFORM // PRIORITY: ALPHA</div>
+          <h2>Built to look like the future.</h2>
           <p>
-            SATCORP builds aggressive, high-signal systems: clean UX, cinematic motion, and real operational clarity.
+            This layout is designed for a premium sci-fi feel: clean typography, glass surfaces, neon edges,
+            and tasteful motion.
           </p>
         </div>
 
         <div class="cards">
           <article class="card">
             <div class="cardTop">
-              <span class="tag mono">OP-01</span>
-              <span class="tag mono">LIVE</span>
+              <span class="tag mono">DESIGN</span>
+              <span class="tag mono">GLASS HUD</span>
             </div>
-            <h3>Interface Dominance</h3>
-            <p>HUD-grade layout, harsh contrast, tactical spacing, and instant readability.</p>
-            <div class="meter"><span style="--w:92%"></span></div>
+            <h3>Frosted panels</h3>
+            <p>Layered gradients, soft blur, and edge glow for a high-end interface aesthetic.</p>
           </article>
 
           <article class="card">
             <div class="cardTop">
-              <span class="tag mono">OP-02</span>
-              <span class="tag mono">SYNC</span>
+              <span class="tag mono">MOTION</span>
+              <span class="tag mono">SMOOTH</span>
             </div>
-            <h3>Motion Discipline</h3>
-            <p>Micro-interactions that feel expensive—no clutter, no cheap effects.</p>
-            <div class="meter"><span style="--w:86%"></span></div>
+            <h3>Micro-interactions</h3>
+            <p>Magnetic buttons, pulse effects, and scroll reveals—subtle, not noisy.</p>
           </article>
 
           <article class="card">
             <div class="cardTop">
-              <span class="tag mono">OP-03</span>
-              <span class="tag mono">HARDEN</span>
+              <span class="tag mono">STRUCTURE</span>
+              <span class="tag mono">MODULAR</span>
             </div>
-            <h3>Operational Aesthetic</h3>
-            <p>Clean glass, neon edges, scanlines, and controlled glitch.</p>
-            <div class="meter"><span style="--w:89%"></span></div>
+            <h3>Clean sections</h3>
+            <p>Build this into a full multi-page network: Labs, Signals, About, and Docs.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- SYSTEMS -->
-    <section class="section alt" id="systems">
+    <!-- Modules -->
+    <section class="section alt" id="modules">
       <div class="wrap">
         <div class="sectionHead">
           <div class="sys mono">MODULE: SYSTEMS // SECURITY: LOCKED</div>
-          <h2>Systems online.</h2>
-          <p>Four pillars. One machine. Built to scale.</p>
+          <h2>Modules online.</h2>
+          <p>Drop your SATCORP content here—each module is a clean building block.</p>
         </div>
 
         <div class="grid2">
@@ -145,7 +163,7 @@
               <span class="mono subtle">SECTOR-7</span>
             </div>
             <h3>Bio-Synthetic R&D</h3>
-            <p>Gene tooling, adaptive organisms, bio-interfaces, and sterile pipelines.</p>
+            <p>Gene tooling, adaptive organisms, sterile pipelines, and high-integrity research ops.</p>
           </div>
 
           <div class="panel">
@@ -154,7 +172,7 @@
               <span class="mono subtle">KYRAX</span>
             </div>
             <h3>Autonomy & Cognition</h3>
-            <p>Model orchestration, oversight layers, and cognition scaffolding.</p>
+            <p>Orchestration, oversight layers, cognition scaffolding, and operator interfaces.</p>
           </div>
 
           <div class="panel">
@@ -162,8 +180,8 @@
               <span class="pill mono">SIG</span>
               <span class="mono subtle">RELAY</span>
             </div>
-            <h3>Signal Warfare</h3>
-            <p>High-noise environments, resilient comms, and secure relay routing.</p>
+            <h3>Signal Systems</h3>
+            <p>Resilient comms, secure routing, and telemetry pipelines with graceful degradation.</p>
           </div>
 
           <div class="panel">
@@ -172,59 +190,59 @@
               <span class="mono subtle">HUD</span>
             </div>
             <h3>Interfaces</h3>
-            <p>Weapon-grade UI: clear hierarchy, responsive motion, and modular sections.</p>
+            <p>Weapon-grade UI: clean hierarchy, responsive layouts, and future-forward styling.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INTEL -->
-    <section class="section" id="intel">
+    <!-- Signals -->
+    <section class="section" id="signals">
       <div class="wrap">
         <div class="sectionHead">
-          <div class="sys mono">MODULE: INTEL // FEED: ACTIVE</div>
-          <h2>Intel feed.</h2>
-          <p>Recent transmissions and operational notes.</p>
+          <div class="sys mono">MODULE: SIGNALS // FEED: ACTIVE</div>
+          <h2>Signal feed.</h2>
+          <p>Use this for updates, drops, research notes, or “intel” posts.</p>
         </div>
 
-        <div class="intel">
-          <article class="intelRow">
-            <div class="intelMeta mono">01 • DIRECTIVE</div>
-            <div class="intelBody">
-              <h3>Deploy the Frontier Site</h3>
-              <p>Push to GitHub Pages. Confirm branch main + root. Verify assets load as 200.</p>
+        <div class="feed">
+          <article class="feedRow">
+            <div class="feedMeta mono">01 • DEPLOY</div>
+            <div class="feedBody">
+              <h3>GitHub Pages</h3>
+              <p>Settings → Pages → Deploy from branch → main → /root.</p>
             </div>
-            <div class="intelTag mono">PRIORITY</div>
+            <div class="feedTag mono">LIVE</div>
           </article>
 
-          <article class="intelRow">
-            <div class="intelMeta mono">02 • SYSTEM</div>
-            <div class="intelBody">
-              <h3>Upgrade to Multi-Page</h3>
-              <p>Add /labs, /signals, /about with shared header + theme for a full network.</p>
+          <article class="feedRow">
+            <div class="feedMeta mono">02 • EXPAND</div>
+            <div class="feedBody">
+              <h3>Multi-page network</h3>
+              <p>Add `/labs.html`, `/signals.html`, `/about.html` with shared header + style.</p>
             </div>
-            <div class="intelTag mono">NEXT</div>
+            <div class="feedTag mono">NEXT</div>
           </article>
 
-          <article class="intelRow">
-            <div class="intelMeta mono">03 • DESIGN</div>
-            <div class="intelBody">
-              <h3>Asset Pack</h3>
-              <p>Drop in a hero background, icon set, and one SVG logo for maximum punch.</p>
+          <article class="feedRow">
+            <div class="feedMeta mono">03 • ASSETS</div>
+            <div class="feedBody">
+              <h3>Brand kit</h3>
+              <p>Drop an SVG logo and a hero background into `/assets/` for extra punch.</p>
             </div>
-            <div class="intelTag mono">VISUAL</div>
+            <div class="feedTag mono">VISUAL</div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- Contact -->
     <section class="section end" id="contact">
       <div class="wrap">
         <div class="sectionHead">
           <div class="sys mono">MODULE: CONTACT // CHANNEL: OPEN</div>
           <h2>Open a channel.</h2>
-          <p>Want me to turn this into a full SATCORP network (multi-page + content + assets)?</p>
+          <p>Use this as a “contact” UI or replace with your links.</p>
         </div>
 
         <form class="form" onsubmit="return false;">
@@ -237,7 +255,7 @@
             <textarea id="msg" name="msg" rows="4" placeholder="Deploy next module..."></textarea>
           </div>
           <div class="formRow">
-            <button class="btn primary" id="btnSend" type="button">Transmit</button>
+            <button class="btn primary" id="sendBtn" type="button">Transmit</button>
             <span class="mono subtle" id="txStatus">READY</span>
           </div>
         </form>
@@ -245,7 +263,7 @@
         <footer class="footer mono">
           <span>© <span id="year"></span> SΛTCORP</span>
           <span>•</span>
-          <span>FRONTIER OPS INTERFACE</span>
+          <span>FUTURE INTERFACE</span>
         </footer>
       </div>
     </section>
