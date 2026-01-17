@@ -1,178 +1,169 @@
-// SATCORP website interactive scripts
+// SATCORP // COMMAND BRIDGE
+// Lightweight, no build tools.
 
-// 0) Boot sequence overlay
-const boot = document.getElementById("boot");
-const bootLines = document.getElementById("boot-lines");
-if (boot && bootLines) {
-  const lines = [
-    "INIT :: CORE",
-    "LINK :: VANTA.NET",
-    "LOAD :: UI MODULES",
-    "SYNC :: SCROLLTRIGGER",
-    "STATUS :: GREEN",
-    "ENTER :: FRONTIER"
-  ];
-  let i = 0;
-  const interval = setInterval(() => {
-    bootLines.textContent += lines[i++] + "\n";
-    if (i >= lines.length) {
-      clearInterval(interval);
-      setTimeout(() => {
-        boot.remove();
-      }, 500);
-    }
-  }, 180);
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+/* Clock + signal readout */
+function pad2(n){ return String(n).padStart(2,"0"); }
+function tickClock(){
+  const d = new Date();
+  const t = `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  const clock = $("#clock");
+  if(clock) clock.textContent = t;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+function rand(min, max){ return Math.random() * (max - min) + min; }
+function tickSignal(){
+  const v = Math.round(rand(62, 99));
+  const sig = $("#sig");
+  if(sig) sig.textContent = `SIG: ${v}`;
+}
+setInterval(tickSignal, 1200);
+tickSignal();
+
+/* Event feed */
+const FEED_LINES = [
+  ["LINK", "VANTA DISABLED", "No external heavy FX required."],
+  ["SYNC", "MODULES READY", "Panels and views online."],
+  ["SCAN", "SPECTRUM OPEN", "Click bars to spike readings."],
+  ["AUTH", "OPERATOR", "Local session accepted."],
+  ["PING", "NODE VK-ORBIT", "Latency nominal."]
+];
+
+function pushFeed(line){
+  const feed = $("#feed");
+  if(!feed) return;
+
+  const [tag, title, desc] = line;
+  const item = document.createElement("div");
+  item.className = "item";
+  const time = new Date();
+  const t = `${pad2(time.getHours())}:${pad2(time.getMinutes())}:${pad2(time.getSeconds())}`;
+
+  item.innerHTML = `<div><b>${tag}</b> :: ${title}</div><div class="t">${t} — ${desc}</div>`;
+  feed.prepend(item);
+
+  // cap items
+  const items = $$(".item", feed);
+  if(items.length > 7) items.slice(7).forEach(n => n.remove());
+}
+FEED_LINES.forEach((l, i) => setTimeout(() => pushFeed(l), 250 + i * 250));
+
+/* Views (sidebar navigation) */
+function setActiveView(id){
+  $$(".view").forEach(v => v.classList.remove("is-active"));
+  const view = document.getElementById(id);
+  if(view) view.classList.add("is-active");
+
+  $$(".navlink").forEach(a => a.classList.toggle("active", a.getAttribute("data-view") === id));
+  history.replaceState(null, "", `#${id}`);
 }
 
-// 1) Vanta animated background
-if (window.VANTA && VANTA.NET) {
-  VANTA.NET({
-    el: "#vanta-bg",
-    mouseControls: true,
-    touchControls: true,
-    gyroControls: false,
-    color: 0x25f3ff,
-    backgroundColor: 0x0b0a10,
-    points: 12.0,
-    maxDistance: 24.0,
-    spacing: 18.0
+$$(".navlink").forEach(a => {
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const id = a.getAttribute("data-view");
+    if(id) setActiveView(id);
   });
-}
-
-// 2) Custom cursor
-const customCursor = document.getElementById("custom-cursor");
-window.addEventListener("mousemove", (e) => {
-  if (customCursor) {
-    customCursor.style.left = `${e.clientX}px`;
-    customCursor.style.top = `${e.clientY}px`;
-  }
 });
 
-window.addEventListener("mousedown", () => {
-  if (customCursor) {
-    customCursor.animate(
-      [
-        { transform: "translate(-50%, -50%) scale(1)" },
-        { transform: "translate(-50%, -50%) scale(2)" },
-        { transform: "translate(-50%, -50%) scale(1)" }
-      ],
-      { duration: 250, easing: "ease-out" }
-    );
-  }
+/* Initialize view from hash */
+const initial = (location.hash || "#overview").replace("#", "");
+setActiveView(initial);
+
+/* Buttons */
+$("#btn-boot")?.addEventListener("click", () => {
+  pushFeed(["DIAG", "RUNNING", "Verifying bridge subsystems…"]);
+  setTimeout(() => pushFeed(["DIAG", "PASS", "All systems nominal."]), 650);
 });
 
-// 3) Typewriter effect
-const typewriterElem = document.querySelector(".typewriter");
-const typewriterText = typewriterElem?.dataset.text || "";
-let typeIndex = 0;
-function typeLoop() {
-  if (typewriterElem) {
-    typewriterElem.textContent = typewriterText.slice(0, typeIndex++);
-    if (typeIndex <= typewriterText.length) requestAnimationFrame(typeLoop);
+$("#btn-scan")?.addEventListener("click", () => {
+  pushFeed(["SCAN", "INIT", "Sweeping frequencies…"]);
+  spikeBars(0.85);
+});
+
+$("#btn-clear")?.addEventListener("click", () => {
+  $("#contactForm")?.reset();
+  const notice = $("#notice");
+  if(notice) notice.textContent = "";
+});
+
+/* Spectrum bars */
+const barsEl = $("#bars");
+let locked = false;
+
+function buildBars(){
+  if(!barsEl) return;
+  barsEl.innerHTML = "";
+  for(let i=0;i<48;i++){
+    const b = document.createElement("div");
+    b.className = "bar";
+    b.style.transform = `scaleY(${rand(0.15, 0.75).toFixed(2)})`;
+    b.addEventListener("click", () => spikeOne(b));
+    barsEl.appendChild(b);
   }
 }
-if (typewriterElem && typewriterText) {
-  typeLoop();
+buildBars();
+
+function animateBars(){
+  if(!barsEl || locked) return;
+  const bars = $$(".bar", barsEl);
+  bars.forEach((b, i) => {
+    const wave = 0.22 + Math.abs(Math.sin((Date.now()/600) + i/6)) * 0.7;
+    const jitter = rand(-0.08, 0.08);
+    const v = Math.max(0.12, Math.min(1.0, wave + jitter));
+    b.style.transform = `scaleY(${v.toFixed(2)})`;
+  });
+  requestAnimationFrame(animateBars);
+}
+requestAnimationFrame(animateBars);
+
+function spikeOne(bar){
+  if(!bar) return;
+  bar.style.transform = `scaleY(${rand(0.85, 1.0).toFixed(2)})`;
+  pushFeed(["PULSE", "SPIKE", "Local amplitude surge detected."]);
 }
 
-// 4) Confetti triggers
-function launchConfetti(options = {}) {
-  if (typeof window.confetti !== "function") return;
-  confetti(
-    Object.assign(
-      {
-        particleCount: 100,
-        spread: 80,
-        origin: { y: 0.7 }
-      },
-      options
-    )
-  );
-}
-
-const heroBtn = document.getElementById("hero-confetti");
-if (heroBtn) {
-  heroBtn.addEventListener("click", () => {
-    launchConfetti({ origin: { y: 0.6 } });
+function spikeBars(intensity = 0.8){
+  if(!barsEl) return;
+  const bars = $$(".bar", barsEl);
+  bars.forEach((b) => {
+    const v = rand(0.2, intensity);
+    b.style.transform = `scaleY(${v.toFixed(2)})`;
   });
 }
 
-const endBtn = document.getElementById("end-confetti");
-if (endBtn) {
-  endBtn.addEventListener("click", () => {
-    launchConfetti({ origin: { y: 0.8 }, particleCount: 150 });
-  });
-}
+$("#btn-lock")?.addEventListener("click", () => {
+  locked = !locked;
+  const lockEl = $("#lock");
+  if(lockEl) lockEl.textContent = locked ? "YES" : "NO";
+  pushFeed(["LOCK", locked ? "ENGAGED" : "RELEASED", locked ? "Hold current readings." : "Resume live scan."]);
+  if(!locked) requestAnimationFrame(animateBars);
+});
 
-// 5) GSAP ScrollTrigger animations
-if (window.gsap && window.ScrollTrigger) {
-  gsap.registerPlugin(ScrollTrigger);
-  // Reveal elements smoothly as they enter the viewport
-  gsap.utils.toArray(".reveal").forEach((el) => {
-    gsap.fromTo(
-      el,
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          toggleActions: "play none none reverse"
-        }
-      }
-    );
-  });
+/* Gain readout (cosmetic) */
+let gain = 1.0;
+setInterval(() => {
+  gain = Math.max(0.8, Math.min(1.6, gain + rand(-0.08, 0.08)));
+  const g = $("#gain");
+  if(g) g.textContent = gain.toFixed(1);
+}, 900);
 
-  // SVG line drawing on scroll
-  const svgPath = document.getElementById("mountain-path");
-  if (svgPath) {
-    const pathLen = svgPath.getTotalLength();
-    svgPath.style.strokeDasharray = pathLen;
-    svgPath.style.strokeDashoffset = pathLen;
-    gsap.to(svgPath, {
-      strokeDashoffset: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: svgPath,
-        start: "top 85%",
-        end: "bottom 40%",
-        scrub: true
-      }
-    });
+/* Contact form (local confirmation) */
+$("#contactForm")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const data = new FormData(e.target);
+  const callsign = String(data.get("callsign") || "").trim();
+  const channel = String(data.get("channel") || "").trim();
+
+  const notice = $("#notice");
+  if(notice){
+    notice.textContent = `TRANSMISSION QUEUED :: ${callsign || "OPERATOR"} @ ${channel || "UNKNOWN"} — (local capture)`;
   }
 
-  // Fire confetti when end section enters the viewport (once)
-  ScrollTrigger.create({
-    trigger: document.getElementById("contact"),
-    start: "top 70%",
-    once: true,
-    onEnter: () =>
-      launchConfetti({ particleCount: 60, spread: 60, origin: { y: 0.9 } })
-  });
-}
-
-// 6) Magnetic buttons and click pulse
-document.querySelectorAll(".btn").forEach((btn) => {
-  btn.addEventListener("mousemove", (e) => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
-  });
-  btn.addEventListener("mouseleave", () => {
-    btn.style.transform = "";
-  });
-  btn.addEventListener("click", () => {
-    btn.animate(
-      [
-        { boxShadow: "0 0 0 rgba(37,243,255,0)" },
-        { boxShadow: "0 0 28px rgba(37,243,255,0.35)" },
-        { boxShadow: "0 0 0 rgba(37,243,255,0)" }
-      ],
-      { duration: 420, easing: "ease-out" }
-    );
-  });
+  pushFeed(["TX", "QUEUED", "Transmission captured client-side."]);
+  $("#statusBadge")?.setAttribute("style", "color: rgba(37,243,255,.9)");
 });
