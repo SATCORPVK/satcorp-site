@@ -3,72 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SΛTCORP // BLACKSITE TERMINAL</title>
-  <meta name="theme-color" content="#050508" />
+  <title>SΛTCORP // BLACKSITE DEPTH</title>
+  <meta name="theme-color" content="#05050a" />
   <link rel="stylesheet" href="style.css" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Background FX -->
-  <canvas id="grain" aria-hidden="true"></canvas>
-  <div class="fx scanlines" aria-hidden="true"></div>
-  <div class="fx vignette" aria-hidden="true"></div>
-  <div class="fx bloom" aria-hidden="true"></div>
+  <!-- Depth background -->
+  <div class="bg">
+    <div class="layer l0"></div>
+    <div class="layer l1"></div>
+    <div class="layer l2"></div>
+    <div class="scanBeam" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+  </div>
 
-  <!-- Top Bar -->
   <header class="topbar">
-    <div class="left">
-      <div class="brand">
-        <div class="brandMark">SΛTCORP</div>
-        <div class="brandSub">BLACKSITE TERMINAL // RELAY-09</div>
-      </div>
-      <div class="chips">
-        <span class="chip">NOFORN</span>
-        <span class="chip">EYES ONLY</span>
-        <span class="chip warn">CLASSIFIED</span>
-      </div>
+    <div class="brand">
+      <div class="brandMark">SΛTCORP</div>
+      <div class="brandSub">BLACKSITE DEPTH // RELAY-09</div>
     </div>
 
     <nav class="nav">
       <a href="#brief">Brief</a>
-      <a href="#ops">Ops</a>
+      <a href="#modules">Modules</a>
       <a href="#terminal">Terminal</a>
       <a href="#contact">Channel</a>
     </nav>
 
-    <div class="right">
+    <div class="hudRight">
       <div class="status">
-        <span class="dot" aria-hidden="true"></span>
-        <span id="statusText">HANDSHAKE</span>
+        <span class="dot"></span>
+        <span id="statusText">SYNC</span>
       </div>
       <div class="clock" id="clock">00:00:00</div>
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero" id="top">
     <div class="wrap heroGrid">
       <div class="heroLeft">
-        <div class="kicker">ACCESS GRANTED • SECTOR 7 • RELAY STABLE</div>
+        <div class="kicker">ACCESS GRANTED • DEPTH GRID ONLINE • TRACE ACTIVE</div>
 
-        <h1 class="title">
-          BLACKSITE<br />
-          TERMINAL
-        </h1>
+        <h1 class="title">BLACKSITE<br/>DEPTH</h1>
 
         <p class="lede">
-          Minimal. Hostile. Functional. This interface is built like a real covert console:
-          hardened layout, CRT bloom, scanline texture, and a live terminal you can type into.
+          A high-depth blacksite interface: layered glass, volumetric grid, parallax fog,
+          and a real-feeling command terminal.
         </p>
 
         <div class="cta">
           <a class="btn primary" href="#terminal">ENTER CONSOLE</a>
-          <button class="btn" id="scanBtn" type="button">RUN SCAN</button>
-          <button class="btn danger" id="lockBtn" type="button">LOCKDOWN</button>
+          <button class="btn" id="scanBtn" type="button">SCAN</button>
+          <button class="btn danger" id="alertBtn" type="button">ALERT</button>
         </div>
 
         <div class="meters">
@@ -89,54 +80,57 @@
           </div>
         </div>
 
-        <div class="stampWrap">
-          <div class="stamp">TOP SECRET // SATCORP INTERNAL</div>
-          <div class="stamp faint">RESTRICTED ACCESS LOGGED</div>
+        <div class="chips">
+          <span class="chip">NOFORN</span>
+          <span class="chip">EYES ONLY</span>
+          <span class="chip warn">CLASSIFIED</span>
         </div>
       </div>
 
       <div class="heroRight">
-        <div class="panel">
-          <div class="panelTop">
-            <span class="tag">SESSION</span>
-            <span class="tag">RELAY-09</span>
-            <span class="tag ok" id="sessionOk">GREEN</span>
+        <div class="stack">
+          <div class="glassCard tilt">
+            <div class="cardTop">
+              <span class="tag">SESSION</span>
+              <span class="tag">RELAY-09</span>
+              <span class="tag ok" id="sessionState">GREEN</span>
+            </div>
+
+            <div class="cardTitle">SYSTEM SNAPSHOT</div>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="sLabel">NODES</div>
+                <div class="sVal" data-count="1288">0</div>
+              </div>
+              <div class="stat">
+                <div class="sLabel">SECTORS</div>
+                <div class="sVal" data-count="12">0</div>
+              </div>
+              <div class="stat">
+                <div class="sLabel">UPTIME</div>
+                <div class="sVal" data-count="99">0</div>
+              </div>
+              <div class="stat">
+                <div class="sLabel">THREAT</div>
+                <div class="sVal danger" data-count="3">0</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="readout">
+              <div class="ro"><span>GRID</span><span>VOL-DEPTH</span></div>
+              <div class="ro"><span>TRACE</span><span>ENABLED</span></div>
+              <div class="ro"><span>LOGS</span><span>HOT</span></div>
+            </div>
           </div>
 
-          <div class="panelTitle">SYSTEM SNAPSHOT</div>
-
-          <div class="stats">
-            <div class="stat">
-              <div class="sLabel">NODES</div>
-              <div class="sVal" data-count="1288">0</div>
-            </div>
-            <div class="stat">
-              <div class="sLabel">SECTORS</div>
-              <div class="sVal" data-count="12">0</div>
-            </div>
-            <div class="stat">
-              <div class="sLabel">UPTIME</div>
-              <div class="sVal" data-count="99">0</div>
-            </div>
-            <div class="stat">
-              <div class="sLabel">THREAT</div>
-              <div class="sVal danger" data-count="3">0</div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="readout">
-            <div class="roLine"><span>LOCATION</span><span>SECTOR-7 BLACKSITE</span></div>
-            <div class="roLine"><span>OPERATOR</span><span>VERIFIED</span></div>
-            <div class="roLine"><span>LOGGING</span><span>ENABLED</span></div>
-          </div>
-        </div>
-
-        <div class="sideNote">
-          <div class="noteTitle">NOTICE</div>
-          <div class="noteBody">
-            All actions are monitored. Unauthorized access will trigger containment protocol.
+          <div class="glassCard small tilt">
+            <div class="cardTitle">OPERATOR NOTE</div>
+            <p class="tiny">
+              Layered panels respond to cursor. Use SCAN to pulse the grid. ALERT flips the color state.
+            </p>
           </div>
         </div>
       </div>
@@ -145,163 +139,125 @@
     <div class="edgeHint">SCROLL TO DEPLOY MODULES ↓</div>
   </section>
 
-  <!-- BRIEF -->
   <section class="section" id="brief">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys">MODULE: BRIEF // CLASSIFIED</div>
-        <h2>Mission brief</h2>
-        <p>
-          This is a blacksite UI shell. Replace the text with your real SATCORP content,
-          links, and modules. The design stays hostile, clean, and technical.
-        </p>
+        <div class="sys">MODULE: BRIEF // DEPTH ACTIVE</div>
+        <h2>Not flat. Not generic.</h2>
+        <p>Everything is built with depth layers: bevel edges, inner glow, shadows, parallax and tilt.</p>
       </div>
 
-      <div class="cards">
-        <article class="card reveal">
-          <div class="cardHead">
-            <span class="pill">OP-01</span>
-            <span class="pill">UI</span>
-          </div>
-          <h3>Hardened layout</h3>
-          <p>High contrast. Clear hierarchy. No fluff. Feels like equipment, not a blog.</p>
+      <div class="grid3">
+        <article class="glassCard tilt reveal">
+          <div class="cardTitle">Depth grid</div>
+          <p>Volumetric grid + fog layers create space behind your UI.</p>
         </article>
-
-        <article class="card reveal">
-          <div class="cardHead">
-            <span class="pill">OP-02</span>
-            <span class="pill">FX</span>
-          </div>
-          <h3>CRT terminal vibe</h3>
-          <p>Scanlines, bloom, grain—subtle enough to read, strong enough to feel real.</p>
+        <article class="glassCard tilt reveal">
+          <div class="cardTitle">3D panels</div>
+          <p>Frosted glass + bevel edges + glow gives real equipment vibes.</p>
         </article>
-
-        <article class="card reveal">
-          <div class="cardHead">
-            <span class="pill">OP-03</span>
-            <span class="pill">SEC</span>
-          </div>
-          <h3>Lockdown mode</h3>
-          <p>One button flips the whole UI into “red alert” containment aesthetic.</p>
+        <article class="glassCard tilt reveal">
+          <div class="cardTitle">Motion discipline</div>
+          <p>Subtle scanning beam and pulse — never too busy.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- OPS -->
-  <section class="section alt" id="ops">
+  <section class="section alt" id="modules">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys">MODULE: OPERATIONS // ACTIVE</div>
+        <div class="sys">MODULE: SYSTEMS // STACKED</div>
         <h2>Operations stack</h2>
-        <p>Swap these with your actual SATCORP service modules or project lanes.</p>
+        <p>Replace these with your real SATCORP pages/modules.</p>
       </div>
 
       <div class="grid2">
-        <div class="op reveal">
-          <div class="opTop">
-            <span class="opTag">BIO</span>
-            <span class="opTag">SECTOR-7</span>
+        <div class="glassCard tilt reveal">
+          <div class="tagRow">
+            <span class="tag">BIO</span><span class="tag">SECTOR-7</span>
           </div>
-          <h3>Bio-Synthetic R&amp;D</h3>
-          <p>Lab pipelines, sterile procedure, and engineered systems under control.</p>
+          <div class="cardTitle">Bio-Synthetic R&amp;D</div>
+          <p>Lab pipelines, sterile procedure, engineered systems under control.</p>
         </div>
 
-        <div class="op reveal">
-          <div class="opTop">
-            <span class="opTag">AI</span>
-            <span class="opTag">KYRAX</span>
+        <div class="glassCard tilt reveal">
+          <div class="tagRow">
+            <span class="tag">AI</span><span class="tag">KYRAX</span>
           </div>
-          <h3>Autonomy &amp; Oversight</h3>
-          <p>Orchestration, safeguards, and operator-grade intelligence layers.</p>
+          <div class="cardTitle">Autonomy &amp; Oversight</div>
+          <p>Orchestration, safeguards, operator-grade cognition layers.</p>
         </div>
 
-        <div class="op reveal">
-          <div class="opTop">
-            <span class="opTag">SIG</span>
-            <span class="opTag">RELAY</span>
+        <div class="glassCard tilt reveal">
+          <div class="tagRow">
+            <span class="tag">SIG</span><span class="tag">RELAY</span>
           </div>
-          <h3>Signal Systems</h3>
+          <div class="cardTitle">Signal Systems</div>
           <p>Secure routing, telemetry pipelines, resilience under hostile conditions.</p>
         </div>
 
-        <div class="op reveal">
-          <div class="opTop">
-            <span class="opTag">UX</span>
-            <span class="opTag">HUD</span>
+        <div class="glassCard tilt reveal">
+          <div class="tagRow">
+            <span class="tag">UX</span><span class="tag">HUD</span>
           </div>
-          <h3>Interface Engineering</h3>
-          <p>Clean UI, technical typography, and layouts built to withstand chaos.</p>
+          <div class="cardTitle">Interface Engineering</div>
+          <p>Clean UI, technical typography, depth-first composition.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TERMINAL -->
   <section class="section" id="terminal">
     <div class="wrap">
       <div class="sectionHead">
         <div class="sys">MODULE: TERMINAL // INPUT ENABLED</div>
         <h2>Operator console</h2>
-        <p>Type commands: <span class="monoLite">help</span>, <span class="monoLite">scan</span>, <span class="monoLite">status</span>, <span class="monoLite">lockdown</span>, <span class="monoLite">clear</span>.</p>
+        <p>Commands: <span class="monoLite">help</span>, <span class="monoLite">scan</span>, <span class="monoLite">status</span>, <span class="monoLite">alert</span>, <span class="monoLite">clear</span>.</p>
       </div>
 
-      <div class="terminal reveal">
+      <div class="terminal glassCard reveal tilt">
         <div class="termTop">
-          <span>satcorp@blacksite</span>
-          <span class="sep">•</span>
-          <span>relay-09</span>
-          <span class="sep">•</span>
-          <span id="termState">READY</span>
+          <span>satcorp@relay-09</span><span class="sep">•</span><span>blacksite</span><span class="sep">•</span><span id="termState">READY</span>
         </div>
-
         <div class="termBody" id="termBody" aria-live="polite"></div>
-
         <div class="termInputRow">
           <span class="prompt">></span>
-          <input id="termInput" class="termInput" autocomplete="off"
-                 placeholder="type command…" />
+          <input id="termInput" class="termInput" autocomplete="off" placeholder="type command…" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section class="section end" id="contact">
     <div class="wrap">
       <div class="sectionHead">
         <div class="sys">MODULE: CHANNEL // OPEN</div>
         <h2>Open channel</h2>
-        <p>Replace with your real contact methods (Discord, email, social links).</p>
+        <p>Swap for your real contact links (Discord/email).</p>
       </div>
 
-      <div class="contactGrid reveal">
-        <div class="contactCard">
-          <div class="ccTitle">TRANSMISSION</div>
-          <p>UI-only “transmit” effect. (No backend)</p>
-
+      <div class="contactGrid">
+        <div class="glassCard tilt reveal">
+          <div class="cardTitle">Transmission</div>
           <label class="label" for="msg">MESSAGE</label>
           <textarea id="msg" rows="4" placeholder="Request access..."></textarea>
-
           <div class="row">
             <button class="btn primary" id="sendBtn" type="button">TRANSMIT</button>
             <span class="small" id="txStatus">READY</span>
           </div>
         </div>
 
-        <div class="contactCard">
-          <div class="ccTitle">LINKS</div>
+        <div class="glassCard tilt reveal">
+          <div class="cardTitle">Links</div>
           <div class="links">
             <a class="link" href="#top">HOME</a>
-            <a class="link" href="#ops">OPS</a>
+            <a class="link" href="#modules">MODULES</a>
             <a class="link" href="#terminal">TERMINAL</a>
             <a class="link" href="#brief">BRIEF</a>
           </div>
-
           <div class="footer">
-            <span>© <span id="year"></span> SΛTCORP</span>
-            <span class="sep">•</span>
-            <span>BLACKSITE TERMINAL</span>
+            <span>© <span id="year"></span> SΛTCORP</span><span class="sep">•</span><span>BLACKSITE DEPTH</span>
           </div>
         </div>
       </div>
