@@ -2,214 +2,254 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>SATCORP // COMMAND BRIDGE</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SΛTCORP // FRONTIER OPS</title>
   <meta name="theme-color" content="#070713" />
-  <meta name="description" content="SATCORP Command Bridge — signal intelligence, frontier systems, and classified modules." />
 
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Ambient layers -->
-  <div class="bg">
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-    <div class="bg-noise" aria-hidden="true"></div>
-  </div>
+  <!-- FX layers -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
 
-  <!-- Topbar -->
+  <!-- Top HUD bar -->
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark">⦿</span>
-      <span class="brand-name">SΛTCORP</span>
-      <span class="brand-sub">COMMAND BRIDGE</span>
+      <span class="brandMark">SΛTCORP</span>
+      <span class="brandSub">Frontier Ops // v1.0</span>
     </div>
 
-    <div class="statusbar">
-      <div class="pill">
-        <span class="dot online"></span>
-        <span id="clock">--:--</span>
-      </div>
-      <div class="pill">
-        <span class="dot"></span>
-        <span id="sig">SIG: --</span>
-      </div>
-      <button class="pill btn" id="btn-boot" type="button">RUN DIAGNOSTIC</button>
+    <nav class="nav">
+      <a href="#mission">Mission</a>
+      <a href="#systems">Systems</a>
+      <a href="#intel">Intel</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="status">
+      <span class="dot"></span>
+      <span class="mono">STATUS: ONLINE</span>
     </div>
   </header>
 
-  <!-- Layout -->
-  <main class="layout">
-    <!-- Sidebar -->
-    <aside class="side">
-      <div class="side-card">
-        <div class="side-title">NAV // MODULES</div>
-        <nav class="nav">
-          <a class="navlink active" href="#overview" data-view="overview">OVERVIEW</a>
-          <a class="navlink" href="#signal" data-view="signal">SIGNAL</a>
-          <a class="navlink" href="#systems" data-view="systems">SYSTEMS</a>
-          <a class="navlink" href="#contact" data-view="contact">CONTACT</a>
-        </nav>
+  <!-- HERO -->
+  <main>
+    <section class="hero" id="top">
+      <div class="heroInner">
+        <div class="kicker mono">SIGNAL LOCKED • ORBITAL RELAY • CLEARANCE GRANTED</div>
 
-        <div class="side-meta">
-          <div class="kv"><span>NODE</span><b>VK-ORBIT</b></div>
-          <div class="kv"><span>AUTH</span><b>OPERATOR</b></div>
-          <div class="kv"><span>MODE</span><b>LIVE</b></div>
+        <h1 class="title glitch" data-text="FRONTIER OPS">
+          FRONTIER OPS
+        </h1>
+
+        <p class="lede">
+          A hardened interface for a synthetic future—biotech, autonomy, and networked intelligence under one directive.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="#mission">Enter Interface</a>
+          <button class="btn ghost" id="btnPulse" type="button">Pulse Scan</button>
+        </div>
+
+        <div class="hudStats">
+          <div class="stat">
+            <div class="label mono">NODE COUNT</div>
+            <div class="value" data-count="1288">0</div>
+          </div>
+          <div class="stat">
+            <div class="label mono">UPLINK</div>
+            <div class="value" data-count="99">0</div>
+          </div>
+          <div class="stat">
+            <div class="label mono">THREAT</div>
+            <div class="value danger" data-count="3">0</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="chips">
+          <span class="chip mono">AI GOVERNANCE</span>
+          <span class="chip mono">BIO-SYNTH</span>
+          <span class="chip mono">SIGNAL WARFARE</span>
+          <span class="chip mono">HUD INTERFACES</span>
         </div>
       </div>
+    </section>
 
-      <div class="side-card">
-        <div class="side-title">FEED // EVENTS</div>
-        <div class="feed" id="feed" aria-live="polite"></div>
-      </div>
-    </aside>
-
-    <!-- Viewport -->
-    <section class="viewport">
-      <!-- Overview -->
-      <section id="overview" class="panel view is-active">
-        <div class="panel-head">
-          <div class="kicker">SATCORP :: FRONTIER INTERFACE</div>
-          <h1 class="title">Command Bridge</h1>
-          <p class="lead">
-            An operational console for signal intelligence, biotech adjacencies, and frontier-grade automation.
-            Modular, fast, and GitHub Pages friendly.
+    <!-- MISSION -->
+    <section class="section" id="mission">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div class="sys mono">MODULE: MISSION // PRIORITY: ALPHA</div>
+          <h2>Command the frontier.</h2>
+          <p>
+            SATCORP builds aggressive, high-signal systems: clean UX, cinematic motion, and real operational clarity.
           </p>
-          <div class="cta-row">
-            <button class="btn primary" id="btn-scan" type="button">INITIATE SCAN</button>
-            <a class="btn ghost" href="#contact">REQUEST ACCESS</a>
-          </div>
         </div>
 
-        <div class="panel-grid">
+        <div class="cards">
           <article class="card">
-            <div class="card-top">
-              <div class="chip">STATUS</div>
-              <div class="badge" id="statusBadge">GREEN</div>
+            <div class="cardTop">
+              <span class="tag mono">OP-01</span>
+              <span class="tag mono">LIVE</span>
             </div>
-            <h3>Operational Readiness</h3>
-            <p>Boot-safe UI. No external frameworks required. Low failure surface.</p>
+            <h3>Interface Dominance</h3>
+            <p>HUD-grade layout, harsh contrast, tactical spacing, and instant readability.</p>
+            <div class="meter"><span style="--w:92%"></span></div>
           </article>
 
           <article class="card">
-            <div class="card-top">
-              <div class="chip">SIGNAL</div>
-              <div class="badge alt" id="freqBadge">92.7 MHz</div>
+            <div class="cardTop">
+              <span class="tag mono">OP-02</span>
+              <span class="tag mono">SYNC</span>
             </div>
-            <h3>Frequency Sweep</h3>
-            <p>Live “scanner” UI elements with subtle motion and a real-time status bar.</p>
+            <h3>Motion Discipline</h3>
+            <p>Micro-interactions that feel expensive—no clutter, no cheap effects.</p>
+            <div class="meter"><span style="--w:86%"></span></div>
           </article>
 
           <article class="card">
-            <div class="card-top">
-              <div class="chip">ARCHIVE</div>
-              <div class="badge alt2">CLASSIFIED</div>
+            <div class="cardTop">
+              <span class="tag mono">OP-03</span>
+              <span class="tag mono">HARDEN</span>
             </div>
-            <h3>Dossier Panels</h3>
-            <p>Drop-in sections for lore, projects, services, or content pipelines.</p>
+            <h3>Operational Aesthetic</h3>
+            <p>Clean glass, neon edges, scanlines, and controlled glitch.</p>
+            <div class="meter"><span style="--w:89%"></span></div>
           </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Signal -->
-      <section id="signal" class="panel view">
-        <div class="panel-head">
-          <div class="kicker">MODULE :: SIGNAL</div>
-          <h2 class="title">Spectrum Monitor</h2>
-          <p class="lead">A synthetic scan line and a live analyzer. Click to spike the readings.</p>
+    <!-- SYSTEMS -->
+    <section class="section alt" id="systems">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div class="sys mono">MODULE: SYSTEMS // SECURITY: LOCKED</div>
+          <h2>Systems online.</h2>
+          <p>Four pillars. One machine. Built to scale.</p>
         </div>
 
-        <div class="analyzer">
-          <div class="an-head">
-            <div class="chip">SCAN</div>
-            <div class="readout"><span>LOCK</span> <b id="lock">NO</b></div>
-            <div class="readout"><span>GAIN</span> <b id="gain">1.0</b></div>
-            <button class="btn ghost" id="btn-lock" type="button">TOGGLE LOCK</button>
+        <div class="grid2">
+          <div class="panel">
+            <div class="panelHead">
+              <span class="pill mono">BIO</span>
+              <span class="mono subtle">SECTOR-7</span>
+            </div>
+            <h3>Bio-Synthetic R&D</h3>
+            <p>Gene tooling, adaptive organisms, bio-interfaces, and sterile pipelines.</p>
           </div>
 
-          <div class="bars" id="bars" role="img" aria-label="Signal spectrum visualization"></div>
-
-          <div class="scanline" aria-hidden="true"></div>
-        </div>
-      </section>
-
-      <!-- Systems -->
-      <section id="systems" class="panel view">
-        <div class="panel-head">
-          <div class="kicker">MODULE :: SYSTEMS</div>
-          <h2 class="title">Subsystem Matrix</h2>
-          <p class="lead">Your site can expand into services, portfolio, docs, or a full ops dashboard.</p>
-        </div>
-
-        <div class="matrix">
-          <div class="row">
-            <div class="cell"><span class="dot online"></span> UI Layer</div>
-            <div class="cell muted">Glass panels, grids, glow</div>
-            <div class="cell right"><b>OK</b></div>
+          <div class="panel">
+            <div class="panelHead">
+              <span class="pill mono">AI</span>
+              <span class="mono subtle">KYRAX</span>
+            </div>
+            <h3>Autonomy & Cognition</h3>
+            <p>Model orchestration, oversight layers, and cognition scaffolding.</p>
           </div>
-          <div class="row">
-            <div class="cell"><span class="dot online"></span> Event Feed</div>
-            <div class="cell muted">Auto-generated “ops logs”</div>
-            <div class="cell right"><b>OK</b></div>
+
+          <div class="panel">
+            <div class="panelHead">
+              <span class="pill mono">SIG</span>
+              <span class="mono subtle">RELAY</span>
+            </div>
+            <h3>Signal Warfare</h3>
+            <p>High-noise environments, resilient comms, and secure relay routing.</p>
           </div>
-          <div class="row">
-            <div class="cell"><span class="dot online"></span> Signal Monitor</div>
-            <div class="cell muted">Live bars + scanline</div>
-            <div class="cell right"><b>OK</b></div>
-          </div>
-          <div class="row">
-            <div class="cell"><span class="dot"></span> External Links</div>
-            <div class="cell muted">Optional, add later</div>
-            <div class="cell right"><b>STANDBY</b></div>
+
+          <div class="panel">
+            <div class="panelHead">
+              <span class="pill mono">UX</span>
+              <span class="mono subtle">HUD</span>
+            </div>
+            <h3>Interfaces</h3>
+            <p>Weapon-grade UI: clear hierarchy, responsive motion, and modular sections.</p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Contact -->
-      <section id="contact" class="panel view">
-        <div class="panel-head">
-          <div class="kicker">MODULE :: CONTACT</div>
-          <h2 class="title">Request Access</h2>
-          <p class="lead">Hook this to a form provider later. For now it’s a clean client-side capture.</p>
+    <!-- INTEL -->
+    <section class="section" id="intel">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div class="sys mono">MODULE: INTEL // FEED: ACTIVE</div>
+          <h2>Intel feed.</h2>
+          <p>Recent transmissions and operational notes.</p>
         </div>
 
-        <form class="form" id="contactForm">
-          <label class="field">
-            <span>CALLSIGN</span>
-            <input name="callsign" placeholder="ANU / OPERATOR" required />
-          </label>
+        <div class="intel">
+          <article class="intelRow">
+            <div class="intelMeta mono">01 • DIRECTIVE</div>
+            <div class="intelBody">
+              <h3>Deploy the Frontier Site</h3>
+              <p>Push to GitHub Pages. Confirm branch main + root. Verify assets load as 200.</p>
+            </div>
+            <div class="intelTag mono">PRIORITY</div>
+          </article>
 
-          <label class="field">
-            <span>CHANNEL</span>
-            <input name="channel" placeholder="email or handle" required />
-          </label>
+          <article class="intelRow">
+            <div class="intelMeta mono">02 • SYSTEM</div>
+            <div class="intelBody">
+              <h3>Upgrade to Multi-Page</h3>
+              <p>Add /labs, /signals, /about with shared header + theme for a full network.</p>
+            </div>
+            <div class="intelTag mono">NEXT</div>
+          </article>
 
-          <label class="field">
-            <span>MESSAGE</span>
-            <textarea name="message" placeholder="What are we building?" rows="5" required></textarea>
-          </label>
+          <article class="intelRow">
+            <div class="intelMeta mono">03 • DESIGN</div>
+            <div class="intelBody">
+              <h3>Asset Pack</h3>
+              <p>Drop in a hero background, icon set, and one SVG logo for maximum punch.</p>
+            </div>
+            <div class="intelTag mono">VISUAL</div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-          <div class="form-row">
-            <button class="btn primary" type="submit">TRANSMIT</button>
-            <button class="btn ghost" type="button" id="btn-clear">CLEAR</button>
+    <!-- CONTACT -->
+    <section class="section end" id="contact">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div class="sys mono">MODULE: CONTACT // CHANNEL: OPEN</div>
+          <h2>Open a channel.</h2>
+          <p>Want me to turn this into a full SATCORP network (multi-page + content + assets)?</p>
+        </div>
+
+        <form class="form" onsubmit="return false;">
+          <div class="field">
+            <label class="mono" for="name">CALLSIGN</label>
+            <input id="name" name="name" autocomplete="name" placeholder="ANU" />
           </div>
-
-          <div class="notice" id="notice" role="status" aria-live="polite"></div>
+          <div class="field">
+            <label class="mono" for="msg">MESSAGE</label>
+            <textarea id="msg" name="msg" rows="4" placeholder="Deploy next module..."></textarea>
+          </div>
+          <div class="formRow">
+            <button class="btn primary" id="btnSend" type="button">Transmit</button>
+            <span class="mono subtle" id="txStatus">READY</span>
+          </div>
         </form>
-      </section>
+
+        <footer class="footer mono">
+          <span>© <span id="year"></span> SΛTCORP</span>
+          <span>•</span>
+          <span>FRONTIER OPS INTERFACE</span>
+        </footer>
+      </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="foot-left">
-      <span class="mini">©</span> <span id="year"></span> SATCORP // VK-ORBIT
-    </div>
-    <div class="foot-right">
-      <span class="mini">BUILD</span> COMMAND BRIDGE v1.0
-    </div>
-  </footer>
 
   <script src="script.js"></script>
 </body>
