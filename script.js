@@ -1,24 +1,16 @@
-// SATCORP // Frontier Ops interactions
+// Futuristic micro-interactions (no libraries required)
 
-// Spotlight follow (CSS vars drive the radial gradient)
-const root = document.documentElement;
-window.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth) * 100;
-  const y = (e.clientY / window.innerHeight) * 100;
-  root.style.setProperty("--mx", `${x}%`);
-  root.style.setProperty("--my", `${y}%`);
-});
-
-// Animated counters
+// Count-up animation
 function animateCount(el, to, ms = 900) {
-  const start = 0;
   const t0 = performance.now();
+  const start = 0;
   const isInt = Number.isInteger(to);
 
   function tick(t) {
     const p = Math.min(1, (t - t0) / ms);
-    const v = start + (to - start) * (1 - Math.pow(1 - p, 3));
-    el.textContent = isInt ? Math.round(v) : v.toFixed(0);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const v = start + (to - start) * eased;
+    el.textContent = isInt ? String(Math.round(v)) : String(v.toFixed(0));
     if (p < 1) requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -26,6 +18,7 @@ function animateCount(el, to, ms = 900) {
 
 document.querySelectorAll("[data-count]").forEach((el) => {
   const to = Number(el.getAttribute("data-count"));
+  if (!Number.isFinite(to)) return;
   animateCount(el, to, 950);
 });
 
@@ -54,34 +47,34 @@ document.querySelectorAll(".btn").forEach((btn) => {
   });
 });
 
-// Pulse scan button effect
-const pulseBtn = document.getElementById("btnPulse");
+// Pulse button
+const pulseBtn = document.getElementById("pulseBtn");
 if (pulseBtn) {
   pulseBtn.addEventListener("click", () => {
     document.body.animate(
       [
         { filter: "brightness(1)" },
-        { filter: "brightness(1.15)" },
+        { filter: "brightness(1.14)" },
         { filter: "brightness(1)" }
       ],
-      { duration: 280, easing: "ease-out" }
+      { duration: 260, easing: "ease-out" }
     );
   });
 }
 
-// Transmit button (fake UX feedback)
-const btnSend = document.getElementById("btnSend");
+// Fake transmit UX
+const sendBtn = document.getElementById("sendBtn");
 const txStatus = document.getElementById("txStatus");
-if (btnSend && txStatus) {
-  btnSend.addEventListener("click", () => {
-    txStatus.textContent = "TRANSMITTING...";
+if (sendBtn && txStatus) {
+  sendBtn.addEventListener("click", () => {
+    txStatus.textContent = "TRANSMITTING…";
     txStatus.style.color = "rgba(37,243,255,.9)";
-    btnSend.disabled = true;
+    sendBtn.disabled = true;
 
     setTimeout(() => {
       txStatus.textContent = "SENT // ACK RECEIVED";
       txStatus.style.color = "rgba(155,93,229,.95)";
-      btnSend.disabled = false;
+      sendBtn.disabled = false;
     }, 900);
   });
 }
