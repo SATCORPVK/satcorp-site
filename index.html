@@ -3,271 +3,306 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SΛTCORP // FUTURE INTERFACE</title>
-  <meta name="theme-color" content="#070713" />
+  <title>SΛTCORP // NEURAL FRONTIER</title>
+  <meta name="theme-color" content="#050510" />
   <link rel="stylesheet" href="style.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- Ambient FX -->
-  <div class="fx fx-noise" aria-hidden="true"></div>
-  <div class="fx fx-scan" aria-hidden="true"></div>
-  <div class="fx fx-glow" aria-hidden="true"></div>
+  <!-- FX / Background Canvases -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <canvas id="neural" aria-hidden="true"></canvas>
 
-  <!-- Header -->
-  <header class="topbar">
-    <a class="brand" href="#top" aria-label="SATCORP Home">
-      <span class="brandMark">SΛTCORP</span>
-      <span class="brandSub mono">FUTURE INTERFACE • v1.0</span>
-    </a>
+  <!-- Atmosphere layers -->
+  <div class="fx scanlines" aria-hidden="true"></div>
+  <div class="fx noise" aria-hidden="true"></div>
+  <div class="fx vignette" aria-hidden="true"></div>
 
-    <nav class="nav" aria-label="Primary">
-      <a href="#platform">Platform</a>
-      <a href="#modules">Modules</a>
-      <a href="#signals">Signals</a>
-      <a href="#contact">Contact</a>
+  <!-- Top HUD -->
+  <header class="hudTop">
+    <div class="brand">
+      <div class="brandMark">SΛTCORP</div>
+      <div class="brandSub mono">NEURAL FRONTIER • RELAY v2.0</div>
+    </div>
+
+    <nav class="hudNav mono">
+      <a href="#protocol">Protocol</a>
+      <a href="#stack">Stack</a>
+      <a href="#console">Console</a>
+      <a href="#signal">Signal</a>
     </nav>
 
-    <div class="status mono">
-      <span class="dot" aria-hidden="true"></span>
-      <span>ONLINE</span>
+    <div class="hudStatus mono">
+      <span class="dot"></span>
+      <span id="statusText">SYNCING</span>
     </div>
   </header>
 
-  <!-- Hero -->
-  <main id="top">
-    <section class="hero">
-      <div class="wrap heroGrid">
-        <div class="heroCopy">
-          <div class="kicker mono">ORBITAL RELAY • CLEARANCE GRANTED • SYNTHNET ACTIVE</div>
-          <h1 class="title">FUTURE INTERFACE</h1>
-          <p class="lede">
-            A modern, futuristic web system—glass HUD design, clean motion, and modular sections built for scale.
-          </p>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap heroGrid">
+      <div class="heroLeft">
+        <div class="kicker mono">CLEARANCE GRANTED • SYNTHNET ONLINE • ORBITAL LINK STABLE</div>
 
-          <div class="ctaRow">
-            <a class="btn primary" href="#platform">Enter</a>
-            <button class="btn ghost" id="pulseBtn" type="button">Pulse</button>
-          </div>
+        <h1 class="title">
+          NEURAL<br/>
+          FRONTIER
+        </h1>
 
-          <div class="miniGrid">
-            <div class="miniCard">
-              <div class="miniLabel mono">NODES</div>
-              <div class="miniValue" data-count="1288">0</div>
-            </div>
-            <div class="miniCard">
-              <div class="miniLabel mono">UPLINK</div>
-              <div class="miniValue" data-count="99">0</div>
-            </div>
-            <div class="miniCard">
-              <div class="miniLabel mono">LATENCY</div>
-              <div class="miniValue" data-count="14">0</div>
-            </div>
-          </div>
+        <p class="lede">
+          A cinematic interface for biotech + machine intelligence.
+          Glass HUD modules. Live telemetry. Neural visuals. Zero fluff.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="#protocol">Enter Protocol</a>
+          <button class="btn ghost" id="pulseBtn" type="button">Pulse Scan</button>
+          <button class="btn danger" id="breachBtn" type="button">Breach Mode</button>
         </div>
 
-        <div class="heroHUD">
-          <div class="hudPanel">
-            <div class="hudTop">
-              <div class="hudTag mono">CORE</div>
-              <div class="hudTag mono">SECURE</div>
-            </div>
-
-            <div class="hudTitle mono">SYSTEM OVERVIEW</div>
-
-            <div class="hudRows">
-              <div class="hudRow">
-                <span class="mono">RELAY</span>
-                <span class="pill mono">LOCKED</span>
-              </div>
-              <div class="hudRow">
-                <span class="mono">SYNTHNET</span>
-                <span class="pill mono">ACTIVE</span>
-              </div>
-              <div class="hudRow">
-                <span class="mono">INTERFACE</span>
-                <span class="pill mono">READY</span>
-              </div>
-            </div>
-
-            <div class="hudBar">
-              <div class="hudBarFill" style="--w: 86%"></div>
-            </div>
-
-            <div class="hudHint mono">Scroll to deploy modules ↓</div>
+        <div class="telemetry">
+          <div class="tItem">
+            <div class="tLabel mono">UPLINK</div>
+            <div class="tBar"><span id="uplinkBar"></span></div>
+            <div class="tVal mono" id="uplinkVal">0%</div>
+          </div>
+          <div class="tItem">
+            <div class="tLabel mono">INTEGRITY</div>
+            <div class="tBar"><span id="integrityBar"></span></div>
+            <div class="tVal mono" id="integrityVal">0%</div>
+          </div>
+          <div class="tItem">
+            <div class="tLabel mono">LATENCY</div>
+            <div class="tBar"><span id="latencyBar"></span></div>
+            <div class="tVal mono" id="latencyVal">0ms</div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- Platform -->
-    <section class="section" id="platform">
-      <div class="wrap">
-        <div class="sectionHead">
-          <div class="sys mono">MODULE: PLATFORM // PRIORITY: ALPHA</div>
-          <h2>Built to look like the future.</h2>
-          <p>
-            This layout is designed for a premium sci-fi feel: clean typography, glass surfaces, neon edges,
-            and tasteful motion.
-          </p>
-        </div>
-
-        <div class="cards">
-          <article class="card">
-            <div class="cardTop">
-              <span class="tag mono">DESIGN</span>
-              <span class="tag mono">GLASS HUD</span>
-            </div>
-            <h3>Frosted panels</h3>
-            <p>Layered gradients, soft blur, and edge glow for a high-end interface aesthetic.</p>
-          </article>
-
-          <article class="card">
-            <div class="cardTop">
-              <span class="tag mono">MOTION</span>
-              <span class="tag mono">SMOOTH</span>
-            </div>
-            <h3>Micro-interactions</h3>
-            <p>Magnetic buttons, pulse effects, and scroll reveals—subtle, not noisy.</p>
-          </article>
-
-          <article class="card">
-            <div class="cardTop">
-              <span class="tag mono">STRUCTURE</span>
-              <span class="tag mono">MODULAR</span>
-            </div>
-            <h3>Clean sections</h3>
-            <p>Build this into a full multi-page network: Labs, Signals, About, and Docs.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modules -->
-    <section class="section alt" id="modules">
-      <div class="wrap">
-        <div class="sectionHead">
-          <div class="sys mono">MODULE: SYSTEMS // SECURITY: LOCKED</div>
-          <h2>Modules online.</h2>
-          <p>Drop your SATCORP content here—each module is a clean building block.</p>
-        </div>
-
-        <div class="grid2">
-          <div class="panel">
-            <div class="panelHead">
-              <span class="pill mono">BIO</span>
-              <span class="mono subtle">SECTOR-7</span>
-            </div>
-            <h3>Bio-Synthetic R&D</h3>
-            <p>Gene tooling, adaptive organisms, sterile pipelines, and high-integrity research ops.</p>
+      <div class="heroRight">
+        <div class="holoCard">
+          <div class="holoHead">
+            <span class="mono chip">CORE</span>
+            <span class="mono chip">LOCKED</span>
+            <span class="mono chip ok">GREEN</span>
           </div>
 
-          <div class="panel">
-            <div class="panelHead">
-              <span class="pill mono">AI</span>
-              <span class="mono subtle">KYRAX</span>
+          <div class="holoTitle mono">SYSTEM SNAPSHOT</div>
+
+          <div class="holoGrid">
+            <div class="holoStat">
+              <div class="hsLabel mono">NODES</div>
+              <div class="hsValue" data-count="1288">0</div>
             </div>
-            <h3>Autonomy & Cognition</h3>
-            <p>Orchestration, oversight layers, cognition scaffolding, and operator interfaces.</p>
+            <div class="holoStat">
+              <div class="hsLabel mono">SECTORS</div>
+              <div class="hsValue" data-count="12">0</div>
+            </div>
+            <div class="holoStat">
+              <div class="hsLabel mono">UPTIME</div>
+              <div class="hsValue" data-count="99">0</div>
+            </div>
+            <div class="holoStat">
+              <div class="hsLabel mono">THREAT</div>
+              <div class="hsValue danger" data-count="3">0</div>
+            </div>
           </div>
 
-          <div class="panel">
-            <div class="panelHead">
-              <span class="pill mono">SIG</span>
-              <span class="mono subtle">RELAY</span>
-            </div>
-            <h3>Signal Systems</h3>
-            <p>Resilient comms, secure routing, and telemetry pipelines with graceful degradation.</p>
+          <div class="holoFooter mono">
+            <span>RELAY: SATCORP-PRIME</span>
+            <span>•</span>
+            <span id="clock">00:00:00</span>
           </div>
+        </div>
 
-          <div class="panel">
-            <div class="panelHead">
-              <span class="pill mono">UX</span>
-              <span class="mono subtle">HUD</span>
-            </div>
-            <h3>Interfaces</h3>
-            <p>Weapon-grade UI: clean hierarchy, responsive layouts, and future-forward styling.</p>
+        <div class="miniDock">
+          <div class="dockItem">
+            <div class="dockTitle mono">MODULE</div>
+            <div class="dockValue">BIO-SYNTH</div>
+          </div>
+          <div class="dockItem">
+            <div class="dockTitle mono">LAYER</div>
+            <div class="dockValue">KYRAX</div>
+          </div>
+          <div class="dockItem">
+            <div class="dockTitle mono">STATE</div>
+            <div class="dockValue">READY</div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Signals -->
-    <section class="section" id="signals">
-      <div class="wrap">
-        <div class="sectionHead">
-          <div class="sys mono">MODULE: SIGNALS // FEED: ACTIVE</div>
-          <h2>Signal feed.</h2>
-          <p>Use this for updates, drops, research notes, or “intel” posts.</p>
+    <div class="heroEdge mono">SCROLL TO DEPLOY ↓</div>
+  </section>
+
+  <!-- PROTOCOL -->
+  <section class="section" id="protocol">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div class="sys mono">MODULE: PROTOCOL // PRIORITY: ALPHA</div>
+        <h2>Designed like a real interface.</h2>
+        <p>
+          This is a full aesthetic rebuild: animated background systems, hologram panels,
+          and a command-center layout that feels futuristic immediately.
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="cardTop">
+            <span class="tag mono">HUD</span>
+            <span class="tag mono">GLASS</span>
+          </div>
+          <h3>Hologram surfaces</h3>
+          <p>Neon edge glow + subtle refraction. Clean readability. Feels expensive.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardTop">
+            <span class="tag mono">VISUAL</span>
+            <span class="tag mono">NEURAL</span>
+          </div>
+          <h3>Neural network layer</h3>
+          <p>Interactive nodes + links rendered live on canvas. Responsive to cursor.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="cardTop">
+            <span class="tag mono">MOTION</span>
+            <span class="tag mono">TACTICAL</span>
+          </div>
+          <h3>Motion discipline</h3>
+          <p>Scroll reveals, pulse scan flashes, and “breach mode” color shift.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="section alt" id="stack">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div class="sys mono">MODULE: STACK // SECURITY: LOCKED</div>
+        <h2>Core systems.</h2>
+        <p>Drop your real SATCORP content here—this layout is ready for expansion.</p>
+      </div>
+
+      <div class="grid2">
+        <div class="panel reveal">
+          <div class="panelHead">
+            <span class="pill mono">BIO</span>
+            <span class="mono subtle">SECTOR-7</span>
+          </div>
+          <h3>Bio-Synthetic R&amp;D</h3>
+          <p>Gene tooling, adaptive organisms, sterile pipelines, and lab-grade ops.</p>
         </div>
 
-        <div class="feed">
-          <article class="feedRow">
-            <div class="feedMeta mono">01 • DEPLOY</div>
-            <div class="feedBody">
-              <h3>GitHub Pages</h3>
-              <p>Settings → Pages → Deploy from branch → main → /root.</p>
-            </div>
-            <div class="feedTag mono">LIVE</div>
-          </article>
+        <div class="panel reveal">
+          <div class="panelHead">
+            <span class="pill mono">AI</span>
+            <span class="mono subtle">KYRAX</span>
+          </div>
+          <h3>Autonomy &amp; Cognition</h3>
+          <p>Orchestration, oversight layers, cognition scaffolding, operator UX.</p>
+        </div>
 
-          <article class="feedRow">
-            <div class="feedMeta mono">02 • EXPAND</div>
-            <div class="feedBody">
-              <h3>Multi-page network</h3>
-              <p>Add `/labs.html`, `/signals.html`, `/about.html` with shared header + style.</p>
-            </div>
-            <div class="feedTag mono">NEXT</div>
-          </article>
+        <div class="panel reveal">
+          <div class="panelHead">
+            <span class="pill mono">SIG</span>
+            <span class="mono subtle">RELAY</span>
+          </div>
+          <h3>Signal Systems</h3>
+          <p>Resilient comms, secure routing, and telemetry with graceful degradation.</p>
+        </div>
 
-          <article class="feedRow">
-            <div class="feedMeta mono">03 • ASSETS</div>
-            <div class="feedBody">
-              <h3>Brand kit</h3>
-              <p>Drop an SVG logo and a hero background into `/assets/` for extra punch.</p>
-            </div>
-            <div class="feedTag mono">VISUAL</div>
-          </article>
+        <div class="panel reveal">
+          <div class="panelHead">
+            <span class="pill mono">UX</span>
+            <span class="mono subtle">HUD</span>
+          </div>
+          <h3>Interfaces</h3>
+          <p>Weapon-grade UI: crisp hierarchy, responsive layout, future-forward feel.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contact -->
-    <section class="section end" id="contact">
-      <div class="wrap">
-        <div class="sectionHead">
-          <div class="sys mono">MODULE: CONTACT // CHANNEL: OPEN</div>
-          <h2>Open a channel.</h2>
-          <p>Use this as a “contact” UI or replace with your links.</p>
+  <!-- CONSOLE -->
+  <section class="section" id="console">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div class="sys mono">MODULE: CONSOLE // FEED: ACTIVE</div>
+        <h2>Command console.</h2>
+        <p>Type commands. It’s a UI effect (no backend) but it feels real.</p>
+      </div>
+
+      <div class="console reveal">
+        <div class="consoleHead mono">
+          <span>satcorp@relay</span>
+          <span class="sep">•</span>
+          <span>frontier</span>
+          <span class="sep">•</span>
+          <span id="consoleState">READY</span>
         </div>
 
-        <form class="form" onsubmit="return false;">
-          <div class="field">
-            <label class="mono" for="name">CALLSIGN</label>
-            <input id="name" name="name" autocomplete="name" placeholder="ANU" />
-          </div>
+        <div class="consoleBody" id="consoleBody" aria-live="polite"></div>
+
+        <div class="consoleInputRow">
+          <span class="prompt mono">></span>
+          <input id="consoleInput" class="consoleInput mono" autocomplete="off"
+                 placeholder="type: help, scan, status, breach, clear" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNAL -->
+  <section class="section end" id="signal">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div class="sys mono">MODULE: SIGNAL // CHANNEL: OPEN</div>
+        <h2>Open a channel.</h2>
+        <p>Swap this for your real links, Discord, email, or “operator application” form.</p>
+      </div>
+
+      <div class="contactGrid reveal">
+        <div class="contactCard">
+          <div class="ccTitle mono">TRANSMISSION</div>
+          <p>Drop a one-line message to yourself or replace this with real contact logic.</p>
+
           <div class="field">
             <label class="mono" for="msg">MESSAGE</label>
-            <textarea id="msg" name="msg" rows="4" placeholder="Deploy next module..."></textarea>
+            <textarea id="msg" rows="4" placeholder="Deploy next module..."></textarea>
           </div>
-          <div class="formRow">
+
+          <div class="row">
             <button class="btn primary" id="sendBtn" type="button">Transmit</button>
             <span class="mono subtle" id="txStatus">READY</span>
           </div>
-        </form>
+        </div>
 
-        <footer class="footer mono">
-          <span>© <span id="year"></span> SΛTCORP</span>
-          <span>•</span>
-          <span>FUTURE INTERFACE</span>
-        </footer>
+        <div class="contactCard">
+          <div class="ccTitle mono">LINKS</div>
+          <div class="links">
+            <a class="linkPill mono" href="#top">HOME</a>
+            <a class="linkPill mono" href="#stack">SYSTEMS</a>
+            <a class="linkPill mono" href="#console">CONSOLE</a>
+            <a class="linkPill mono" href="#protocol">PROTOCOL</a>
+          </div>
+
+          <div class="foot mono">
+            <span>© <span id="year"></span> SΛTCORP</span>
+            <span>•</span>
+            <span>NEURAL FRONTIER</span>
+          </div>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
