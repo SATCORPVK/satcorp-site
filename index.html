@@ -2,112 +2,215 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SATCORP // Frontier</title>
-  <!-- Primary site stylesheet -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>SATCORP // COMMAND BRIDGE</title>
+  <meta name="theme-color" content="#070713" />
+  <meta name="description" content="SATCORP Command Bridge — signal intelligence, frontier systems, and classified modules." />
+
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Google Font for futuristic typography -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- GSAP and ScrollTrigger for animations -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <!-- Vanta.js and Three.js for animated backgrounds -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
-
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet" />
 </head>
 
 <body>
-  <!-- Boot sequence overlay -->
-  <div id="boot">
-    <div class="boot-inner">
-      <div class="boot-title">SΛTCORP SYSTEM</div>
-      <div class="boot-lines" id="boot-lines"></div>
-    </div>
+  <!-- Ambient layers -->
+  <div class="bg">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-noise" aria-hidden="true"></div>
   </div>
 
-  <!-- Vanta animated background will attach here -->
-  <div id="vanta-bg"></div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">⦿</span>
+      <span class="brand-name">SΛTCORP</span>
+      <span class="brand-sub">COMMAND BRIDGE</span>
+    </div>
 
-  <!-- Custom cursor element -->
-  <div id="custom-cursor"></div>
-
-  <!-- Site navigation -->
-  <header class="header">
-    <div class="logo">SΛTCORP</div>
-    <nav class="nav">
-      <a href="#hero">Home</a>
-      <a href="#biotech">Biotech</a>
-      <a href="#features">Features</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="statusbar">
+      <div class="pill">
+        <span class="dot online"></span>
+        <span id="clock">--:--</span>
+      </div>
+      <div class="pill">
+        <span class="dot"></span>
+        <span id="sig">SIG: --</span>
+      </div>
+      <button class="pill btn" id="btn-boot" type="button">RUN DIAGNOSTIC</button>
+    </div>
   </header>
 
-  <!-- Hero section with monumental landscape -->
-  <section id="hero" class="hero">
-    <div class="hero-content">
-      <!-- Typewriter headline -->
-      <h1 class="main-title typewriter" data-text="Exploring the AI-governed Frontier"></h1>
-      <p class="subtitle">
-        Where ancient landscapes meet the cutting edge of biotechnology and machine intelligence.
-      </p>
-      <button id="hero-confetti" class="btn primary">Commence Exploration</button>
-    </div>
-  </section>
+  <!-- Layout -->
+  <main class="layout">
+    <!-- Sidebar -->
+    <aside class="side">
+      <div class="side-card">
+        <div class="side-title">NAV // MODULES</div>
+        <nav class="nav">
+          <a class="navlink active" href="#overview" data-view="overview">OVERVIEW</a>
+          <a class="navlink" href="#signal" data-view="signal">SIGNAL</a>
+          <a class="navlink" href="#systems" data-view="systems">SYSTEMS</a>
+          <a class="navlink" href="#contact" data-view="contact">CONTACT</a>
+        </nav>
 
-  <!-- Biotech section with second reference image background -->
-  <section id="biotech" class="panel biotech">
-    <div class="panel-inner">
-      <div class="syslabel">MODULE: BIOTECH // STATUS: LIVE</div>
-      <h2>Biotech &amp; Artificial Consciousness</h2>
-      <p>
-        Our laboratories blend organic and synthetic life, inspired by the intricate patterns of neural circuitry
-        illustrated above. We harness the desert’s silence and the machine’s power to push the boundaries of
-        consciousness. Discover our research into gene editing, cyber-organisms and cognitive architectures.
-      </p>
-    </div>
-  </section>
-
-  <!-- Features section describing interactive elements -->
-  <section id="features" class="panel features">
-    <h2>Web Frontier Technologies</h2>
-    <p class="muted">Experiment with our interactive demos below. Each card comes alive as you scroll.</p>
-    <div class="cards">
-      <div class="card reveal">
-        <h3>Parallax Scroll</h3>
-        <p>Feel the depth of our world as background layers move at different speeds.</p>
+        <div class="side-meta">
+          <div class="kv"><span>NODE</span><b>VK-ORBIT</b></div>
+          <div class="kv"><span>AUTH</span><b>OPERATOR</b></div>
+          <div class="kv"><span>MODE</span><b>LIVE</b></div>
+        </div>
       </div>
-      <div class="card reveal">
-        <h3>Custom Cursor</h3>
-        <p>An energy orb that responds to your every move and click.</p>
+
+      <div class="side-card">
+        <div class="side-title">FEED // EVENTS</div>
+        <div class="feed" id="feed" aria-live="polite"></div>
       </div>
-      <div class="card reveal">
-        <h3>SVG Line Drawing</h3>
-        <p>Watch circuits and mountain ridges draw themselves as you explore.</p>
-      </div>
+    </aside>
+
+    <!-- Viewport -->
+    <section class="viewport">
+      <!-- Overview -->
+      <section id="overview" class="panel view is-active">
+        <div class="panel-head">
+          <div class="kicker">SATCORP :: FRONTIER INTERFACE</div>
+          <h1 class="title">Command Bridge</h1>
+          <p class="lead">
+            An operational console for signal intelligence, biotech adjacencies, and frontier-grade automation.
+            Modular, fast, and GitHub Pages friendly.
+          </p>
+          <div class="cta-row">
+            <button class="btn primary" id="btn-scan" type="button">INITIATE SCAN</button>
+            <a class="btn ghost" href="#contact">REQUEST ACCESS</a>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <article class="card">
+            <div class="card-top">
+              <div class="chip">STATUS</div>
+              <div class="badge" id="statusBadge">GREEN</div>
+            </div>
+            <h3>Operational Readiness</h3>
+            <p>Boot-safe UI. No external frameworks required. Low failure surface.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <div class="chip">SIGNAL</div>
+              <div class="badge alt" id="freqBadge">92.7 MHz</div>
+            </div>
+            <h3>Frequency Sweep</h3>
+            <p>Live “scanner” UI elements with subtle motion and a real-time status bar.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <div class="chip">ARCHIVE</div>
+              <div class="badge alt2">CLASSIFIED</div>
+            </div>
+            <h3>Dossier Panels</h3>
+            <p>Drop-in sections for lore, projects, services, or content pipelines.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Signal -->
+      <section id="signal" class="panel view">
+        <div class="panel-head">
+          <div class="kicker">MODULE :: SIGNAL</div>
+          <h2 class="title">Spectrum Monitor</h2>
+          <p class="lead">A synthetic scan line and a live analyzer. Click to spike the readings.</p>
+        </div>
+
+        <div class="analyzer">
+          <div class="an-head">
+            <div class="chip">SCAN</div>
+            <div class="readout"><span>LOCK</span> <b id="lock">NO</b></div>
+            <div class="readout"><span>GAIN</span> <b id="gain">1.0</b></div>
+            <button class="btn ghost" id="btn-lock" type="button">TOGGLE LOCK</button>
+          </div>
+
+          <div class="bars" id="bars" role="img" aria-label="Signal spectrum visualization"></div>
+
+          <div class="scanline" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Systems -->
+      <section id="systems" class="panel view">
+        <div class="panel-head">
+          <div class="kicker">MODULE :: SYSTEMS</div>
+          <h2 class="title">Subsystem Matrix</h2>
+          <p class="lead">Your site can expand into services, portfolio, docs, or a full ops dashboard.</p>
+        </div>
+
+        <div class="matrix">
+          <div class="row">
+            <div class="cell"><span class="dot online"></span> UI Layer</div>
+            <div class="cell muted">Glass panels, grids, glow</div>
+            <div class="cell right"><b>OK</b></div>
+          </div>
+          <div class="row">
+            <div class="cell"><span class="dot online"></span> Event Feed</div>
+            <div class="cell muted">Auto-generated “ops logs”</div>
+            <div class="cell right"><b>OK</b></div>
+          </div>
+          <div class="row">
+            <div class="cell"><span class="dot online"></span> Signal Monitor</div>
+            <div class="cell muted">Live bars + scanline</div>
+            <div class="cell right"><b>OK</b></div>
+          </div>
+          <div class="row">
+            <div class="cell"><span class="dot"></span> External Links</div>
+            <div class="cell muted">Optional, add later</div>
+            <div class="cell right"><b>STANDBY</b></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="panel view">
+        <div class="panel-head">
+          <div class="kicker">MODULE :: CONTACT</div>
+          <h2 class="title">Request Access</h2>
+          <p class="lead">Hook this to a form provider later. For now it’s a clean client-side capture.</p>
+        </div>
+
+        <form class="form" id="contactForm">
+          <label class="field">
+            <span>CALLSIGN</span>
+            <input name="callsign" placeholder="ANU / OPERATOR" required />
+          </label>
+
+          <label class="field">
+            <span>CHANNEL</span>
+            <input name="channel" placeholder="email or handle" required />
+          </label>
+
+          <label class="field">
+            <span>MESSAGE</span>
+            <textarea name="message" placeholder="What are we building?" rows="5" required></textarea>
+          </label>
+
+          <div class="form-row">
+            <button class="btn primary" type="submit">TRANSMIT</button>
+            <button class="btn ghost" type="button" id="btn-clear">CLEAR</button>
+          </div>
+
+          <div class="notice" id="notice" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="foot-left">
+      <span class="mini">©</span> <span id="year"></span> SATCORP // VK-ORBIT
     </div>
-    <!-- SVG path for line drawing effect -->
-    <svg id="mountain-svg" viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
-      <path id="mountain-path"
-        d="M10 150 L150 50 L300 140 L450 60 L600 140 L750 70 L890 150"
-        fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-    </svg>
-  </section>
+    <div class="foot-right">
+      <span class="mini">BUILD</span> COMMAND BRIDGE v1.0
+    </div>
+  </footer>
 
-  <!-- Contact / final call-to-action section with confetti on scroll -->
-  <section id="contact" class="panel end">
-    <h2>Join the Expedition</h2>
-    <p>Ready to step into the frontier? Connect with our research, request access or collaborate on your
-      own AI-driven vision.</p>
-    <button id="end-confetti" class="btn secondary">Launch Sequence</button>
-  </section>
-
-  <!-- Site script -->
   <script src="script.js"></script>
 </body>
 </html>
