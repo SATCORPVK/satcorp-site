@@ -3,42 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SΛTCORP // NEURAL FRONTIER</title>
-  <meta name="theme-color" content="#050510" />
+  <title>SΛTCORP // BLACKSITE TERMINAL</title>
+  <meta name="theme-color" content="#050508" />
   <link rel="stylesheet" href="style.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- FX / Background Canvases -->
-  <canvas id="starfield" aria-hidden="true"></canvas>
-  <canvas id="neural" aria-hidden="true"></canvas>
-
-  <!-- Atmosphere layers -->
+  <!-- Background FX -->
+  <canvas id="grain" aria-hidden="true"></canvas>
   <div class="fx scanlines" aria-hidden="true"></div>
-  <div class="fx noise" aria-hidden="true"></div>
   <div class="fx vignette" aria-hidden="true"></div>
+  <div class="fx bloom" aria-hidden="true"></div>
 
-  <!-- Top HUD -->
-  <header class="hudTop">
-    <div class="brand">
-      <div class="brandMark">SΛTCORP</div>
-      <div class="brandSub mono">NEURAL FRONTIER • RELAY v2.0</div>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="left">
+      <div class="brand">
+        <div class="brandMark">SΛTCORP</div>
+        <div class="brandSub">BLACKSITE TERMINAL // RELAY-09</div>
+      </div>
+      <div class="chips">
+        <span class="chip">NOFORN</span>
+        <span class="chip">EYES ONLY</span>
+        <span class="chip warn">CLASSIFIED</span>
+      </div>
     </div>
 
-    <nav class="hudNav mono">
-      <a href="#protocol">Protocol</a>
-      <a href="#stack">Stack</a>
-      <a href="#console">Console</a>
-      <a href="#signal">Signal</a>
+    <nav class="nav">
+      <a href="#brief">Brief</a>
+      <a href="#ops">Ops</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#contact">Channel</a>
     </nav>
 
-    <div class="hudStatus mono">
-      <span class="dot"></span>
-      <span id="statusText">SYNCING</span>
+    <div class="right">
+      <div class="status">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="statusText">HANDSHAKE</span>
+      </div>
+      <div class="clock" id="clock">00:00:00</div>
     </div>
   </header>
 
@@ -46,258 +53,255 @@
   <section class="hero" id="top">
     <div class="wrap heroGrid">
       <div class="heroLeft">
-        <div class="kicker mono">CLEARANCE GRANTED • SYNTHNET ONLINE • ORBITAL LINK STABLE</div>
+        <div class="kicker">ACCESS GRANTED • SECTOR 7 • RELAY STABLE</div>
 
         <h1 class="title">
-          NEURAL<br/>
-          FRONTIER
+          BLACKSITE<br />
+          TERMINAL
         </h1>
 
         <p class="lede">
-          A cinematic interface for biotech + machine intelligence.
-          Glass HUD modules. Live telemetry. Neural visuals. Zero fluff.
+          Minimal. Hostile. Functional. This interface is built like a real covert console:
+          hardened layout, CRT bloom, scanline texture, and a live terminal you can type into.
         </p>
 
-        <div class="ctaRow">
-          <a class="btn primary" href="#protocol">Enter Protocol</a>
-          <button class="btn ghost" id="pulseBtn" type="button">Pulse Scan</button>
-          <button class="btn danger" id="breachBtn" type="button">Breach Mode</button>
+        <div class="cta">
+          <a class="btn primary" href="#terminal">ENTER CONSOLE</a>
+          <button class="btn" id="scanBtn" type="button">RUN SCAN</button>
+          <button class="btn danger" id="lockBtn" type="button">LOCKDOWN</button>
         </div>
 
-        <div class="telemetry">
-          <div class="tItem">
-            <div class="tLabel mono">UPLINK</div>
-            <div class="tBar"><span id="uplinkBar"></span></div>
-            <div class="tVal mono" id="uplinkVal">0%</div>
+        <div class="meters">
+          <div class="meterRow">
+            <div class="mLabel">UPLINK</div>
+            <div class="bar"><span id="uplink"></span></div>
+            <div class="mVal" id="uplinkVal">0%</div>
           </div>
-          <div class="tItem">
-            <div class="tLabel mono">INTEGRITY</div>
-            <div class="tBar"><span id="integrityBar"></span></div>
-            <div class="tVal mono" id="integrityVal">0%</div>
+          <div class="meterRow">
+            <div class="mLabel">INTEGRITY</div>
+            <div class="bar"><span id="integrity"></span></div>
+            <div class="mVal" id="integrityVal">0%</div>
           </div>
-          <div class="tItem">
-            <div class="tLabel mono">LATENCY</div>
-            <div class="tBar"><span id="latencyBar"></span></div>
-            <div class="tVal mono" id="latencyVal">0ms</div>
+          <div class="meterRow">
+            <div class="mLabel">LATENCY</div>
+            <div class="bar"><span id="latency"></span></div>
+            <div class="mVal" id="latencyVal">0ms</div>
           </div>
+        </div>
+
+        <div class="stampWrap">
+          <div class="stamp">TOP SECRET // SATCORP INTERNAL</div>
+          <div class="stamp faint">RESTRICTED ACCESS LOGGED</div>
         </div>
       </div>
 
       <div class="heroRight">
-        <div class="holoCard">
-          <div class="holoHead">
-            <span class="mono chip">CORE</span>
-            <span class="mono chip">LOCKED</span>
-            <span class="mono chip ok">GREEN</span>
+        <div class="panel">
+          <div class="panelTop">
+            <span class="tag">SESSION</span>
+            <span class="tag">RELAY-09</span>
+            <span class="tag ok" id="sessionOk">GREEN</span>
           </div>
 
-          <div class="holoTitle mono">SYSTEM SNAPSHOT</div>
+          <div class="panelTitle">SYSTEM SNAPSHOT</div>
 
-          <div class="holoGrid">
-            <div class="holoStat">
-              <div class="hsLabel mono">NODES</div>
-              <div class="hsValue" data-count="1288">0</div>
+          <div class="stats">
+            <div class="stat">
+              <div class="sLabel">NODES</div>
+              <div class="sVal" data-count="1288">0</div>
             </div>
-            <div class="holoStat">
-              <div class="hsLabel mono">SECTORS</div>
-              <div class="hsValue" data-count="12">0</div>
+            <div class="stat">
+              <div class="sLabel">SECTORS</div>
+              <div class="sVal" data-count="12">0</div>
             </div>
-            <div class="holoStat">
-              <div class="hsLabel mono">UPTIME</div>
-              <div class="hsValue" data-count="99">0</div>
+            <div class="stat">
+              <div class="sLabel">UPTIME</div>
+              <div class="sVal" data-count="99">0</div>
             </div>
-            <div class="holoStat">
-              <div class="hsLabel mono">THREAT</div>
-              <div class="hsValue danger" data-count="3">0</div>
+            <div class="stat">
+              <div class="sLabel">THREAT</div>
+              <div class="sVal danger" data-count="3">0</div>
             </div>
           </div>
 
-          <div class="holoFooter mono">
-            <span>RELAY: SATCORP-PRIME</span>
-            <span>•</span>
-            <span id="clock">00:00:00</span>
+          <div class="divider"></div>
+
+          <div class="readout">
+            <div class="roLine"><span>LOCATION</span><span>SECTOR-7 BLACKSITE</span></div>
+            <div class="roLine"><span>OPERATOR</span><span>VERIFIED</span></div>
+            <div class="roLine"><span>LOGGING</span><span>ENABLED</span></div>
           </div>
         </div>
 
-        <div class="miniDock">
-          <div class="dockItem">
-            <div class="dockTitle mono">MODULE</div>
-            <div class="dockValue">BIO-SYNTH</div>
-          </div>
-          <div class="dockItem">
-            <div class="dockTitle mono">LAYER</div>
-            <div class="dockValue">KYRAX</div>
-          </div>
-          <div class="dockItem">
-            <div class="dockTitle mono">STATE</div>
-            <div class="dockValue">READY</div>
+        <div class="sideNote">
+          <div class="noteTitle">NOTICE</div>
+          <div class="noteBody">
+            All actions are monitored. Unauthorized access will trigger containment protocol.
           </div>
         </div>
       </div>
     </div>
 
-    <div class="heroEdge mono">SCROLL TO DEPLOY ↓</div>
+    <div class="edgeHint">SCROLL TO DEPLOY MODULES ↓</div>
   </section>
 
-  <!-- PROTOCOL -->
-  <section class="section" id="protocol">
+  <!-- BRIEF -->
+  <section class="section" id="brief">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys mono">MODULE: PROTOCOL // PRIORITY: ALPHA</div>
-        <h2>Designed like a real interface.</h2>
+        <div class="sys">MODULE: BRIEF // CLASSIFIED</div>
+        <h2>Mission brief</h2>
         <p>
-          This is a full aesthetic rebuild: animated background systems, hologram panels,
-          and a command-center layout that feels futuristic immediately.
+          This is a blacksite UI shell. Replace the text with your real SATCORP content,
+          links, and modules. The design stays hostile, clean, and technical.
         </p>
       </div>
 
       <div class="cards">
         <article class="card reveal">
-          <div class="cardTop">
-            <span class="tag mono">HUD</span>
-            <span class="tag mono">GLASS</span>
+          <div class="cardHead">
+            <span class="pill">OP-01</span>
+            <span class="pill">UI</span>
           </div>
-          <h3>Hologram surfaces</h3>
-          <p>Neon edge glow + subtle refraction. Clean readability. Feels expensive.</p>
+          <h3>Hardened layout</h3>
+          <p>High contrast. Clear hierarchy. No fluff. Feels like equipment, not a blog.</p>
         </article>
 
         <article class="card reveal">
-          <div class="cardTop">
-            <span class="tag mono">VISUAL</span>
-            <span class="tag mono">NEURAL</span>
+          <div class="cardHead">
+            <span class="pill">OP-02</span>
+            <span class="pill">FX</span>
           </div>
-          <h3>Neural network layer</h3>
-          <p>Interactive nodes + links rendered live on canvas. Responsive to cursor.</p>
+          <h3>CRT terminal vibe</h3>
+          <p>Scanlines, bloom, grain—subtle enough to read, strong enough to feel real.</p>
         </article>
 
         <article class="card reveal">
-          <div class="cardTop">
-            <span class="tag mono">MOTION</span>
-            <span class="tag mono">TACTICAL</span>
+          <div class="cardHead">
+            <span class="pill">OP-03</span>
+            <span class="pill">SEC</span>
           </div>
-          <h3>Motion discipline</h3>
-          <p>Scroll reveals, pulse scan flashes, and “breach mode” color shift.</p>
+          <h3>Lockdown mode</h3>
+          <p>One button flips the whole UI into “red alert” containment aesthetic.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- STACK -->
-  <section class="section alt" id="stack">
+  <!-- OPS -->
+  <section class="section alt" id="ops">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys mono">MODULE: STACK // SECURITY: LOCKED</div>
-        <h2>Core systems.</h2>
-        <p>Drop your real SATCORP content here—this layout is ready for expansion.</p>
+        <div class="sys">MODULE: OPERATIONS // ACTIVE</div>
+        <h2>Operations stack</h2>
+        <p>Swap these with your actual SATCORP service modules or project lanes.</p>
       </div>
 
       <div class="grid2">
-        <div class="panel reveal">
-          <div class="panelHead">
-            <span class="pill mono">BIO</span>
-            <span class="mono subtle">SECTOR-7</span>
+        <div class="op reveal">
+          <div class="opTop">
+            <span class="opTag">BIO</span>
+            <span class="opTag">SECTOR-7</span>
           </div>
           <h3>Bio-Synthetic R&amp;D</h3>
-          <p>Gene tooling, adaptive organisms, sterile pipelines, and lab-grade ops.</p>
+          <p>Lab pipelines, sterile procedure, and engineered systems under control.</p>
         </div>
 
-        <div class="panel reveal">
-          <div class="panelHead">
-            <span class="pill mono">AI</span>
-            <span class="mono subtle">KYRAX</span>
+        <div class="op reveal">
+          <div class="opTop">
+            <span class="opTag">AI</span>
+            <span class="opTag">KYRAX</span>
           </div>
-          <h3>Autonomy &amp; Cognition</h3>
-          <p>Orchestration, oversight layers, cognition scaffolding, operator UX.</p>
+          <h3>Autonomy &amp; Oversight</h3>
+          <p>Orchestration, safeguards, and operator-grade intelligence layers.</p>
         </div>
 
-        <div class="panel reveal">
-          <div class="panelHead">
-            <span class="pill mono">SIG</span>
-            <span class="mono subtle">RELAY</span>
+        <div class="op reveal">
+          <div class="opTop">
+            <span class="opTag">SIG</span>
+            <span class="opTag">RELAY</span>
           </div>
           <h3>Signal Systems</h3>
-          <p>Resilient comms, secure routing, and telemetry with graceful degradation.</p>
+          <p>Secure routing, telemetry pipelines, resilience under hostile conditions.</p>
         </div>
 
-        <div class="panel reveal">
-          <div class="panelHead">
-            <span class="pill mono">UX</span>
-            <span class="mono subtle">HUD</span>
+        <div class="op reveal">
+          <div class="opTop">
+            <span class="opTag">UX</span>
+            <span class="opTag">HUD</span>
           </div>
-          <h3>Interfaces</h3>
-          <p>Weapon-grade UI: crisp hierarchy, responsive layout, future-forward feel.</p>
+          <h3>Interface Engineering</h3>
+          <p>Clean UI, technical typography, and layouts built to withstand chaos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONSOLE -->
-  <section class="section" id="console">
+  <!-- TERMINAL -->
+  <section class="section" id="terminal">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys mono">MODULE: CONSOLE // FEED: ACTIVE</div>
-        <h2>Command console.</h2>
-        <p>Type commands. It’s a UI effect (no backend) but it feels real.</p>
+        <div class="sys">MODULE: TERMINAL // INPUT ENABLED</div>
+        <h2>Operator console</h2>
+        <p>Type commands: <span class="monoLite">help</span>, <span class="monoLite">scan</span>, <span class="monoLite">status</span>, <span class="monoLite">lockdown</span>, <span class="monoLite">clear</span>.</p>
       </div>
 
-      <div class="console reveal">
-        <div class="consoleHead mono">
-          <span>satcorp@relay</span>
+      <div class="terminal reveal">
+        <div class="termTop">
+          <span>satcorp@blacksite</span>
           <span class="sep">•</span>
-          <span>frontier</span>
+          <span>relay-09</span>
           <span class="sep">•</span>
-          <span id="consoleState">READY</span>
+          <span id="termState">READY</span>
         </div>
 
-        <div class="consoleBody" id="consoleBody" aria-live="polite"></div>
+        <div class="termBody" id="termBody" aria-live="polite"></div>
 
-        <div class="consoleInputRow">
-          <span class="prompt mono">></span>
-          <input id="consoleInput" class="consoleInput mono" autocomplete="off"
-                 placeholder="type: help, scan, status, breach, clear" />
+        <div class="termInputRow">
+          <span class="prompt">></span>
+          <input id="termInput" class="termInput" autocomplete="off"
+                 placeholder="type command…" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SIGNAL -->
-  <section class="section end" id="signal">
+  <!-- CONTACT -->
+  <section class="section end" id="contact">
     <div class="wrap">
       <div class="sectionHead">
-        <div class="sys mono">MODULE: SIGNAL // CHANNEL: OPEN</div>
-        <h2>Open a channel.</h2>
-        <p>Swap this for your real links, Discord, email, or “operator application” form.</p>
+        <div class="sys">MODULE: CHANNEL // OPEN</div>
+        <h2>Open channel</h2>
+        <p>Replace with your real contact methods (Discord, email, social links).</p>
       </div>
 
       <div class="contactGrid reveal">
         <div class="contactCard">
-          <div class="ccTitle mono">TRANSMISSION</div>
-          <p>Drop a one-line message to yourself or replace this with real contact logic.</p>
+          <div class="ccTitle">TRANSMISSION</div>
+          <p>UI-only “transmit” effect. (No backend)</p>
 
-          <div class="field">
-            <label class="mono" for="msg">MESSAGE</label>
-            <textarea id="msg" rows="4" placeholder="Deploy next module..."></textarea>
-          </div>
+          <label class="label" for="msg">MESSAGE</label>
+          <textarea id="msg" rows="4" placeholder="Request access..."></textarea>
 
           <div class="row">
-            <button class="btn primary" id="sendBtn" type="button">Transmit</button>
-            <span class="mono subtle" id="txStatus">READY</span>
+            <button class="btn primary" id="sendBtn" type="button">TRANSMIT</button>
+            <span class="small" id="txStatus">READY</span>
           </div>
         </div>
 
         <div class="contactCard">
-          <div class="ccTitle mono">LINKS</div>
+          <div class="ccTitle">LINKS</div>
           <div class="links">
-            <a class="linkPill mono" href="#top">HOME</a>
-            <a class="linkPill mono" href="#stack">SYSTEMS</a>
-            <a class="linkPill mono" href="#console">CONSOLE</a>
-            <a class="linkPill mono" href="#protocol">PROTOCOL</a>
+            <a class="link" href="#top">HOME</a>
+            <a class="link" href="#ops">OPS</a>
+            <a class="link" href="#terminal">TERMINAL</a>
+            <a class="link" href="#brief">BRIEF</a>
           </div>
 
-          <div class="foot mono">
+          <div class="footer">
             <span>© <span id="year"></span> SΛTCORP</span>
-            <span>•</span>
-            <span>NEURAL FRONTIER</span>
+            <span class="sep">•</span>
+            <span>BLACKSITE TERMINAL</span>
           </div>
         </div>
       </div>
