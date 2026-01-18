@@ -1,277 +1,290 @@
-/* script.js — Supernatural-inspired “Hunter Archive” */
+/* =========================================================
+   HUNTER’S ARCHIVE — script.js
+   Subtle motion, quiet menace, investigative UX
+   ========================================================= */
 
-(() => {
-  "use strict";
+document.addEventListener("DOMContentLoaded", () => {
+  /* ------------------------
+     CORE ELEMENTS
+     ------------------------ */
+  const cover = document.getElementById("cover");
+  const archive = document.getElementById("archive");
+  const btnEnter = document.getElementById("btnEnter");
 
-  /* ---------------- Helpers ---------------- */
-  const $ = (q, r = document) => r.querySelector(q);
-  const $$ = (q, r = document) => Array.from(r.querySelectorAll(q));
-  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const navItems = document.querySelectorAll(".nav__item");
+  const panels = document.querySelectorAll(".panel");
+  const crumbPath = document.getElementById("crumbPath");
 
-  const reduceMotion =
-    window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  const overlay = document.getElementById("overlay");
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const modalMeta = document.getElementById("modalMeta");
+  const btnCloseModal = document.getElementById("btnCloseModal");
 
-  document.addEventListener("DOMContentLoaded", () => {
-    setYear();
-    gateControl();
-    navScroll();
-    themeToggle();
-    audioToggle();
-    flickerEffect();
-    typewriter();
-    caseFiles();
-    bestiarySearch();
-    tooltips();
-    hotkeys();
+  const searchModal = document.getElementById("searchModal");
+  const btnSearch = document.getElementById("btnSearch");
+  const btnCloseSearch = document.getElementById("btnCloseSearch");
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  const ambience = document.getElementById("ambience");
+  const btnAudio = document.getElementById("btnAudio");
+  const btnGlitch = document.getElementById("btnGlitch");
+
+  /* ------------------------
+     ENTER ARCHIVE
+     ------------------------ */
+  btnEnter.addEventListener("click", () => {
+    cover.classList.add("is-hidden");
+    archive.classList.remove("is-hidden");
+    ambience.volume = 0.4;
   });
 
-  /* ---------------- Footer Year ---------------- */
-  function setYear() {
-    const y = $("#year");
-    if (y) y.textContent = new Date().getFullYear();
-  }
+  /* ------------------------
+     NAVIGATION
+     ------------------------ */
+  navItems.forEach(item => {
+    item.addEventListener("click", () => {
+      const target = item.dataset.target;
 
-  /* ---------------- Entry Gate ---------------- */
-  function gateControl() {
-    const gate = $("#gate");
-    const btn = $("#openJournal");
-    const main = $("main");
+      navItems.forEach(i => i.classList.remove("is-active"));
+      item.classList.add("is-active");
 
-    if (!gate || !btn) return;
-
-    if (localStorage.getItem("hunter_seen") === "1") {
-      gate.classList.add("is-hidden");
-      main?.removeAttribute("inert");
-      return;
-    }
-
-    main?.setAttribute("inert", "");
-
-    btn.addEventListener("click", () => {
-      localStorage.setItem("hunter_seen", "1");
-      gate.classList.add("is-hidden");
-      main?.removeAttribute("inert");
-    });
-  }
-
-  /* ---------------- Navigation ---------------- */
-  function navScroll() {
-    const links = $$("nav a[href^='#']");
-    if (!links.length) return;
-
-    links.forEach(link => {
-      link.addEventListener("click", e => {
-        const id = link.getAttribute("href");
-        const target = $(id);
-        if (!target) return;
-
-        e.preventDefault();
-        target.scrollIntoView({
-          behavior: reduceMotion ? "auto" : "smooth",
-          block: "start"
-        });
-        history.pushState(null, "", id);
-      });
-    });
-
-    const sections = links.map(l => $(l.getAttribute("href"))).filter(Boolean);
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        let current = sections[0];
-        sections.forEach(sec => {
-          if (sec.getBoundingClientRect().top <= 140) current = sec;
-        });
-
-        links.forEach(l => l.classList.remove("is-active"));
-        const active = links.find(
-          l => l.getAttribute("href") === `#${current.id}`
+      panels.forEach(panel => {
+        panel.classList.toggle(
+          "is-active",
+          panel.dataset.panel === target
         );
-        active?.classList.add("is-active");
-      },
-      { passive: true }
-    );
-  }
+      });
 
-  /* ---------------- Theme Toggle ---------------- */
-  function themeToggle() {
-    const btn = $("#themeToggle");
-    if (!btn) return;
-
-    const key = "hunter_theme";
-    const saved = localStorage.getItem(key);
-    if (saved) document.documentElement.dataset.theme = saved;
-
-    btn.addEventListener("click", () => {
-      const next =
-        document.documentElement.dataset.theme === "candle"
-          ? "dark"
-          : "candle";
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem(key, next);
+      crumbPath.textContent = `/${target}`;
     });
+  });
+
+  /* ------------------------
+     MODAL SYSTEM
+     ------------------------ */
+  function openModal(title, body, meta = "— CLASSIFIED") {
+    modalTitle.textContent = title;
+    modalBody.innerHTML = body;
+    modalMeta.textContent = meta;
+    overlay.classList.remove("is-hidden");
+    modal.showModal();
   }
 
-  /* ---------------- Audio Toggle ---------------- */
-  function audioToggle() {
-    const btn = $("#audioToggle");
-    const audio = $("#ambientAudio");
-    if (!btn || !audio) return;
+  function closeModal() {
+    modal.close();
+    overlay.classList.add("is-hidden");
+  }
 
-    const key = "hunter_audio";
-    if (localStorage.getItem(key) === "1") {
-      audio.volume = 0.35;
-      audio.play().catch(() => {});
-      btn.classList.add("is-on");
+  btnCloseModal.addEventListener("click", closeModal);
+  overlay.addEventListener("click", closeModal);
+
+  /* ------------------------
+     JOURNAL FEED
+     ------------------------ */
+  const journalFeed = document.getElementById("journalFeed");
+  const journalEntries = [
+    "Salt ring broke at 2:11 AM. Wind wasn’t the cause.",
+    "Dreamt of the road again. Same mile marker. Same blood.",
+    "Whatever followed us knew the car by name.",
+    "Never trust a town with too many churches.",
+    "Radio turned on by itself. Gospel station. Wrong lyrics."
+  ];
+
+  journalFeed.innerHTML = journalEntries
+    .map(
+      note => `<p class="mono" style="margin-bottom:12px;">• ${note}</p>`
+    )
+    .join("");
+
+  /* ------------------------
+     CASE FILES
+     ------------------------ */
+  const casesGrid = document.getElementById("casesGrid");
+  const cases = [
+    {
+      title: "Black River Shade",
+      location: "Black River, WI",
+      status: "unresolved",
+      body: "Victims reported reflections moving independently. Avoid mirrors."
+    },
+    {
+      title: "Cornfield Howler",
+      location: "Harlan County, NE",
+      status: "contained",
+      body: "Iron rounds effective. Do not pursue after dusk."
+    },
+    {
+      title: "Motel Room 217",
+      location: "Route 61",
+      status: "ongoing",
+      body: "Entity responds to prayer. Not in a good way."
     }
+  ];
 
-    btn.addEventListener("click", async () => {
-      if (btn.classList.contains("is-on")) {
-        audio.pause();
-        btn.classList.remove("is-on");
-        localStorage.setItem(key, "0");
-      } else {
-        try {
-          audio.volume = 0.35;
-          await audio.play();
-          btn.classList.add("is-on");
-          localStorage.setItem(key, "1");
-        } catch {
-          btn.classList.add("is-denied");
-          setTimeout(() => btn.classList.remove("is-denied"), 300);
-        }
-      }
+  function renderCases(filter = "all") {
+    casesGrid.innerHTML = "";
+    cases
+      .filter(c => filter === "all" || c.status === filter)
+      .forEach(c => {
+        const el = document.createElement("section");
+        el.className = "card";
+        el.innerHTML = `
+          <div class="card__meta mono">${c.location}</div>
+          <h3 class="card__title">${c.title}</h3>
+          <p class="card__text">${c.body}</p>
+          <span class="stamp stamp--red">${c.status.toUpperCase()}</span>
+        `;
+        el.addEventListener("click", () =>
+          openModal(c.title, `<p>${c.body}</p>`, c.location)
+        );
+        casesGrid.appendChild(el);
+      });
+  }
+
+  renderCases();
+
+  document.querySelectorAll(".pill").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".pill").forEach(b => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      renderCases(btn.dataset.filter);
     });
-  }
+  });
 
-  /* ---------------- Flicker Effect ---------------- */
-  function flickerEffect() {
-    const flicker = $("#flicker");
-    if (!flicker || reduceMotion) return;
+  /* ------------------------
+     BESTIARY
+     ------------------------ */
+  const bestiaryList = document.getElementById("bestiaryList");
+  const bestiaryPage = document.getElementById("bestiaryPage");
 
-    const start = performance.now();
-    const tick = t => {
-      const s = (t - start) / 1000;
-      const base = 0.06 + Math.sin(s * 1.7) * 0.02;
-      const spike = Math.random() < 0.02 ? Math.random() * 0.2 : 0;
-      flicker.style.opacity = clamp(base + spike, 0, 0.25);
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
+  const creatures = [
+    {
+      name: "Wendigo",
+      text: "Cannibal spirits of winter hunger. Fire works. So does mercy—sometimes."
+    },
+    {
+      name: "Crossroad Demon",
+      text: "Deals sealed in blood. Contract survives death."
+    },
+    {
+      name: "Vengeful Spirit",
+      text: "Salt, iron, and unfinished business."
+    }
+  ];
 
-  /* ---------------- Typewriter ---------------- */
-  function typewriter() {
-    const el = $("#typeLine");
-    if (!el || reduceMotion) return;
-
-    const lines = [
-      "Saving people. Hunting things. The family business.",
-      "Salt the doors. Lock the windows.",
-      "Some things don’t stay dead.",
-      "If you’re reading this, it’s already too late."
-    ];
-
-    let i = 0;
-    const text = lines[Math.floor(Math.random() * lines.length)];
-    el.textContent = "";
-
-    const type = () => {
-      if (i <= text.length) {
-        el.textContent = text.slice(0, i++);
-        setTimeout(type, 22 + Math.random() * 18);
-      }
-    };
-    type();
-  }
-
-  /* ---------------- Case Files ---------------- */
-  function caseFiles() {
-    const cards = $$(".case-card");
-    const modal = $("#caseModal");
-    const title = $("#caseModalTitle");
-    const body = $("#caseModalBody");
-    const close = $("#caseModalClose");
-
-    if (!cards.length || !modal) return;
-
-    const open = card => {
-      title.textContent = card.dataset.title || "Case File";
-      body.innerHTML = `
-        <p><strong>Location:</strong> ${card.dataset.location || "Unknown"}</p>
-        <p><strong>Status:</strong> ${card.dataset.status || "Open"}</p>
-        <p><strong>Threat:</strong> ${card.dataset.threat || "Classified"}</p>
-        <p>${card.dataset.notes || ""}</p>
+  creatures.forEach(creature => {
+    const btn = document.createElement("button");
+    btn.className = "relic";
+    btn.innerHTML = `
+      <span class="relic__name">${creature.name}</span>
+      <span class="relic__warn">WARNING</span>
+    `;
+    btn.addEventListener("click", () => {
+      bestiaryPage.innerHTML = `
+        <h3>${creature.name}</h3>
+        <p>${creature.text}</p>
       `;
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-    };
+    });
+    bestiaryList.appendChild(btn);
+  });
 
-    const shut = () => {
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-    };
+  /* ------------------------
+     LORE
+     ------------------------ */
+  const loreText = document.getElementById("loreText");
+  loreText.innerHTML = `
+    <p>“And the watchers fell, and their names were stricken.”</p>
+    <p class="muted">— Fragment, Book of Enoch (translated)</p>
+    <p>The text warns that knowledge attracts attention.</p>
+  `;
 
-    cards.forEach(card => {
-      card.addEventListener("click", () => open(card));
-      card.addEventListener("keydown", e => {
-        if (e.key === "Enter") open(card);
+  /* ------------------------
+     SAFE HOUSES
+     ------------------------ */
+  const safeGrid = document.getElementById("safeGrid");
+  ["Colorado Springs", "Flagstaff", "Baton Rouge"].forEach(place => {
+    const el = document.createElement("div");
+    el.className = "card";
+    el.innerHTML = `
+      <h3 class="card__title">${place}</h3>
+      <p class="card__text">Stocked with salt, iron, and bad memories.</p>
+    `;
+    safeGrid.appendChild(el);
+  });
+
+  /* ------------------------
+     ROAD / TIMELINE
+     ------------------------ */
+  const timeline = document.getElementById("timeline");
+  ["Missouri → Kansas", "Kansas → Nebraska", "Nebraska → Wisconsin"].forEach(
+    step => {
+      const p = document.createElement("p");
+      p.className = "mono";
+      p.textContent = step;
+      timeline.appendChild(p);
+    }
+  );
+
+  /* ------------------------
+     SEARCH
+     ------------------------ */
+  btnSearch.addEventListener("click", () => {
+    searchModal.showModal();
+    searchInput.focus();
+  });
+
+  btnCloseSearch.addEventListener("click", () => searchModal.close());
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase();
+    searchResults.innerHTML = "";
+
+    [...cases.map(c => c.title), ...creatures.map(c => c.name)]
+      .filter(item => item.toLowerCase().includes(q))
+      .forEach(match => {
+        const div = document.createElement("div");
+        div.textContent = match;
+        div.className = "mono";
+        searchResults.appendChild(div);
       });
-    });
+  });
 
-    close?.addEventListener("click", shut);
-    modal.addEventListener("click", e => e.target === modal && shut());
-    document.addEventListener("keydown", e => e.key === "Escape" && shut());
-  }
+  /* ------------------------
+     AUDIO
+     ------------------------ */
+  btnAudio.addEventListener("click", () => {
+    const state = btnAudio.dataset.state;
+    if (state === "off") {
+      ambience.play().catch(() => {});
+      btnAudio.dataset.state = "on";
+    } else {
+      ambience.pause();
+      btnAudio.dataset.state = "off";
+    }
+  });
 
-  /* ---------------- Bestiary Search ---------------- */
-  function bestiarySearch() {
-    const input = $("#bestiarySearch");
-    const items = $$(".bestiary-item");
-    if (!input || !items.length) return;
+  /* ------------------------
+     GLITCH TOGGLE
+     ------------------------ */
+  btnGlitch.addEventListener("click", () => {
+    document.querySelector(".fx-flicker").classList.toggle("is-hidden");
+  });
 
-    input.addEventListener("input", () => {
-      const q = input.value.toLowerCase();
-      items.forEach(i => {
-        const text =
-          (i.dataset.name + " " + i.dataset.tags + " " + i.textContent).toLowerCase();
-        i.style.display = text.includes(q) ? "" : "none";
-      });
-    });
-  }
-
-  /* ---------------- Tooltips ---------------- */
-  function tooltips() {
-    const els = $$("[data-tip]");
-    if (!els.length) return;
-
-    const tip = document.createElement("div");
-    tip.className = "tip-bubble";
-    document.body.appendChild(tip);
-
-    els.forEach(el => {
-      el.addEventListener("mouseenter", () => {
-        tip.textContent = el.dataset.tip;
-        const r = el.getBoundingClientRect();
-        tip.style.left = r.left + r.width / 2 + "px";
-        tip.style.top = r.top - 10 + "px";
-        tip.style.opacity = 1;
-      });
-      el.addEventListener("mouseleave", () => (tip.style.opacity = 0));
-    });
-  }
-
-  /* ---------------- Hotkeys ---------------- */
-  function hotkeys() {
-    document.addEventListener("keydown", e => {
-      if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
-
-      if (e.key === "/") $("#bestiarySearch")?.focus();
-      if (e.key.toLowerCase() === "t") $("#themeToggle")?.click();
-      if (e.key.toLowerCase() === "a") $("#audioToggle")?.click();
-      if (e.key.toLowerCase() === "g")
-        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    });
-  }
-})();
+  /* ------------------------
+     KEYBINDS
+     ------------------------ */
+  document.addEventListener("keydown", e => {
+    if (e.key === "/") {
+      e.preventDefault();
+      searchModal.showModal();
+      searchInput.focus();
+    }
+    if (e.key === "Escape") {
+      closeModal();
+      searchModal.close();
+    }
+  });
+});
