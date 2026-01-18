@@ -1,275 +1,173 @@
-<!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>HUNTER ARCHIVE // Restricted</title>
-  <meta name="theme-color" content="#07060a" />
-  <meta name="description" content="A road-worn hunter archive: case files, bestiary, lore, and safe house intel." />
+  <meta charset="UTF-8" />
+  <title>Hunter Archive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Ambient audio (optional) -->
-  <audio id="ambience" preload="auto" loop>
-    <!-- Tiny embedded silent wav placeholder; replace with your own file if you want:
-         <source src="assets/ambience.mp3" type="audio/mpeg" /> -->
-  </audio>
+  <!-- Subtle flicker overlay -->
+  <div id="flicker" aria-hidden="true"></div>
 
-  <!-- Screen overlays -->
-  <div class="overlay grain" aria-hidden="true"></div>
-  <div class="overlay vignette" aria-hidden="true"></div>
-  <div class="overlay scanlines" aria-hidden="true"></div>
+  <!-- ENTRY GATE -->
+  <div id="gate" class="gate">
+    <div class="gate-inner">
+      <h1 class="gate-title">HUNTER ARCHIVE</h1>
+      <p class="gate-line" id="typeLine"></p>
+      <button id="openJournal" class="gate-btn">
+        Open the Journal
+      </button>
+    </div>
+  </div>
 
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="brand">
-      <div class="sigil" aria-hidden="true"></div>
-      <div class="brandText">
-        <div class="brandTitle">HUNTER ARCHIVE</div>
-        <div class="brandSub">motel-net // encrypted index</div>
-      </div>
+  <!-- OPTIONAL AMBIENT AUDIO -->
+  <audio
+    id="ambientAudio"
+    src="assets/audio/ambient-static.mp3"
+    loop
+    preload="none"
+  ></audio>
+
+  <!-- HEADER / NAV -->
+  <header class="site-header">
+    <div class="header-left">
+      <span class="sigil" data-tip="Protection Sigil">⛧</span>
+      <span class="site-title">Hunter Archive</span>
     </div>
 
-    <div class="controls">
-      <button class="btn ghost" id="btnAudio" type="button" aria-pressed="false" title="Toggle ambience">
-        <span class="dot" aria-hidden="true"></span>
-        AMBIENCE
+    <nav class="site-nav">
+      <a href="#journal">Journal</a>
+      <a href="#cases">Case Files</a>
+      <a href="#bestiary">Bestiary</a>
+      <a href="#lore">Lore</a>
+      <a href="#road">The Road</a>
+    </nav>
+
+    <div class="header-right">
+      <button id="themeToggle" aria-pressed="false" title="Toggle candlelight mode">
+        🕯
       </button>
-      <button class="btn ghost" id="btnFlicker" type="button" aria-pressed="true" title="Toggle flicker">
-        FLICKER
-      </button>
-      <button class="btn" id="btnLock" type="button" title="Lock / return to gate">
-        LOCK
+      <button id="audioToggle" aria-pressed="false" title="Toggle ambient audio">
+        📻
       </button>
     </div>
   </header>
 
-  <!-- Gate -->
-  <section class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-    <div class="gateCard">
-      <div class="gateHeader">
-        <div class="gateMark">RESTRICTED</div>
-        <h1 id="gateTitle">OPEN THE JOURNAL</h1>
-        <p class="gateLine">
-          You shouldn’t be here. If you’re seeing this… you’re already in too deep.
-        </p>
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- JOURNAL -->
+    <section id="journal" class="section">
+      <h2>The Journal</h2>
+      <p class="journal-entry">
+        If you’re reading this, you’re already involved.  
+        Keep salt on hand. Trust your instincts.  
+        Some things wear friendly faces.
+      </p>
+    </section>
+
+    <!-- CASE FILES -->
+    <section id="cases" class="section">
+      <h2>Case Files</h2>
+
+      <div class="case-grid">
+        <article
+          class="case-card"
+          tabindex="0"
+          data-title="Bloody Mary"
+          data-location="Toledo, Ohio"
+          data-status="Contained"
+          data-threat="Vengeful Spirit"
+          data-notes="Appears in mirrors. Break the reflective link to banish."
+        >
+          <h3 class="case-title">Bloody Mary</h3>
+          <p class="case-location">Toledo, Ohio</p>
+          <span class="case-status">Contained</span>
+        </article>
+
+        <article
+          class="case-card"
+          tabindex="0"
+          data-title="Wendigo"
+          data-location="Blackwater Ridge"
+          data-status="Eliminated"
+          data-threat="Cannibal Spirit"
+          data-notes="Fire confirmed kill. Victims lured by screams."
+        >
+          <h3 class="case-title">Wendigo</h3>
+          <p class="case-location">Blackwater Ridge</p>
+          <span class="case-status">Eliminated</span>
+        </article>
       </div>
+    </section>
 
-      <div class="gateBody">
-        <div class="quote">
-          <span class="q">“Saving people. Hunting things. The family business.”</span>
-          <span class="by">— field note</span>
+    <!-- BESTIARY -->
+    <section id="bestiary" class="section">
+      <h2>Bestiary</h2>
+
+      <input
+        id="bestiarySearch"
+        type="search"
+        placeholder="Search creatures..."
+        aria-label="Search Bestiary"
+      />
+
+      <div class="bestiary-list">
+        <div
+          class="bestiary-item"
+          data-name="Demon"
+          data-tags="hell possession exorcism"
+        >
+          <h3>Demon</h3>
+          <p>Exorcism required. Salt and iron slow them down.</p>
         </div>
 
-        <form id="unlockForm" class="unlock">
-          <label class="label" for="passphrase">Passphrase</label>
-          <div class="row">
-            <input id="passphrase" name="passphrase" type="password" autocomplete="off" spellcheck="false"
-                   placeholder="enter ward phrase…" />
-            <button class="btn" type="submit">UNSEAL</button>
-          </div>
-          <div class="hint">
-            Hint: try <span class="chip">salt</span> or <span class="chip">family</span> or <span class="chip">business</span>
-          </div>
-          <div class="status" id="gateStatus" aria-live="polite"></div>
-        </form>
-
-        <div class="mini">
-          <div class="miniItem">
-            <div class="miniK">Protocol</div>
-            <div class="miniV">Keep iron close. Don’t trust mirrors.</div>
-          </div>
-          <div class="miniItem">
-            <div class="miniK">Signal</div>
-            <div class="miniV">Motel Wi-Fi, burner laptop, no names.</div>
-          </div>
-          <div class="miniItem">
-            <div class="miniK">Warning</div>
-            <div class="miniV">Knowledge has a price.</div>
-          </div>
+        <div
+          class="bestiary-item"
+          data-name="Vampire"
+          data-tags="fangs blood nest"
+        >
+          <h3>Vampire</h3>
+          <p>Beheading is the only sure kill.</p>
         </div>
       </div>
+    </section>
 
-      <div class="gateFooter">
-        <span class="tiny">This is a fan-inspired UI concept. No official assets are used.</span>
-      </div>
-    </div>
-  </section>
+    <!-- LORE -->
+    <section id="lore" class="section">
+      <h2>Lore & Legends</h2>
+      <p>
+        Angels are soldiers. Demons are liars.  
+        Heaven is bureaucracy. Hell is hunger.
+      </p>
+    </section>
 
-  <!-- Main App -->
-  <main class="app" id="app" aria-hidden="true">
-    <div class="wrap">
-      <!-- Left column -->
-      <aside class="panel">
-        <div class="panelHeader">
-          <div class="panelTitle">INDEX</div>
-          <div class="panelSub">choose a file</div>
-        </div>
-
-        <nav class="nav" aria-label="Primary">
-          <button class="navItem active" data-view="journal" type="button">
-            <span class="navGlyph">✶</span> The Journal
-          </button>
-          <button class="navItem" data-view="cases" type="button">
-            <span class="navGlyph">⌁</span> Case Files
-          </button>
-          <button class="navItem" data-view="bestiary" type="button">
-            <span class="navGlyph">⟡</span> Bestiary
-          </button>
-          <button class="navItem" data-view="lore" type="button">
-            <span class="navGlyph">☩</span> Lore & Legends
-          </button>
-          <button class="navItem" data-view="road" type="button">
-            <span class="navGlyph">⟋</span> The Road
-          </button>
-        </nav>
-
-        <div class="divider"></div>
-
-        <div class="searchBox">
-          <label class="label" for="search">Search archive</label>
-          <input id="search" type="text" placeholder="type to filter…" autocomplete="off" />
-          <div class="filters">
-            <button class="pill active" data-filter="all" type="button">all</button>
-            <button class="pill" data-filter="ongoing" type="button">ongoing</button>
-            <button class="pill" data-filter="contained" type="button">contained</button>
-            <button class="pill" data-filter="unresolved" type="button">unresolved</button>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="intel">
-          <div class="intelTitle">FIELD INTEL</div>
-          <div class="intelLine"><span>Iron:</span> disrupts spirits</div>
-          <div class="intelLine"><span>Salt:</span> seals thresholds</div>
-          <div class="intelLine"><span>Silver:</span> burns the untrue</div>
-          <div class="intelLine"><span>Fire:</span> cleanses remains</div>
-        </div>
-      </aside>
-
-      <!-- Right column -->
-      <section class="content">
-        <div class="contentHeader">
-          <div>
-            <div class="contentTitle" id="viewTitle">The Journal</div>
-            <div class="contentSub" id="viewSub">latest entries from the road</div>
-          </div>
-
-          <div class="badgeRow">
-            <span class="badge" id="badgeCount">0 files</span>
-            <span class="badge danger" id="badgeThreat">THREAT: LOW</span>
-          </div>
-        </div>
-
-        <!-- Views -->
-        <div class="views">
-          <!-- Journal view -->
-          <section class="view active" id="view-journal">
-            <div class="cards">
-              <article class="card wide">
-                <div class="cardTop">
-                  <div class="stamp">ENTRY</div>
-                  <div class="meta">
-                    <div class="metaTitle">Motel Room 7 — 2:13 AM</div>
-                    <div class="metaSub">rain on the window • radio static • coffee gone cold</div>
-                  </div>
-                </div>
-                <p class="p">
-                  If you’re reading this, you found the archive. Good. Or unlucky.
-                  Either way, you need to understand something: monsters are real,
-                  and the things you can’t explain are usually the things watching you.
-                </p>
-                <p class="p muted">
-                  Start with a case file. Don’t go alone. And if the lights flicker—
-                  don’t assume it’s the wiring.
-                </p>
-                <div class="note">
-                  <span class="noteMark">NOTE</span>
-                  This UI is designed to feel like a hunter’s private database: worn, cautious, and alive.
-                </div>
-              </article>
-
-              <article class="card">
-                <div class="cardTop">
-                  <div class="stamp warn">PROTOCOL</div>
-                  <div class="meta">
-                    <div class="metaTitle">Threshold Discipline</div>
-                    <div class="metaSub">salt line • doors • windows</div>
-                  </div>
-                </div>
-                <ul class="list">
-                  <li>Never break a salt circle once it’s down.</li>
-                  <li>Don’t invite anything inside. Not even as a joke.</li>
-                  <li>If you hear your name whispered—don’t answer.</li>
-                </ul>
-              </article>
-
-              <article class="card">
-                <div class="cardTop">
-                  <div class="stamp">CLIP</div>
-                  <div class="meta">
-                    <div class="metaTitle">Radio Log</div>
-                    <div class="metaSub">AM band • “classic rock” • gaps in the signal</div>
-                  </div>
-                </div>
-                <div class="terminal" id="radioLog" aria-live="polite"></div>
-                <div class="cardActions">
-                  <button class="btn ghost small" id="btnPing" type="button">PING</button>
-                  <button class="btn ghost small" id="btnClearLog" type="button">CLEAR</button>
-                </div>
-              </article>
-            </div>
-          </section>
-
-          <!-- Cases view -->
-          <section class="view" id="view-cases">
-            <div class="grid" id="casesGrid" aria-live="polite"></div>
-          </section>
-
-          <!-- Bestiary view -->
-          <section class="view" id="view-bestiary">
-            <div class="grid" id="bestiaryGrid" aria-live="polite"></div>
-          </section>
-
-          <!-- Lore view -->
-          <section class="view" id="view-lore">
-            <div class="cards" id="loreList" aria-live="polite"></div>
-          </section>
-
-          <!-- Road view -->
-          <section class="view" id="view-road">
-            <div class="road">
-              <div class="map">
-                <div class="mapTitle">PINBOARD MAP</div>
-                <div class="mapSub">connections are never accidental</div>
-                <div class="pins" id="pins"></div>
-              </div>
-
-              <div class="cards" id="roadNotes"></div>
-            </div>
-          </section>
-        </div>
-      </section>
-    </div>
+    <!-- THE ROAD -->
+    <section id="road" class="section">
+      <h2>The Road</h2>
+      <p>
+        No home. No roots. Just highways, motels, and unfinished business.
+      </p>
+    </section>
   </main>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modalCard">
-      <div class="modalTop">
-        <div class="modalTitle" id="modalTitle">File</div>
-        <button class="btn ghost small" id="modalClose" type="button" aria-label="Close">CLOSE</button>
-      </div>
-      <div class="modalBody" id="modalBody"></div>
-      <div class="modalFooter" id="modalFooter"></div>
+  <!-- CASE MODAL -->
+  <div id="caseModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button id="caseModalClose" class="modal-close" aria-label="Close">
+        ✕
+      </button>
+      <h3 id="caseModalTitle"></h3>
+      <div id="caseModalBody"></div>
     </div>
   </div>
 
-  <!-- Salt trail -->
-  <div id="saltTrail" aria-hidden="true"></div>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© <span id="year"></span> — The Family Business</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
