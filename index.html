@@ -1,475 +1,406 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hunter’s Archive</title>
-  <meta name="description" content="A road-worn hunter’s archive: case files, bestiary entries, lore, and the road." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Rough serif + typewriter -->
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Chiefs’ Mess // Quarterdeck</title>
+  <meta name="theme-color" content="#060814" />
+
+  <!--
+    HTML only (structure). Pair with your own style.css + script.js later.
+    Class names are designed for a "Chief / Quarterdeck" theme.
+  -->
 </head>
 
-<body>
-  <!-- Subtle film grain + flicker layers -->
-  <div class="fx fx-grain" aria-hidden="true"></div>
-  <div class="fx fx-scan" aria-hidden="true"></div>
-  <div class="fx fx-flicker" aria-hidden="true"></div>
+<body class="site">
 
-  <!-- Top utility -->
-  <header class="topbar">
-    <div class="topbar__left">
-      <div class="brand">
-        <span class="brand__mark" aria-hidden="true">⟡</span>
-        <div class="brand__text">
-          <div class="brand__title">HUNTER’S ARCHIVE</div>
-          <div class="brand__sub">motel-room intel • classified folklore</div>
-        </div>
+  <!-- Skip link -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- Top Bar / Command Presence -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="#" aria-label="Chiefs’ Mess Home">
+        <span class="brand__mark" aria-hidden="true">⚓</span>
+        <span class="brand__name">CHIEFS’ MESS</span>
+        <span class="brand__tag">QUARTERDECK</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav__link" href="#standards">Standards</a>
+        <a class="nav__link" href="#training">Training</a>
+        <a class="nav__link" href="#resources">Resources</a>
+        <a class="nav__link nav__link--muted" href="#heritage">Heritage</a>
+      </nav>
+
+      <div class="topbar__actions">
+        <button class="btn btn--ghost" type="button" data-action="open-announce">
+          Today’s Intent
+        </button>
+        <a class="btn btn--primary" href="#login">Present Credentials</a>
       </div>
-    </div>
-
-    <div class="topbar__right">
-      <button class="iconbtn" id="btnSearch" aria-label="Search archive">
-        <span class="icon" aria-hidden="true">⌕</span><span class="label">Search</span>
-      </button>
-
-      <button class="iconbtn" id="btnAudio" aria-label="Toggle ambient audio" data-state="off">
-        <span class="icon" aria-hidden="true">⏻</span><span class="label">Audio</span>
-      </button>
-
-      <button class="iconbtn" id="btnGlitch" aria-label="Toggle reality instability" data-state="on" title="Reality is unstable">
-        <span class="icon" aria-hidden="true">⚠</span><span class="label">Flicker</span>
-      </button>
     </div>
   </header>
 
-  <!-- LANDING / COVER -->
-  <main id="app" class="app">
-    <section id="cover" class="cover" role="region" aria-label="Journal cover">
-      <div class="cover__panel">
-        <div class="cover__seal" aria-hidden="true">
-          <div class="sigil sigil--ward"></div>
-          <div class="seal__caption">PROPERTY OF: UNKNOWN</div>
-        </div>
+  <!-- Main -->
+  <main id="main" class="main" role="main">
 
-        <h1 class="cover__headline">THE JOURNAL</h1>
-
-        <p class="cover__quote">
-          <span class="quote__mark" aria-hidden="true">“</span>
-          <span class="quote__text">Saving people. Hunting things. The family business.</span>
-          <span class="quote__mark" aria-hidden="true">”</span>
+    <!-- HERO / Quarterdeck Gate -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__inner">
+        <div class="hero__eyebrow" aria-hidden="true">WELCOME ABOARD // QUARTERDECK</div>
+        <h1 id="hero-title" class="hero__title">Standards. Leadership. Readiness.</h1>
+        <p class="hero__lead">
+          A deckplate-focused hub for expectations, qualification paths, and command-ready execution.
         </p>
 
-        <p class="cover__hint">
-          If you found this, you weren’t meant to.
-          <span class="muted">Proceed anyway.</span>
-        </p>
+        <div class="hero__cta">
+          <a class="tile tile--primary" href="#messboard">
+            <div class="tile__title">Enter Mess Board</div>
+            <div class="tile__meta">Operational dashboard & updates</div>
+          </a>
 
-        <div class="cover__actions">
-          <button class="btn btn--primary" id="btnEnter">
-            <span class="btn__text">Open the Journal</span>
-            <span class="btn__ink" aria-hidden="true"></span>
-          </button>
+          <a class="tile" href="#standards">
+            <div class="tile__title">Review Standards</div>
+            <div class="tile__meta">Standing orders & accountability</div>
+          </a>
 
-          <button class="btn btn--ghost" id="btnAboutCover">
-            <span class="btn__text">Read the Warning</span>
-            <span class="btn__ink" aria-hidden="true"></span>
-          </button>
+          <a class="tile" href="#training">
+            <div class="tile__title">Start Training</div>
+            <div class="tile__meta">Qual paths, checklists, study guides</div>
+          </a>
+
+          <a class="tile" href="#resources">
+            <div class="tile__title">Open Resources</div>
+            <div class="tile__meta">Templates, trackers, SOP tools</div>
+          </a>
         </div>
 
-        <div class="cover__meta">
-          <div class="meta__row">
-            <span class="tag">MOTEL: ROOM 217</span>
-            <span class="tag">TIME: 2:13 AM</span>
-            <span class="tag">SIGNAL: WEAK</span>
-          </div>
-          <div class="meta__row meta__row--type">
-            <span class="typewriter">DO NOT TRUST WHAT YOU SEE ON THE ROAD.</span>
-          </div>
-        </div>
+        <!-- Optional Gate Acknowledgement -->
+        <form class="gate" action="#" method="post" aria-label="Quarterdeck acknowledgement">
+          <label class="gate__check">
+            <input type="checkbox" name="ack" />
+            <span>I acknowledge standards, accountability, and deckplate execution.</span>
+          </label>
+          <button class="btn btn--secondary" type="button" data-action="come-aboard">
+            Come Aboard
+          </button>
+          <p class="gate__note" role="note">
+            Tip: Use this as a simple “enter” interaction before revealing deeper sections.
+          </p>
+        </form>
       </div>
 
-      <div class="cover__footer">
-        <div class="tiny">Tip: press <kbd>/</kbd> to search • <kbd>Esc</kbd> to close panels</div>
+      <!-- Decorative background elements (kept in HTML for structure hooks) -->
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__grid"></div>
+        <div class="hero__sheen"></div>
+        <div class="hero__nonskid"></div>
       </div>
     </section>
 
-    <!-- ARCHIVE UI -->
-    <section id="archive" class="archive is-hidden" role="region" aria-label="Hunter archive">
-      <aside class="sidebar" aria-label="Archive navigation">
-        <div class="sidebar__paper">
-          <div class="sidebar__title">ACCESS</div>
+    <!-- STATUS STRIP / Snapshot -->
+    <section class="status" aria-label="Quarterdeck snapshot">
+      <div class="status__inner">
 
-          <nav class="nav" id="nav">
-            <button class="nav__item is-active" data-target="journal">
-              <span class="nav__sigil" aria-hidden="true">⟠</span>
-              <span class="nav__text">The Journal</span>
-              <span class="nav__hint">entries • notes</span>
-            </button>
+        <article class="statuscard" aria-label="Today’s Intent">
+          <header class="statuscard__hdr">
+            <h2 class="statuscard__title">Today’s Intent</h2>
+            <div class="statuscard__stamp">LAST UPDATE: 0615L</div>
+          </header>
+          <p class="statuscard__body">
+            Maintain standards. Train deliberately. Document progress. Take care of people.
+          </p>
+          <a class="statuscard__link" href="#intent">View full intent</a>
+        </article>
 
-            <button class="nav__item" data-target="cases">
-              <span class="nav__sigil" aria-hidden="true">⟡</span>
-              <span class="nav__text">Case Files</span>
-              <span class="nav__hint">reports • status</span>
-            </button>
+        <article class="statuscard" aria-label="Upcoming Deadlines">
+          <header class="statuscard__hdr">
+            <h2 class="statuscard__title">Upcoming Deadlines</h2>
+            <div class="statuscard__stamp">NEXT 72H</div>
+          </header>
+          <ul class="statuscard__list">
+            <li><span class="dot dot--warn" aria-hidden="true"></span> Training sign-offs due</li>
+            <li><span class="dot dot--ok" aria-hidden="true"></span> Watchbill review</li>
+            <li><span class="dot dot--warn" aria-hidden="true"></span> Eval inputs</li>
+          </ul>
+          <a class="statuscard__link" href="#deadlines">Open deadline board</a>
+        </article>
 
-            <button class="nav__item" data-target="bestiary">
-              <span class="nav__sigil" aria-hidden="true">⟟</span>
-              <span class="nav__text">Bestiary</span>
-              <span class="nav__hint">weaknesses • lore</span>
-            </button>
+        <article class="statuscard" aria-label="Latest Updates">
+          <header class="statuscard__hdr">
+            <h2 class="statuscard__title">Latest Updates</h2>
+            <div class="statuscard__stamp">ROLLING LOG</div>
+          </header>
+          <ul class="statuscard__list">
+            <li><span class="dot dot--ok" aria-hidden="true"></span> New SOP template posted</li>
+            <li><span class="dot dot--ok" aria-hidden="true"></span> Qualification map revised</li>
+            <li><span class="dot dot--warn" aria-hidden="true"></span> Policy review required</li>
+          </ul>
+          <a class="statuscard__link" href="#updates">Open logbook</a>
+        </article>
 
-            <button class="nav__item" data-target="lore">
-              <span class="nav__sigil" aria-hidden="true">⟣</span>
-              <span class="nav__text">Lore & Legends</span>
-              <span class="nav__hint">texts • warnings</span>
-            </button>
+        <article class="statuscard" aria-label="Watchbill and Schedule">
+          <header class="statuscard__hdr">
+            <h2 class="statuscard__title">Watchbill / Schedule</h2>
+            <div class="statuscard__stamp">LOCAL TIME</div>
+          </header>
+          <p class="statuscard__body">
+            Next muster: 0700. Training block: 0900–1100. Maintenance window: 1300–1500.
+          </p>
+          <a class="statuscard__link" href="#watchbill">View watchbill</a>
+        </article>
 
-            <button class="nav__item" data-target="safehouses">
-              <span class="nav__sigil" aria-hidden="true">⟢</span>
-              <span class="nav__text">Safe Houses</span>
-              <span class="nav__hint">contacts • caches</span>
-            </button>
-
-            <button class="nav__item" data-target="road">
-              <span class="nav__sigil" aria-hidden="true">⟤</span>
-              <span class="nav__text">The Road</span>
-              <span class="nav__hint">map • timeline</span>
-            </button>
-          </nav>
-
-          <div class="sidebar__divider" aria-hidden="true"></div>
-
-          <div class="sidebar__status">
-            <div class="status__row">
-              <span class="status__label">THREAT LEVEL</span>
-              <span class="status__value status__value--red">ELEVATED</span>
-            </div>
-            <div class="status__row">
-              <span class="status__label">SALT</span>
-              <span class="status__value">LOW</span>
-            </div>
-            <div class="status__row">
-              <span class="status__label">IRON</span>
-              <span class="status__value">ON HAND</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="sidebar__polaroids" aria-hidden="true">
-          <div class="polaroid polaroid--a">
-            <div class="polaroid__img"></div>
-            <div class="polaroid__cap">“Found near the treeline.”</div>
-          </div>
-          <div class="polaroid polaroid--b">
-            <div class="polaroid__img"></div>
-            <div class="polaroid__cap">“Don’t say its name.”</div>
-          </div>
-        </div>
-      </aside>
-
-      <section class="content" aria-label="Archive content">
-        <!-- Header strip -->
-        <div class="content__top">
-          <div class="crumbs">
-            <span class="crumbs__dot" aria-hidden="true"></span>
-            <span class="crumbs__path" id="crumbPath">/the-journal</span>
-          </div>
-
-          <div class="content__tools">
-            <button class="chip" id="btnRandom">
-              <span class="chip__dot" aria-hidden="true"></span>
-              Pull a Random File
-            </button>
-            <button class="chip chip--danger" id="btnLock">
-              <span class="chip__dot" aria-hidden="true"></span>
-              Redact Mode
-            </button>
-          </div>
-        </div>
-
-        <!-- Panels -->
-        <div class="panels">
-          <!-- JOURNAL -->
-          <article class="panel is-active" id="panel-journal" data-panel="journal">
-            <div class="panel__head">
-              <h2 class="panel__title">The Journal</h2>
-              <p class="panel__sub">Notes from the road. Dates matter. So do scars.</p>
-            </div>
-
-            <div class="grid">
-              <section class="card card--entry" data-open="entry-1">
-                <div class="card__meta">
-                  <span class="stamp">APR 12</span>
-                  <span class="mono">— ROUTE 61</span>
-                </div>
-                <h3 class="card__title">Motel Bible, Page Torn Out</h3>
-                <p class="card__text">
-                  The air smelled like pennies. The TV kept turning itself on. I left the salt anyway.
-                </p>
-                <div class="card__foot">
-                  <span class="tag tag--parch">READ</span>
-                  <span class="scratch" aria-hidden="true"></span>
-                </div>
-              </section>
-
-              <section class="card card--entry" data-open="entry-2">
-                <div class="card__meta">
-                  <span class="stamp">MAY 03</span>
-                  <span class="mono">— DELTA COUNTY</span>
-                </div>
-                <h3 class="card__title">Static Between Stations</h3>
-                <p class="card__text">
-                  Heard a voice in the radio hiss. Not words—coordinates. Like it was trying to lead us away.
-                </p>
-                <div class="card__foot">
-                  <span class="tag tag--parch">READ</span>
-                  <span class="scratch" aria-hidden="true"></span>
-                </div>
-              </section>
-
-              <section class="card card--entry" data-open="entry-3">
-                <div class="card__meta">
-                  <span class="stamp">JUN 19</span>
-                  <span class="mono">— I-70 EAST</span>
-                </div>
-                <h3 class="card__title">Blood on the Rearview</h3>
-                <p class="card__text">
-                  You can’t outrun a thing that lives in your headlights. Not when it already knows your name.
-                </p>
-                <div class="card__foot">
-                  <span class="tag tag--parch">READ</span>
-                  <span class="scratch" aria-hidden="true"></span>
-                </div>
-              </section>
-            </div>
-
-            <div class="divider divider--sigil" aria-hidden="true"></div>
-
-            <section class="wide">
-              <div class="ledger">
-                <div class="ledger__head">
-                  <div class="ledger__title">Recent Notes</div>
-                  <div class="ledger__hint">typewriter • uneven • human</div>
-                </div>
-                <div class="ledger__body" id="journalFeed">
-                  <!-- Filled by JS -->
-                </div>
-              </div>
-
-              <div class="board">
-                <div class="board__head">
-                  <div class="board__title">Connections</div>
-                  <div class="board__hint">red string • pinned</div>
-                </div>
-                <div class="board__canvas" id="stringBoard" aria-hidden="true">
-                  <div class="pin pin--a"></div>
-                  <div class="pin pin--b"></div>
-                  <div class="pin pin--c"></div>
-                  <div class="string string--ab"></div>
-                  <div class="string string--bc"></div>
-                </div>
-                <div class="board__note">
-                  <span class="warning">NOTE:</span> Patterns don’t prove anything.
-                  <span class="muted">But they sure as hell rhyme.</span>
-                </div>
-              </div>
-            </section>
-          </article>
-
-          <!-- CASE FILES -->
-          <article class="panel" id="panel-cases" data-panel="cases">
-            <div class="panel__head">
-              <h2 class="panel__title">Case Files</h2>
-              <p class="panel__sub">Every report is a scar. Every detail can kill you.</p>
-            </div>
-
-            <div class="filters">
-              <div class="filters__left">
-                <span class="mono">STATUS:</span>
-                <button class="pill is-active" data-filter="all">ALL</button>
-                <button class="pill" data-filter="ongoing">ONGOING</button>
-                <button class="pill" data-filter="contained">CONTAINED</button>
-                <button class="pill" data-filter="unresolved">UNRESOLVED</button>
-              </div>
-              <div class="filters__right">
-                <span class="mono">SORT:</span>
-                <button class="pill pill--ghost" id="btnSortCases">NEWEST</button>
-              </div>
-            </div>
-
-            <div class="grid" id="casesGrid">
-              <!-- Filled by JS -->
-            </div>
-          </article>
-
-          <!-- BESTIARY -->
-          <article class="panel" id="panel-bestiary" data-panel="bestiary">
-            <div class="panel__head">
-              <h2 class="panel__title">Bestiary</h2>
-              <p class="panel__sub">Folklore with teeth. Read fast. Remember faster.</p>
-            </div>
-
-            <div class="bestiary">
-              <div class="bestiary__list" id="bestiaryList">
-                <!-- Filled by JS -->
-              </div>
-              <div class="bestiary__page" id="bestiaryPage" aria-live="polite">
-                <div class="bestiary__placeholder">
-                  <div class="sigil sigil--warning"></div>
-                  <div class="bestiary__placeholderTitle">Select an entry.</div>
-                  <div class="bestiary__placeholderText">
-                    Some things don’t like being named. Some things like it too much.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- LORE -->
-          <article class="panel" id="panel-lore" data-panel="lore">
-            <div class="panel__head">
-              <h2 class="panel__title">Lore & Legends</h2>
-              <p class="panel__sub">Knowledge costs. Pay carefully.</p>
-            </div>
-
-            <div class="lore">
-              <section class="scroll">
-                <div class="scroll__head">
-                  <div class="scroll__title">Translated Passages</div>
-                  <div class="scroll__hint">ancient • reverent</div>
-                </div>
-                <div class="scroll__body" id="loreText">
-                  <!-- Filled by JS -->
-                </div>
-              </section>
-
-              <section class="relics">
-                <div class="relics__head">
-                  <div class="relics__title">Artifacts</div>
-                  <div class="relics__hint">handle with iron</div>
-                </div>
-                <div class="relics__grid">
-                  <button class="relic" data-open="relic-1">
-                    <span class="relic__sigil" aria-hidden="true">✣</span>
-                    <span class="relic__name">Enochian Etching</span>
-                    <span class="relic__warn">WARNING</span>
-                  </button>
-                  <button class="relic" data-open="relic-2">
-                    <span class="relic__sigil" aria-hidden="true">✢</span>
-                    <span class="relic__name">Salted Charm</span>
-                    <span class="relic__warn">SAFE(ISH)</span>
-                  </button>
-                  <button class="relic" data-open="relic-3">
-                    <span class="relic__sigil" aria-hidden="true">✠</span>
-                    <span class="relic__name">Black Candle</span>
-                    <span class="relic__warn">DO NOT LIT</span>
-                  </button>
-                </div>
-              </section>
-            </div>
-          </article>
-
-          <!-- SAFEHOUSES -->
-          <article class="panel" id="panel-safehouses" data-panel="safehouses">
-            <div class="panel__head">
-              <h2 class="panel__title">Safe Houses</h2>
-              <p class="panel__sub">Places to breathe. Places to disappear.</p>
-            </div>
-
-            <div class="grid" id="safeGrid">
-              <!-- Filled by JS -->
-            </div>
-
-            <div class="divider divider--metal" aria-hidden="true"></div>
-
-            <section class="note">
-              <div class="note__title">Operational Note</div>
-              <div class="note__body">
-                If you’re being followed, don’t go to a safe house.
-                <span class="muted">That’s how you turn a refuge into a grave.</span>
-              </div>
-            </section>
-          </article>
-
-          <!-- ROAD -->
-          <article class="panel" id="panel-road" data-panel="road">
-            <div class="panel__head">
-              <h2 class="panel__title">The Road</h2>
-              <p class="panel__sub">Always moving. Never safe. That’s the point.</p>
-            </div>
-
-            <section class="road">
-              <div class="road__map">
-                <div class="map" id="map">
-                  <div class="map__grid" aria-hidden="true"></div>
-                  <div class="map__pins" id="mapPins" aria-hidden="true"></div>
-                  <div class="map__legend">
-                    <span class="tag">PINNED LOCATIONS</span>
-                    <span class="tag tag--steel">ROUTE THREADS</span>
-                    <span class="tag tag--blood">ACTIVE CASE</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="road__timeline" id="timeline">
-                <!-- Filled by JS -->
-              </div>
-            </section>
-          </article>
-        </div>
-      </section>
+      </div>
     </section>
+
+    <!-- MESS BOARD (Dashboard Hub) -->
+    <section id="messboard" class="section section--messboard" aria-labelledby="messboard-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="messboard-title" class="section__title">Mess Board</h2>
+          <p class="section__sub">One place for intent, updates, trackers, and execution.</p>
+        </header>
+
+        <div class="board">
+          <article class="panel panel--priority">
+            <header class="panel__hdr">
+              <h3 class="panel__title">Action Required</h3>
+              <div class="panel__meta">PRIORITY</div>
+            </header>
+            <ul class="panel__list">
+              <li>Review updated standing orders</li>
+              <li>Confirm qualification sign-offs</li>
+              <li>Log completion in tracker</li>
+            </ul>
+            <div class="panel__actions">
+              <a class="btn btn--primary" href="#standards">Standing Orders</a>
+              <a class="btn btn--ghost" href="#training">Qualification Map</a>
+            </div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__hdr">
+              <h3 class="panel__title">Logbook</h3>
+              <div class="panel__meta">STAMPED ENTRIES</div>
+            </header>
+            <ol class="panel__log">
+              <li><time datetime="2026-01-18T06:15">0615L</time> — SOP template updated</li>
+              <li><time datetime="2026-01-18T05:40">0540L</time> — Training block scheduled</li>
+              <li><time datetime="2026-01-17T18:10">1810L</time> — Deadline board refreshed</li>
+            </ol>
+            <a class="panel__link" href="#updates">View all entries</a>
+          </article>
+
+          <article class="panel">
+            <header class="panel__hdr">
+              <h3 class="panel__title">Deckplate Status</h3>
+              <div class="panel__meta">READINESS</div>
+            </header>
+            <ul class="panel__stats">
+              <li>
+                <span class="stat__label">Qualifications</span>
+                <span class="stat__value">82%</span>
+              </li>
+              <li>
+                <span class="stat__label">Training Complete</span>
+                <span class="stat__value">67%</span>
+              </li>
+              <li>
+                <span class="stat__label">Docs Current</span>
+                <span class="stat__value">91%</span>
+              </li>
+            </ul>
+            <a class="panel__link" href="#trackers">Open trackers</a>
+          </article>
+
+          <article class="panel">
+            <header class="panel__hdr">
+              <h3 class="panel__title">Hot Links</h3>
+              <div class="panel__meta">FAST ACCESS</div>
+            </header>
+            <div class="panel__chips">
+              <a class="chip" href="#resources">Templates</a>
+              <a class="chip" href="#resources">Counseling Toolkit</a>
+              <a class="chip" href="#resources">Eval Helper</a>
+              <a class="chip" href="#resources">SOP Builder</a>
+              <a class="chip" href="#resources">Watchbill</a>
+              <a class="chip" href="#resources">Contact Roster</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- STANDARDS -->
+    <section id="standards" class="section" aria-labelledby="standards-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="standards-title" class="section__title">Standards</h2>
+          <p class="section__sub">Know the standard. Meet the standard. Train the standard.</p>
+        </header>
+
+        <div class="grid">
+          <article class="card">
+            <h3 class="card__title">Standing Orders</h3>
+            <p class="card__body">Clear expectations and consistent execution.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Accountability</h3>
+            <p class="card__body">Documentation, follow-through, and results.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Safety & Risk</h3>
+            <p class="card__body">Deliberate risk management at the deckplate level.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRAINING -->
+    <section id="training" class="section" aria-labelledby="training-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="training-title" class="section__title">Training</h2>
+          <p class="section__sub">Qualification paths, checklists, and deliberate practice.</p>
+        </header>
+
+        <div class="grid">
+          <article class="card">
+            <h3 class="card__title">Qualification Map</h3>
+            <p class="card__body">Step-by-step pipeline to get your people ready.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Study Guides</h3>
+            <p class="card__body">Focused notes, references, and review plans.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Sign-off Tracker</h3>
+            <p class="card__body">What’s complete, what’s pending, what’s due.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section id="resources" class="section" aria-labelledby="resources-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="resources-title" class="section__title">Resources</h2>
+          <p class="section__sub">Tools that remove friction and support execution.</p>
+        </header>
+
+        <div class="grid">
+          <article class="card">
+            <h3 class="card__title">Templates</h3>
+            <p class="card__body">SOPs, trackers, memos, and quick forms.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Counseling Toolkit</h3>
+            <p class="card__body">Structured guidance for tough conversations.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Eval Helper</h3>
+            <p class="card__body">Bullets, impact framing, and consistency checks.</p>
+            <a class="card__link" href="#">Open</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERITAGE (Optional) -->
+    <section id="heritage" class="section section--heritage" aria-labelledby="heritage-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="heritage-title" class="section__title">Heritage</h2>
+          <p class="section__sub">Tradition, professionalism, and the standard we pass forward.</p>
+        </header>
+
+        <article class="callout">
+          <h3 class="callout__title">The Mess</h3>
+          <p class="callout__body">
+            A place for mentorship, problem-solving, and leadership—quiet competence, loud results.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- LOGIN (Anchor) -->
+    <section id="login" class="section section--login" aria-labelledby="login-title">
+      <div class="section__inner">
+        <header class="section__hdr">
+          <h2 id="login-title" class="section__title">Present Credentials</h2>
+          <p class="section__sub">Optional gateway for restricted tools and internal pages.</p>
+        </header>
+
+        <form class="login" action="#" method="post">
+          <div class="login__row">
+            <label class="field">
+              <span class="field__label">Access ID</span>
+              <input class="field__input" type="text" name="accessId" autocomplete="username" />
+            </label>
+            <label class="field">
+              <span class="field__label">Passphrase</span>
+              <input class="field__input" type="password" name="passphrase" autocomplete="current-password" />
+            </label>
+          </div>
+          <button class="btn btn--primary" type="submit">Authenticate</button>
+          <p class="login__hint" role="note">This is a front-end placeholder. Wire it to your auth later.</p>
+        </form>
+      </div>
+    </section>
+
   </main>
 
-  <!-- MODALS / OVERLAYS -->
-  <div class="overlay is-hidden" id="overlay" aria-hidden="true"></div>
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <span aria-hidden="true">⚓</span>
+        <span class="footer__name">Chiefs’ Mess</span>
+        <span class="footer__meta">— Quarterdeck Interface</span>
+      </div>
 
-  <dialog class="modal" id="modal" aria-label="Archive panel">
-    <div class="modal__head">
-      <div class="modal__title" id="modalTitle">FILE</div>
-      <button class="iconbtn iconbtn--small" id="btnCloseModal" aria-label="Close">
-        <span class="icon" aria-hidden="true">✕</span>
-      </button>
+      <div class="footer__right">
+        <a class="footer__link" href="#standards">Standards</a>
+        <a class="footer__link" href="#training">Training</a>
+        <a class="footer__link" href="#resources">Resources</a>
+      </div>
     </div>
-    <div class="modal__body" id="modalBody"></div>
-    <div class="modal__foot">
-      <span class="mono" id="modalMeta">—</span>
-      <span class="stamp stamp--red" id="modalStamp">CLASSIFIED</span>
-    </div>
-  </dialog>
+  </footer>
 
-  <dialog class="modal modal--search" id="searchModal" aria-label="Search archive">
-    <div class="modal__head">
-      <div class="modal__title">SEARCH</div>
-      <button class="iconbtn iconbtn--small" id="btnCloseSearch" aria-label="Close search">
-        <span class="icon" aria-hidden="true">✕</span>
-      </button>
-    </div>
+  <!-- Lightweight JS hooks (optional; can be moved to script.js later) -->
+  <script>
+    // Minimal HTML-only behavior hooks (safe to remove).
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-action]");
+      if (!btn) return;
 
-    <div class="modal__body">
-      <label class="search">
-        <span class="search__label mono">QUERY</span>
-        <input class="search__input" id="searchInput" type="text" placeholder="e.g., wendigo, iron, route 61…" autocomplete="off" />
-        <span class="search__hint">Press Enter to open the best match.</span>
-      </label>
+      const action = btn.getAttribute("data-action");
 
-      <div class="search__results" id="searchResults" aria-live="polite"></div>
-    </div>
+      if (action === "come-aboard") {
+        alert("COME ABOARD — Quarterdeck acknowledged.");
+      }
 
-    <div class="modal__foot">
-      <span class="mono">Tip: try “unresolved” or a location.</span>
-      <span class="stamp">ARCHIVE INDEXED</span>
-    </div>
-  </dialog>
+      if (action === "open-announce") {
+        alert("TODAY'S INTENT: Maintain standards. Train deliberately. Document progress. Take care of people.");
+      }
+    });
+  </script>
 
-  <!-- Ambient audio (optional) -->
-  <audio id="ambience" preload="auto" loop>
-    <!-- Put an audio file at ./assets/ambience.mp3 (or change src in JS) -->
-    <source src="assets/ambience.mp3" type="audio/mpeg" />
-  </audio>
-
-  <script src="script.js"></script>
+</body>
 </html>
