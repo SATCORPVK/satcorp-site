@@ -1,212 +1,475 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hunter's Archive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hunter’s Archive</title>
+  <meta name="description" content="A road-worn hunter’s archive: case files, bestiary entries, lore, and the road." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Rough serif + typewriter -->
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <meta name="theme-color" content="#0b0b0c" />
 </head>
-<body>
-  <!-- Film grain + flicker overlays -->
-  <div class="overlay overlay-grain" aria-hidden="true"></div>
-  <div class="overlay overlay-flicker" aria-hidden="true"></div>
-  <div class="overlay overlay-vignette" aria-hidden="true"></div>
 
-  <!-- Top status strip -->
+<body>
+  <!-- Subtle film grain + flicker layers -->
+  <div class="fx fx-grain" aria-hidden="true"></div>
+  <div class="fx fx-scan" aria-hidden="true"></div>
+  <div class="fx fx-flicker" aria-hidden="true"></div>
+
+  <!-- Top utility -->
   <header class="topbar">
     <div class="topbar__left">
-      <span class="sigil-dot" aria-hidden="true"></span>
-      <span class="mono">ARCHIVE STATUS:</span>
-      <span class="status status--active">LIVE</span>
-      <span class="pipe">|</span>
-      <span class="mono" id="clock">00:00:00</span>
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">⟡</span>
+        <div class="brand__text">
+          <div class="brand__title">HUNTER’S ARCHIVE</div>
+          <div class="brand__sub">motel-room intel • classified folklore</div>
+        </div>
+      </div>
     </div>
 
     <div class="topbar__right">
-      <button class="icon-btn" id="audioBtn" aria-pressed="false" title="Ambient audio (optional)">
-        <span class="icon" aria-hidden="true">⟡</span>
-        <span class="mono">AMBIENT</span>
+      <button class="iconbtn" id="btnSearch" aria-label="Search archive">
+        <span class="icon" aria-hidden="true">⌕</span><span class="label">Search</span>
       </button>
-      <button class="icon-btn" id="reduceMotionBtn" aria-pressed="false" title="Reduce motion">
-        <span class="icon" aria-hidden="true">⟂</span>
-        <span class="mono">MOTION</span>
+
+      <button class="iconbtn" id="btnAudio" aria-label="Toggle ambient audio" data-state="off">
+        <span class="icon" aria-hidden="true">⏻</span><span class="label">Audio</span>
+      </button>
+
+      <button class="iconbtn" id="btnGlitch" aria-label="Toggle reality instability" data-state="on" title="Reality is unstable">
+        <span class="icon" aria-hidden="true">⚠</span><span class="label">Flicker</span>
       </button>
     </div>
   </header>
 
-  <!-- Landing Gate -->
-  <main class="gate" id="gate" role="main">
-    <section class="gate__panel">
-      <div class="gate__meta mono">
-        <span>RECOVERED ITEM:</span>
-        <span class="muted">FIELD JOURNAL / MOTEL CACHE</span>
+  <!-- LANDING / COVER -->
+  <main id="app" class="app">
+    <section id="cover" class="cover" role="region" aria-label="Journal cover">
+      <div class="cover__panel">
+        <div class="cover__seal" aria-hidden="true">
+          <div class="sigil sigil--ward"></div>
+          <div class="seal__caption">PROPERTY OF: UNKNOWN</div>
+        </div>
+
+        <h1 class="cover__headline">THE JOURNAL</h1>
+
+        <p class="cover__quote">
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <span class="quote__text">Saving people. Hunting things. The family business.</span>
+          <span class="quote__mark" aria-hidden="true">”</span>
+        </p>
+
+        <p class="cover__hint">
+          If you found this, you weren’t meant to.
+          <span class="muted">Proceed anyway.</span>
+        </p>
+
+        <div class="cover__actions">
+          <button class="btn btn--primary" id="btnEnter">
+            <span class="btn__text">Open the Journal</span>
+            <span class="btn__ink" aria-hidden="true"></span>
+          </button>
+
+          <button class="btn btn--ghost" id="btnAboutCover">
+            <span class="btn__text">Read the Warning</span>
+            <span class="btn__ink" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="cover__meta">
+          <div class="meta__row">
+            <span class="tag">MOTEL: ROOM 217</span>
+            <span class="tag">TIME: 2:13 AM</span>
+            <span class="tag">SIGNAL: WEAK</span>
+          </div>
+          <div class="meta__row meta__row--type">
+            <span class="typewriter">DO NOT TRUST WHAT YOU SEE ON THE ROAD.</span>
+          </div>
+        </div>
       </div>
 
-      <h1 class="gate__title">HUNTER’S ARCHIVE</h1>
-
-      <div class="typewriter-wrap" aria-live="polite">
-        <p class="typewriter" id="gateLine"></p>
+      <div class="cover__footer">
+        <div class="tiny">Tip: press <kbd>/</kbd> to search • <kbd>Esc</kbd> to close panels</div>
       </div>
+    </section>
 
-      <div class="gate__actions">
-        <button class="btn btn--primary" id="enterBtn">
-          Open the Journal
-        </button>
-        <button class="btn btn--ghost" id="peekBtn">
-          Peek at the Evidence
-        </button>
-      </div>
+    <!-- ARCHIVE UI -->
+    <section id="archive" class="archive is-hidden" role="region" aria-label="Hunter archive">
+      <aside class="sidebar" aria-label="Archive navigation">
+        <div class="sidebar__paper">
+          <div class="sidebar__title">ACCESS</div>
 
-      <p class="gate__warning mono">
-        <span class="warn">NOTE:</span> If you found this, you weren’t supposed to.
-      </p>
+          <nav class="nav" id="nav">
+            <button class="nav__item is-active" data-target="journal">
+              <span class="nav__sigil" aria-hidden="true">⟠</span>
+              <span class="nav__text">The Journal</span>
+              <span class="nav__hint">entries • notes</span>
+            </button>
 
-      <div class="gate__footer mono">
-        <span class="stamp">PROPERTY OF: <span class="redact">[REDACTED]</span></span>
-        <span class="pipe">|</span>
-        <span class="stamp">DO NOT COPY</span>
-      </div>
+            <button class="nav__item" data-target="cases">
+              <span class="nav__sigil" aria-hidden="true">⟡</span>
+              <span class="nav__text">Case Files</span>
+              <span class="nav__hint">reports • status</span>
+            </button>
+
+            <button class="nav__item" data-target="bestiary">
+              <span class="nav__sigil" aria-hidden="true">⟟</span>
+              <span class="nav__text">Bestiary</span>
+              <span class="nav__hint">weaknesses • lore</span>
+            </button>
+
+            <button class="nav__item" data-target="lore">
+              <span class="nav__sigil" aria-hidden="true">⟣</span>
+              <span class="nav__text">Lore & Legends</span>
+              <span class="nav__hint">texts • warnings</span>
+            </button>
+
+            <button class="nav__item" data-target="safehouses">
+              <span class="nav__sigil" aria-hidden="true">⟢</span>
+              <span class="nav__text">Safe Houses</span>
+              <span class="nav__hint">contacts • caches</span>
+            </button>
+
+            <button class="nav__item" data-target="road">
+              <span class="nav__sigil" aria-hidden="true">⟤</span>
+              <span class="nav__text">The Road</span>
+              <span class="nav__hint">map • timeline</span>
+            </button>
+          </nav>
+
+          <div class="sidebar__divider" aria-hidden="true"></div>
+
+          <div class="sidebar__status">
+            <div class="status__row">
+              <span class="status__label">THREAT LEVEL</span>
+              <span class="status__value status__value--red">ELEVATED</span>
+            </div>
+            <div class="status__row">
+              <span class="status__label">SALT</span>
+              <span class="status__value">LOW</span>
+            </div>
+            <div class="status__row">
+              <span class="status__label">IRON</span>
+              <span class="status__value">ON HAND</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar__polaroids" aria-hidden="true">
+          <div class="polaroid polaroid--a">
+            <div class="polaroid__img"></div>
+            <div class="polaroid__cap">“Found near the treeline.”</div>
+          </div>
+          <div class="polaroid polaroid--b">
+            <div class="polaroid__img"></div>
+            <div class="polaroid__cap">“Don’t say its name.”</div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="content" aria-label="Archive content">
+        <!-- Header strip -->
+        <div class="content__top">
+          <div class="crumbs">
+            <span class="crumbs__dot" aria-hidden="true"></span>
+            <span class="crumbs__path" id="crumbPath">/the-journal</span>
+          </div>
+
+          <div class="content__tools">
+            <button class="chip" id="btnRandom">
+              <span class="chip__dot" aria-hidden="true"></span>
+              Pull a Random File
+            </button>
+            <button class="chip chip--danger" id="btnLock">
+              <span class="chip__dot" aria-hidden="true"></span>
+              Redact Mode
+            </button>
+          </div>
+        </div>
+
+        <!-- Panels -->
+        <div class="panels">
+          <!-- JOURNAL -->
+          <article class="panel is-active" id="panel-journal" data-panel="journal">
+            <div class="panel__head">
+              <h2 class="panel__title">The Journal</h2>
+              <p class="panel__sub">Notes from the road. Dates matter. So do scars.</p>
+            </div>
+
+            <div class="grid">
+              <section class="card card--entry" data-open="entry-1">
+                <div class="card__meta">
+                  <span class="stamp">APR 12</span>
+                  <span class="mono">— ROUTE 61</span>
+                </div>
+                <h3 class="card__title">Motel Bible, Page Torn Out</h3>
+                <p class="card__text">
+                  The air smelled like pennies. The TV kept turning itself on. I left the salt anyway.
+                </p>
+                <div class="card__foot">
+                  <span class="tag tag--parch">READ</span>
+                  <span class="scratch" aria-hidden="true"></span>
+                </div>
+              </section>
+
+              <section class="card card--entry" data-open="entry-2">
+                <div class="card__meta">
+                  <span class="stamp">MAY 03</span>
+                  <span class="mono">— DELTA COUNTY</span>
+                </div>
+                <h3 class="card__title">Static Between Stations</h3>
+                <p class="card__text">
+                  Heard a voice in the radio hiss. Not words—coordinates. Like it was trying to lead us away.
+                </p>
+                <div class="card__foot">
+                  <span class="tag tag--parch">READ</span>
+                  <span class="scratch" aria-hidden="true"></span>
+                </div>
+              </section>
+
+              <section class="card card--entry" data-open="entry-3">
+                <div class="card__meta">
+                  <span class="stamp">JUN 19</span>
+                  <span class="mono">— I-70 EAST</span>
+                </div>
+                <h3 class="card__title">Blood on the Rearview</h3>
+                <p class="card__text">
+                  You can’t outrun a thing that lives in your headlights. Not when it already knows your name.
+                </p>
+                <div class="card__foot">
+                  <span class="tag tag--parch">READ</span>
+                  <span class="scratch" aria-hidden="true"></span>
+                </div>
+              </section>
+            </div>
+
+            <div class="divider divider--sigil" aria-hidden="true"></div>
+
+            <section class="wide">
+              <div class="ledger">
+                <div class="ledger__head">
+                  <div class="ledger__title">Recent Notes</div>
+                  <div class="ledger__hint">typewriter • uneven • human</div>
+                </div>
+                <div class="ledger__body" id="journalFeed">
+                  <!-- Filled by JS -->
+                </div>
+              </div>
+
+              <div class="board">
+                <div class="board__head">
+                  <div class="board__title">Connections</div>
+                  <div class="board__hint">red string • pinned</div>
+                </div>
+                <div class="board__canvas" id="stringBoard" aria-hidden="true">
+                  <div class="pin pin--a"></div>
+                  <div class="pin pin--b"></div>
+                  <div class="pin pin--c"></div>
+                  <div class="string string--ab"></div>
+                  <div class="string string--bc"></div>
+                </div>
+                <div class="board__note">
+                  <span class="warning">NOTE:</span> Patterns don’t prove anything.
+                  <span class="muted">But they sure as hell rhyme.</span>
+                </div>
+              </div>
+            </section>
+          </article>
+
+          <!-- CASE FILES -->
+          <article class="panel" id="panel-cases" data-panel="cases">
+            <div class="panel__head">
+              <h2 class="panel__title">Case Files</h2>
+              <p class="panel__sub">Every report is a scar. Every detail can kill you.</p>
+            </div>
+
+            <div class="filters">
+              <div class="filters__left">
+                <span class="mono">STATUS:</span>
+                <button class="pill is-active" data-filter="all">ALL</button>
+                <button class="pill" data-filter="ongoing">ONGOING</button>
+                <button class="pill" data-filter="contained">CONTAINED</button>
+                <button class="pill" data-filter="unresolved">UNRESOLVED</button>
+              </div>
+              <div class="filters__right">
+                <span class="mono">SORT:</span>
+                <button class="pill pill--ghost" id="btnSortCases">NEWEST</button>
+              </div>
+            </div>
+
+            <div class="grid" id="casesGrid">
+              <!-- Filled by JS -->
+            </div>
+          </article>
+
+          <!-- BESTIARY -->
+          <article class="panel" id="panel-bestiary" data-panel="bestiary">
+            <div class="panel__head">
+              <h2 class="panel__title">Bestiary</h2>
+              <p class="panel__sub">Folklore with teeth. Read fast. Remember faster.</p>
+            </div>
+
+            <div class="bestiary">
+              <div class="bestiary__list" id="bestiaryList">
+                <!-- Filled by JS -->
+              </div>
+              <div class="bestiary__page" id="bestiaryPage" aria-live="polite">
+                <div class="bestiary__placeholder">
+                  <div class="sigil sigil--warning"></div>
+                  <div class="bestiary__placeholderTitle">Select an entry.</div>
+                  <div class="bestiary__placeholderText">
+                    Some things don’t like being named. Some things like it too much.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- LORE -->
+          <article class="panel" id="panel-lore" data-panel="lore">
+            <div class="panel__head">
+              <h2 class="panel__title">Lore & Legends</h2>
+              <p class="panel__sub">Knowledge costs. Pay carefully.</p>
+            </div>
+
+            <div class="lore">
+              <section class="scroll">
+                <div class="scroll__head">
+                  <div class="scroll__title">Translated Passages</div>
+                  <div class="scroll__hint">ancient • reverent</div>
+                </div>
+                <div class="scroll__body" id="loreText">
+                  <!-- Filled by JS -->
+                </div>
+              </section>
+
+              <section class="relics">
+                <div class="relics__head">
+                  <div class="relics__title">Artifacts</div>
+                  <div class="relics__hint">handle with iron</div>
+                </div>
+                <div class="relics__grid">
+                  <button class="relic" data-open="relic-1">
+                    <span class="relic__sigil" aria-hidden="true">✣</span>
+                    <span class="relic__name">Enochian Etching</span>
+                    <span class="relic__warn">WARNING</span>
+                  </button>
+                  <button class="relic" data-open="relic-2">
+                    <span class="relic__sigil" aria-hidden="true">✢</span>
+                    <span class="relic__name">Salted Charm</span>
+                    <span class="relic__warn">SAFE(ISH)</span>
+                  </button>
+                  <button class="relic" data-open="relic-3">
+                    <span class="relic__sigil" aria-hidden="true">✠</span>
+                    <span class="relic__name">Black Candle</span>
+                    <span class="relic__warn">DO NOT LIT</span>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </article>
+
+          <!-- SAFEHOUSES -->
+          <article class="panel" id="panel-safehouses" data-panel="safehouses">
+            <div class="panel__head">
+              <h2 class="panel__title">Safe Houses</h2>
+              <p class="panel__sub">Places to breathe. Places to disappear.</p>
+            </div>
+
+            <div class="grid" id="safeGrid">
+              <!-- Filled by JS -->
+            </div>
+
+            <div class="divider divider--metal" aria-hidden="true"></div>
+
+            <section class="note">
+              <div class="note__title">Operational Note</div>
+              <div class="note__body">
+                If you’re being followed, don’t go to a safe house.
+                <span class="muted">That’s how you turn a refuge into a grave.</span>
+              </div>
+            </section>
+          </article>
+
+          <!-- ROAD -->
+          <article class="panel" id="panel-road" data-panel="road">
+            <div class="panel__head">
+              <h2 class="panel__title">The Road</h2>
+              <p class="panel__sub">Always moving. Never safe. That’s the point.</p>
+            </div>
+
+            <section class="road">
+              <div class="road__map">
+                <div class="map" id="map">
+                  <div class="map__grid" aria-hidden="true"></div>
+                  <div class="map__pins" id="mapPins" aria-hidden="true"></div>
+                  <div class="map__legend">
+                    <span class="tag">PINNED LOCATIONS</span>
+                    <span class="tag tag--steel">ROUTE THREADS</span>
+                    <span class="tag tag--blood">ACTIVE CASE</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="road__timeline" id="timeline">
+                <!-- Filled by JS -->
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
     </section>
   </main>
 
-  <!-- App -->
-  <div class="app" id="app" aria-hidden="true">
-    <aside class="sidebar">
-      <div class="sidebar__head">
-        <div class="brand">
-          <div class="brand__sigil" aria-hidden="true">
-            <!-- minimal warding glyph -->
-            <svg viewBox="0 0 64 64" width="40" height="40">
-              <path d="M32 6 L52 18 L52 46 L32 58 L12 46 L12 18 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M32 12 L44 22 L44 42 L32 52 L20 42 L20 22 Z" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"/>
-              <path d="M32 16 L32 50 M22 26 L42 26 M22 38 L42 38" fill="none" stroke="currentColor" stroke-width="1.25" opacity="0.6"/>
-            </svg>
-          </div>
-          <div class="brand__text">
-            <div class="brand__name">Hunter’s Archive</div>
-            <div class="brand__sub mono">FIELD ACCESS • OFFLINE CACHE</div>
-          </div>
-        </div>
+  <!-- MODALS / OVERLAYS -->
+  <div class="overlay is-hidden" id="overlay" aria-hidden="true"></div>
 
-        <div class="divider divider--scratch"></div>
-
-        <nav class="nav" aria-label="Hunter navigation">
-          <button class="nav__item is-active" data-route="journal">
-            <span class="nav__sigil" aria-hidden="true">✠</span>
-            <span>The Journal</span>
-          </button>
-          <button class="nav__item" data-route="cases">
-            <span class="nav__sigil" aria-hidden="true">⌁</span>
-            <span>Case Files</span>
-          </button>
-          <button class="nav__item" data-route="bestiary">
-            <span class="nav__sigil" aria-hidden="true">𖤐</span>
-            <span>Bestiary</span>
-          </button>
-          <button class="nav__item" data-route="lore">
-            <span class="nav__sigil" aria-hidden="true">⸸</span>
-            <span>Lore &amp; Legends</span>
-          </button>
-          <button class="nav__item" data-route="safehouses">
-            <span class="nav__sigil" aria-hidden="true">⛨</span>
-            <span>Safe Houses</span>
-          </button>
-          <button class="nav__item" data-route="road">
-            <span class="nav__sigil" aria-hidden="true">⟟</span>
-            <span>The Road</span>
-          </button>
-        </nav>
-
-        <div class="divider divider--scratch"></div>
-
-        <div class="sidebar__notes">
-          <div class="mono muted">TIP:</div>
-          <p class="small">
-            Hover over symbols. Click entries to “unseal” details.
-            Nothing here is fast. Let it breathe.
-          </p>
-        </div>
-      </div>
-
-      <div class="sidebar__foot mono">
-        <div class="footrow">
-          <span class="muted">THREAT LVL</span>
-          <span class="threat" id="threatPips" aria-label="Threat level">⬤⬤◯◯◯</span>
-        </div>
-        <div class="footrow">
-          <span class="muted">CACHE</span>
-          <span id="cacheState">ENCRYPTED</span>
-        </div>
-      </div>
-    </aside>
-
-    <section class="content" aria-label="Archive content">
-      <div class="content__chrome">
-        <div class="content__title">
-          <h2 id="viewTitle">The Journal</h2>
-          <div class="content__sub mono" id="viewSub">Recovered entries & notes.</div>
-        </div>
-
-        <div class="content__tools">
-          <label class="search">
-            <span class="mono muted">SEARCH</span>
-            <input id="searchInput" type="search" placeholder="names, places, symbols…" />
-          </label>
-          <button class="btn btn--ghost btn--small" id="randomBtn" title="Pull a random file">
-            Random File
-          </button>
-        </div>
-      </div>
-
-      <div class="divider divider--metal"></div>
-
-      <!-- View container -->
-      <div class="view" id="view"></div>
-
-      <footer class="footer mono">
-        <span class="muted">“Knowledge costs.”</span>
-        <span class="pipe">|</span>
-        <span class="muted">If it starts flickering… stop reading.</span>
-      </footer>
-    </section>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal__backdrop" data-close="true"></div>
-    <div class="modal__panel" role="document">
-      <div class="modal__head">
-        <div class="modal__title">
-          <div class="mono muted" id="modalKicker">FILE</div>
-          <h3 id="modalTitle">Untitled</h3>
-        </div>
-        <button class="icon-btn" id="modalClose" title="Close">
-          <span class="icon" aria-hidden="true">✕</span>
-          <span class="mono">CLOSE</span>
-        </button>
-      </div>
-
-      <div class="divider divider--scratch"></div>
-
-      <div class="modal__body" id="modalBody"></div>
-
-      <div class="divider divider--scratch"></div>
-
-      <div class="modal__foot mono">
-        <span class="muted">HANDLE WITH CARE</span>
-        <span class="pipe">|</span>
-        <span class="muted">Do not speak names aloud.</span>
-      </div>
+  <dialog class="modal" id="modal" aria-label="Archive panel">
+    <div class="modal__head">
+      <div class="modal__title" id="modalTitle">FILE</div>
+      <button class="iconbtn iconbtn--small" id="btnCloseModal" aria-label="Close">
+        <span class="icon" aria-hidden="true">✕</span>
+      </button>
     </div>
-  </div>
+    <div class="modal__body" id="modalBody"></div>
+    <div class="modal__foot">
+      <span class="mono" id="modalMeta">—</span>
+      <span class="stamp stamp--red" id="modalStamp">CLASSIFIED</span>
+    </div>
+  </dialog>
 
-  <!-- Optional ambient audio (never autoplay) -->
+  <dialog class="modal modal--search" id="searchModal" aria-label="Search archive">
+    <div class="modal__head">
+      <div class="modal__title">SEARCH</div>
+      <button class="iconbtn iconbtn--small" id="btnCloseSearch" aria-label="Close search">
+        <span class="icon" aria-hidden="true">✕</span>
+      </button>
+    </div>
+
+    <div class="modal__body">
+      <label class="search">
+        <span class="search__label mono">QUERY</span>
+        <input class="search__input" id="searchInput" type="text" placeholder="e.g., wendigo, iron, route 61…" autocomplete="off" />
+        <span class="search__hint">Press Enter to open the best match.</span>
+      </label>
+
+      <div class="search__results" id="searchResults" aria-live="polite"></div>
+    </div>
+
+    <div class="modal__foot">
+      <span class="mono">Tip: try “unresolved” or a location.</span>
+      <span class="stamp">ARCHIVE INDEXED</span>
+    </div>
+  </dialog>
+
+  <!-- Ambient audio (optional) -->
   <audio id="ambience" preload="auto" loop>
-    <!-- You can replace these with your own local files later -->
-    <!-- Keep empty by default so nothing plays unless user supplies sources -->
+    <!-- Put an audio file at ./assets/ambience.mp3 (or change src in JS) -->
+    <source src="assets/ambience.mp3" type="audio/mpeg" />
   </audio>
 
   <script src="script.js"></script>
-</body>
 </html>
