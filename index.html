@@ -6,10 +6,8 @@
   <title>Chiefs’ Mess // Quarterdeck</title>
   <meta name="theme-color" content="#060814" />
 
-  <!--
-    HTML only (structure). Pair with your own style.css + script.js later.
-    Class names are designed for a "Chief / Quarterdeck" theme.
-  -->
+  <!-- Link your stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="site">
@@ -17,15 +15,20 @@
   <!-- Skip link -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
-  <!-- Top Bar / Command Presence -->
+  <!-- =========================
+       TOP BAR / QUARTERDECK
+  ========================== -->
   <header class="topbar" role="banner">
     <div class="topbar__inner">
+
+      <!-- Brand -->
       <a class="brand" href="#" aria-label="Chiefs’ Mess Home">
         <span class="brand__mark" aria-hidden="true">⚓</span>
         <span class="brand__name">CHIEFS’ MESS</span>
         <span class="brand__tag">QUARTERDECK</span>
       </a>
 
+      <!-- Navigation -->
       <nav class="nav" aria-label="Primary">
         <a class="nav__link" href="#standards">Standards</a>
         <a class="nav__link" href="#training">Training</a>
@@ -33,25 +36,44 @@
         <a class="nav__link nav__link--muted" href="#heritage">Heritage</a>
       </nav>
 
+      <!-- Actions -->
       <div class="topbar__actions">
+        <!-- Shipboard Dark / Light Toggle -->
+        <button
+          class="btn btn--ghost theme-toggle"
+          type="button"
+          id="themeToggle"
+          aria-pressed="false"
+          aria-label="Toggle shipboard dark or light mode"
+        >
+          Shipboard: DARK
+        </button>
+
         <button class="btn btn--ghost" type="button" data-action="open-announce">
           Today’s Intent
         </button>
+
         <a class="btn btn--primary" href="#login">Present Credentials</a>
       </div>
+
     </div>
   </header>
 
-  <!-- Main -->
+  <!-- =========================
+       MAIN
+  ========================== -->
   <main id="main" class="main" role="main">
 
-    <!-- HERO / Quarterdeck Gate -->
+    <!-- HERO / QUARTERDECK GATE -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__inner">
-        <div class="hero__eyebrow" aria-hidden="true">WELCOME ABOARD // QUARTERDECK</div>
-        <h1 id="hero-title" class="hero__title">Standards. Leadership. Readiness.</h1>
+        <div class="hero__eyebrow">WELCOME ABOARD // QUARTERDECK</div>
+        <h1 id="hero-title" class="hero__title">
+          Standards. Leadership. Readiness.
+        </h1>
         <p class="hero__lead">
-          A deckplate-focused hub for expectations, qualification paths, and command-ready execution.
+          A deckplate-focused hub for expectations, qualification paths,
+          and command-ready execution.
         </p>
 
         <div class="hero__cta">
@@ -67,99 +89,90 @@
 
           <a class="tile" href="#training">
             <div class="tile__title">Start Training</div>
-            <div class="tile__meta">Qual paths, checklists, study guides</div>
+            <div class="tile__meta">Qualification paths & checklists</div>
           </a>
 
           <a class="tile" href="#resources">
             <div class="tile__title">Open Resources</div>
-            <div class="tile__meta">Templates, trackers, SOP tools</div>
+            <div class="tile__meta">Templates, SOPs, trackers</div>
           </a>
         </div>
 
-        <!-- Optional Gate Acknowledgement -->
-        <form class="gate" action="#" method="post" aria-label="Quarterdeck acknowledgement">
+        <!-- Quarterdeck Acknowledgement -->
+        <form class="gate" action="#" method="post">
           <label class="gate__check">
-            <input type="checkbox" name="ack" />
-            <span>I acknowledge standards, accountability, and deckplate execution.</span>
+            <input type="checkbox" />
+            <span>
+              I acknowledge standards, accountability, and deckplate execution.
+            </span>
           </label>
           <button class="btn btn--secondary" type="button" data-action="come-aboard">
             Come Aboard
           </button>
-          <p class="gate__note" role="note">
-            Tip: Use this as a simple “enter” interaction before revealing deeper sections.
-          </p>
         </form>
       </div>
 
-      <!-- Decorative background elements (kept in HTML for structure hooks) -->
+      <!-- Background textures -->
       <div class="hero__bg" aria-hidden="true">
         <div class="hero__grid"></div>
-        <div class="hero__sheen"></div>
         <div class="hero__nonskid"></div>
       </div>
     </section>
 
-    <!-- STATUS STRIP / Snapshot -->
+    <!-- =========================
+         STATUS STRIP
+    ========================== -->
     <section class="status" aria-label="Quarterdeck snapshot">
       <div class="status__inner">
 
-        <article class="statuscard" aria-label="Today’s Intent">
+        <article class="statuscard">
           <header class="statuscard__hdr">
             <h2 class="statuscard__title">Today’s Intent</h2>
             <div class="statuscard__stamp">LAST UPDATE: 0615L</div>
           </header>
           <p class="statuscard__body">
-            Maintain standards. Train deliberately. Document progress. Take care of people.
+            Maintain standards. Train deliberately. Document progress.
+            Take care of people.
           </p>
-          <a class="statuscard__link" href="#intent">View full intent</a>
         </article>
 
-        <article class="statuscard" aria-label="Upcoming Deadlines">
+        <article class="statuscard">
           <header class="statuscard__hdr">
             <h2 class="statuscard__title">Upcoming Deadlines</h2>
             <div class="statuscard__stamp">NEXT 72H</div>
           </header>
           <ul class="statuscard__list">
-            <li><span class="dot dot--warn" aria-hidden="true"></span> Training sign-offs due</li>
-            <li><span class="dot dot--ok" aria-hidden="true"></span> Watchbill review</li>
-            <li><span class="dot dot--warn" aria-hidden="true"></span> Eval inputs</li>
+            <li><span class="dot dot--warn"></span> Training sign-offs</li>
+            <li><span class="dot dot--ok"></span> Watchbill review</li>
+            <li><span class="dot dot--warn"></span> Eval inputs</li>
           </ul>
-          <a class="statuscard__link" href="#deadlines">Open deadline board</a>
         </article>
 
-        <article class="statuscard" aria-label="Latest Updates">
+        <article class="statuscard">
           <header class="statuscard__hdr">
-            <h2 class="statuscard__title">Latest Updates</h2>
-            <div class="statuscard__stamp">ROLLING LOG</div>
+            <h2 class="statuscard__title">Deckplate Status</h2>
+            <div class="statuscard__stamp">READINESS</div>
           </header>
           <ul class="statuscard__list">
-            <li><span class="dot dot--ok" aria-hidden="true"></span> New SOP template posted</li>
-            <li><span class="dot dot--ok" aria-hidden="true"></span> Qualification map revised</li>
-            <li><span class="dot dot--warn" aria-hidden="true"></span> Policy review required</li>
+            <li>Qualifications: 82%</li>
+            <li>Training Complete: 67%</li>
+            <li>Docs Current: 91%</li>
           </ul>
-          <a class="statuscard__link" href="#updates">Open logbook</a>
-        </article>
-
-        <article class="statuscard" aria-label="Watchbill and Schedule">
-          <header class="statuscard__hdr">
-            <h2 class="statuscard__title">Watchbill / Schedule</h2>
-            <div class="statuscard__stamp">LOCAL TIME</div>
-          </header>
-          <p class="statuscard__body">
-            Next muster: 0700. Training block: 0900–1100. Maintenance window: 1300–1500.
-          </p>
-          <a class="statuscard__link" href="#watchbill">View watchbill</a>
         </article>
 
       </div>
     </section>
 
-    <!-- MESS BOARD (Dashboard Hub) -->
-    <section id="messboard" class="section section--messboard" aria-labelledby="messboard-title">
+    <!-- =========================
+         MESS BOARD
+    ========================== -->
+    <section id="messboard" class="section section--messboard">
       <div class="section__inner">
         <header class="section__hdr">
-          <h2 id="messboard-title" class="section__title">Mess Board</h2>
-          <p class="section__sub">One place for intent, updates, trackers, and execution.</p>
+          <h2 class="section__title">Mess Board</h2>
+          <p class="section__sub">
+            Intent, updates, trackers, and execution in one place.
+          </p>
         </header>
 
         <div class="board">
@@ -171,232 +184,118 @@
             <ul class="panel__list">
               <li>Review updated standing orders</li>
               <li>Confirm qualification sign-offs</li>
-              <li>Log completion in tracker</li>
+              <li>Log completion</li>
             </ul>
-            <div class="panel__actions">
-              <a class="btn btn--primary" href="#standards">Standing Orders</a>
-              <a class="btn btn--ghost" href="#training">Qualification Map</a>
-            </div>
           </article>
 
           <article class="panel">
             <header class="panel__hdr">
               <h3 class="panel__title">Logbook</h3>
-              <div class="panel__meta">STAMPED ENTRIES</div>
+              <div class="panel__meta">STAMPED</div>
             </header>
             <ol class="panel__log">
-              <li><time datetime="2026-01-18T06:15">0615L</time> — SOP template updated</li>
-              <li><time datetime="2026-01-18T05:40">0540L</time> — Training block scheduled</li>
-              <li><time datetime="2026-01-17T18:10">1810L</time> — Deadline board refreshed</li>
+              <li>0615L — SOP template updated</li>
+              <li>0540L — Training scheduled</li>
+              <li>1810L — Deadline board refreshed</li>
             </ol>
-            <a class="panel__link" href="#updates">View all entries</a>
-          </article>
-
-          <article class="panel">
-            <header class="panel__hdr">
-              <h3 class="panel__title">Deckplate Status</h3>
-              <div class="panel__meta">READINESS</div>
-            </header>
-            <ul class="panel__stats">
-              <li>
-                <span class="stat__label">Qualifications</span>
-                <span class="stat__value">82%</span>
-              </li>
-              <li>
-                <span class="stat__label">Training Complete</span>
-                <span class="stat__value">67%</span>
-              </li>
-              <li>
-                <span class="stat__label">Docs Current</span>
-                <span class="stat__value">91%</span>
-              </li>
-            </ul>
-            <a class="panel__link" href="#trackers">Open trackers</a>
-          </article>
-
-          <article class="panel">
-            <header class="panel__hdr">
-              <h3 class="panel__title">Hot Links</h3>
-              <div class="panel__meta">FAST ACCESS</div>
-            </header>
-            <div class="panel__chips">
-              <a class="chip" href="#resources">Templates</a>
-              <a class="chip" href="#resources">Counseling Toolkit</a>
-              <a class="chip" href="#resources">Eval Helper</a>
-              <a class="chip" href="#resources">SOP Builder</a>
-              <a class="chip" href="#resources">Watchbill</a>
-              <a class="chip" href="#resources">Contact Roster</a>
-            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- STANDARDS -->
-    <section id="standards" class="section" aria-labelledby="standards-title">
+    <!-- =========================
+         STANDARDS
+    ========================== -->
+    <section id="standards" class="section">
       <div class="section__inner">
         <header class="section__hdr">
-          <h2 id="standards-title" class="section__title">Standards</h2>
-          <p class="section__sub">Know the standard. Meet the standard. Train the standard.</p>
+          <h2 class="section__title">Standards</h2>
+          <p class="section__sub">
+            Know the standard. Meet the standard. Train the standard.
+          </p>
         </header>
 
         <div class="grid">
           <article class="card">
             <h3 class="card__title">Standing Orders</h3>
-            <p class="card__body">Clear expectations and consistent execution.</p>
-            <a class="card__link" href="#">Open</a>
+            <p class="card__body">Clear expectations and consistency.</p>
           </article>
 
           <article class="card">
             <h3 class="card__title">Accountability</h3>
-            <p class="card__body">Documentation, follow-through, and results.</p>
-            <a class="card__link" href="#">Open</a>
+            <p class="card__body">Documentation and follow-through.</p>
           </article>
 
           <article class="card">
             <h3 class="card__title">Safety & Risk</h3>
-            <p class="card__body">Deliberate risk management at the deckplate level.</p>
-            <a class="card__link" href="#">Open</a>
+            <p class="card__body">Deliberate risk management.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- TRAINING -->
-    <section id="training" class="section" aria-labelledby="training-title">
+    <!-- =========================
+         LOGIN
+    ========================== -->
+    <section id="login" class="section section--login">
       <div class="section__inner">
         <header class="section__hdr">
-          <h2 id="training-title" class="section__title">Training</h2>
-          <p class="section__sub">Qualification paths, checklists, and deliberate practice.</p>
-        </header>
-
-        <div class="grid">
-          <article class="card">
-            <h3 class="card__title">Qualification Map</h3>
-            <p class="card__body">Step-by-step pipeline to get your people ready.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Study Guides</h3>
-            <p class="card__body">Focused notes, references, and review plans.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Sign-off Tracker</h3>
-            <p class="card__body">What’s complete, what’s pending, what’s due.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESOURCES -->
-    <section id="resources" class="section" aria-labelledby="resources-title">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 id="resources-title" class="section__title">Resources</h2>
-          <p class="section__sub">Tools that remove friction and support execution.</p>
-        </header>
-
-        <div class="grid">
-          <article class="card">
-            <h3 class="card__title">Templates</h3>
-            <p class="card__body">SOPs, trackers, memos, and quick forms.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Counseling Toolkit</h3>
-            <p class="card__body">Structured guidance for tough conversations.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Eval Helper</h3>
-            <p class="card__body">Bullets, impact framing, and consistency checks.</p>
-            <a class="card__link" href="#">Open</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- HERITAGE (Optional) -->
-    <section id="heritage" class="section section--heritage" aria-labelledby="heritage-title">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 id="heritage-title" class="section__title">Heritage</h2>
-          <p class="section__sub">Tradition, professionalism, and the standard we pass forward.</p>
-        </header>
-
-        <article class="callout">
-          <h3 class="callout__title">The Mess</h3>
-          <p class="callout__body">
-            A place for mentorship, problem-solving, and leadership—quiet competence, loud results.
+          <h2 class="section__title">Present Credentials</h2>
+          <p class="section__sub">
+            Restricted tools and internal access.
           </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- LOGIN (Anchor) -->
-    <section id="login" class="section section--login" aria-labelledby="login-title">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 id="login-title" class="section__title">Present Credentials</h2>
-          <p class="section__sub">Optional gateway for restricted tools and internal pages.</p>
         </header>
 
         <form class="login" action="#" method="post">
-          <div class="login__row">
-            <label class="field">
-              <span class="field__label">Access ID</span>
-              <input class="field__input" type="text" name="accessId" autocomplete="username" />
-            </label>
-            <label class="field">
-              <span class="field__label">Passphrase</span>
-              <input class="field__input" type="password" name="passphrase" autocomplete="current-password" />
-            </label>
-          </div>
-          <button class="btn btn--primary" type="submit">Authenticate</button>
-          <p class="login__hint" role="note">This is a front-end placeholder. Wire it to your auth later.</p>
+          <label class="field">
+            <span class="field__label">Access ID</span>
+            <input class="field__input" type="text" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Passphrase</span>
+            <input class="field__input" type="password" />
+          </label>
+
+          <button class="btn btn--primary" type="submit">
+            Authenticate
+          </button>
         </form>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
-      <div class="footer__left">
-        <span aria-hidden="true">⚓</span>
-        <span class="footer__name">Chiefs’ Mess</span>
-        <span class="footer__meta">— Quarterdeck Interface</span>
+      <div>
+        ⚓ Chiefs’ Mess — Quarterdeck Interface
       </div>
-
-      <div class="footer__right">
-        <a class="footer__link" href="#standards">Standards</a>
-        <a class="footer__link" href="#training">Training</a>
-        <a class="footer__link" href="#resources">Resources</a>
+      <div>
+        Standards · Training · Resources
       </div>
     </div>
   </footer>
 
-  <!-- Lightweight JS hooks (optional; can be moved to script.js later) -->
+  <!-- =========================
+       SCRIPTS
+  ========================== -->
+  <script src="script.js"></script>
+
   <script>
-    // Minimal HTML-only behavior hooks (safe to remove).
+    // Minimal inline hooks (optional)
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-action]");
       if (!btn) return;
 
-      const action = btn.getAttribute("data-action");
-
-      if (action === "come-aboard") {
+      if (btn.dataset.action === "come-aboard") {
         alert("COME ABOARD — Quarterdeck acknowledged.");
       }
 
-      if (action === "open-announce") {
+      if (btn.dataset.action === "open-announce") {
         alert("TODAY'S INTENT: Maintain standards. Train deliberately. Document progress. Take care of people.");
       }
     });
