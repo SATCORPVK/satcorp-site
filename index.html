@@ -1,173 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hunter Archive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0b0b0b" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hunter's Archive</title>
   <link rel="stylesheet" href="style.css" />
+  <meta name="theme-color" content="#0b0b0c" />
 </head>
-
 <body>
-  <!-- Subtle flicker overlay -->
-  <div id="flicker" aria-hidden="true"></div>
+  <!-- Film grain + flicker overlays -->
+  <div class="overlay overlay-grain" aria-hidden="true"></div>
+  <div class="overlay overlay-flicker" aria-hidden="true"></div>
+  <div class="overlay overlay-vignette" aria-hidden="true"></div>
 
-  <!-- ENTRY GATE -->
-  <div id="gate" class="gate">
-    <div class="gate-inner">
-      <h1 class="gate-title">HUNTER ARCHIVE</h1>
-      <p class="gate-line" id="typeLine"></p>
-      <button id="openJournal" class="gate-btn">
-        Open the Journal
-      </button>
-    </div>
-  </div>
-
-  <!-- OPTIONAL AMBIENT AUDIO -->
-  <audio
-    id="ambientAudio"
-    src="assets/audio/ambient-static.mp3"
-    loop
-    preload="none"
-  ></audio>
-
-  <!-- HEADER / NAV -->
-  <header class="site-header">
-    <div class="header-left">
-      <span class="sigil" data-tip="Protection Sigil">⛧</span>
-      <span class="site-title">Hunter Archive</span>
+  <!-- Top status strip -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <span class="sigil-dot" aria-hidden="true"></span>
+      <span class="mono">ARCHIVE STATUS:</span>
+      <span class="status status--active">LIVE</span>
+      <span class="pipe">|</span>
+      <span class="mono" id="clock">00:00:00</span>
     </div>
 
-    <nav class="site-nav">
-      <a href="#journal">Journal</a>
-      <a href="#cases">Case Files</a>
-      <a href="#bestiary">Bestiary</a>
-      <a href="#lore">Lore</a>
-      <a href="#road">The Road</a>
-    </nav>
-
-    <div class="header-right">
-      <button id="themeToggle" aria-pressed="false" title="Toggle candlelight mode">
-        🕯
+    <div class="topbar__right">
+      <button class="icon-btn" id="audioBtn" aria-pressed="false" title="Ambient audio (optional)">
+        <span class="icon" aria-hidden="true">⟡</span>
+        <span class="mono">AMBIENT</span>
       </button>
-      <button id="audioToggle" aria-pressed="false" title="Toggle ambient audio">
-        📻
+      <button class="icon-btn" id="reduceMotionBtn" aria-pressed="false" title="Reduce motion">
+        <span class="icon" aria-hidden="true">⟂</span>
+        <span class="mono">MOTION</span>
       </button>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
-  <main>
-    <!-- JOURNAL -->
-    <section id="journal" class="section">
-      <h2>The Journal</h2>
-      <p class="journal-entry">
-        If you’re reading this, you’re already involved.  
-        Keep salt on hand. Trust your instincts.  
-        Some things wear friendly faces.
-      </p>
-    </section>
-
-    <!-- CASE FILES -->
-    <section id="cases" class="section">
-      <h2>Case Files</h2>
-
-      <div class="case-grid">
-        <article
-          class="case-card"
-          tabindex="0"
-          data-title="Bloody Mary"
-          data-location="Toledo, Ohio"
-          data-status="Contained"
-          data-threat="Vengeful Spirit"
-          data-notes="Appears in mirrors. Break the reflective link to banish."
-        >
-          <h3 class="case-title">Bloody Mary</h3>
-          <p class="case-location">Toledo, Ohio</p>
-          <span class="case-status">Contained</span>
-        </article>
-
-        <article
-          class="case-card"
-          tabindex="0"
-          data-title="Wendigo"
-          data-location="Blackwater Ridge"
-          data-status="Eliminated"
-          data-threat="Cannibal Spirit"
-          data-notes="Fire confirmed kill. Victims lured by screams."
-        >
-          <h3 class="case-title">Wendigo</h3>
-          <p class="case-location">Blackwater Ridge</p>
-          <span class="case-status">Eliminated</span>
-        </article>
+  <!-- Landing Gate -->
+  <main class="gate" id="gate" role="main">
+    <section class="gate__panel">
+      <div class="gate__meta mono">
+        <span>RECOVERED ITEM:</span>
+        <span class="muted">FIELD JOURNAL / MOTEL CACHE</span>
       </div>
-    </section>
 
-    <!-- BESTIARY -->
-    <section id="bestiary" class="section">
-      <h2>Bestiary</h2>
+      <h1 class="gate__title">HUNTER’S ARCHIVE</h1>
 
-      <input
-        id="bestiarySearch"
-        type="search"
-        placeholder="Search creatures..."
-        aria-label="Search Bestiary"
-      />
-
-      <div class="bestiary-list">
-        <div
-          class="bestiary-item"
-          data-name="Demon"
-          data-tags="hell possession exorcism"
-        >
-          <h3>Demon</h3>
-          <p>Exorcism required. Salt and iron slow them down.</p>
-        </div>
-
-        <div
-          class="bestiary-item"
-          data-name="Vampire"
-          data-tags="fangs blood nest"
-        >
-          <h3>Vampire</h3>
-          <p>Beheading is the only sure kill.</p>
-        </div>
+      <div class="typewriter-wrap" aria-live="polite">
+        <p class="typewriter" id="gateLine"></p>
       </div>
-    </section>
 
-    <!-- LORE -->
-    <section id="lore" class="section">
-      <h2>Lore & Legends</h2>
-      <p>
-        Angels are soldiers. Demons are liars.  
-        Heaven is bureaucracy. Hell is hunger.
-      </p>
-    </section>
+      <div class="gate__actions">
+        <button class="btn btn--primary" id="enterBtn">
+          Open the Journal
+        </button>
+        <button class="btn btn--ghost" id="peekBtn">
+          Peek at the Evidence
+        </button>
+      </div>
 
-    <!-- THE ROAD -->
-    <section id="road" class="section">
-      <h2>The Road</h2>
-      <p>
-        No home. No roots. Just highways, motels, and unfinished business.
+      <p class="gate__warning mono">
+        <span class="warn">NOTE:</span> If you found this, you weren’t supposed to.
       </p>
+
+      <div class="gate__footer mono">
+        <span class="stamp">PROPERTY OF: <span class="redact">[REDACTED]</span></span>
+        <span class="pipe">|</span>
+        <span class="stamp">DO NOT COPY</span>
+      </div>
     </section>
   </main>
 
-  <!-- CASE MODAL -->
-  <div id="caseModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <button id="caseModalClose" class="modal-close" aria-label="Close">
-        ✕
-      </button>
-      <h3 id="caseModalTitle"></h3>
-      <div id="caseModalBody"></div>
+  <!-- App -->
+  <div class="app" id="app" aria-hidden="true">
+    <aside class="sidebar">
+      <div class="sidebar__head">
+        <div class="brand">
+          <div class="brand__sigil" aria-hidden="true">
+            <!-- minimal warding glyph -->
+            <svg viewBox="0 0 64 64" width="40" height="40">
+              <path d="M32 6 L52 18 L52 46 L32 58 L12 46 L12 18 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M32 12 L44 22 L44 42 L32 52 L20 42 L20 22 Z" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"/>
+              <path d="M32 16 L32 50 M22 26 L42 26 M22 38 L42 38" fill="none" stroke="currentColor" stroke-width="1.25" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="brand__text">
+            <div class="brand__name">Hunter’s Archive</div>
+            <div class="brand__sub mono">FIELD ACCESS • OFFLINE CACHE</div>
+          </div>
+        </div>
+
+        <div class="divider divider--scratch"></div>
+
+        <nav class="nav" aria-label="Hunter navigation">
+          <button class="nav__item is-active" data-route="journal">
+            <span class="nav__sigil" aria-hidden="true">✠</span>
+            <span>The Journal</span>
+          </button>
+          <button class="nav__item" data-route="cases">
+            <span class="nav__sigil" aria-hidden="true">⌁</span>
+            <span>Case Files</span>
+          </button>
+          <button class="nav__item" data-route="bestiary">
+            <span class="nav__sigil" aria-hidden="true">𖤐</span>
+            <span>Bestiary</span>
+          </button>
+          <button class="nav__item" data-route="lore">
+            <span class="nav__sigil" aria-hidden="true">⸸</span>
+            <span>Lore &amp; Legends</span>
+          </button>
+          <button class="nav__item" data-route="safehouses">
+            <span class="nav__sigil" aria-hidden="true">⛨</span>
+            <span>Safe Houses</span>
+          </button>
+          <button class="nav__item" data-route="road">
+            <span class="nav__sigil" aria-hidden="true">⟟</span>
+            <span>The Road</span>
+          </button>
+        </nav>
+
+        <div class="divider divider--scratch"></div>
+
+        <div class="sidebar__notes">
+          <div class="mono muted">TIP:</div>
+          <p class="small">
+            Hover over symbols. Click entries to “unseal” details.
+            Nothing here is fast. Let it breathe.
+          </p>
+        </div>
+      </div>
+
+      <div class="sidebar__foot mono">
+        <div class="footrow">
+          <span class="muted">THREAT LVL</span>
+          <span class="threat" id="threatPips" aria-label="Threat level">⬤⬤◯◯◯</span>
+        </div>
+        <div class="footrow">
+          <span class="muted">CACHE</span>
+          <span id="cacheState">ENCRYPTED</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content" aria-label="Archive content">
+      <div class="content__chrome">
+        <div class="content__title">
+          <h2 id="viewTitle">The Journal</h2>
+          <div class="content__sub mono" id="viewSub">Recovered entries & notes.</div>
+        </div>
+
+        <div class="content__tools">
+          <label class="search">
+            <span class="mono muted">SEARCH</span>
+            <input id="searchInput" type="search" placeholder="names, places, symbols…" />
+          </label>
+          <button class="btn btn--ghost btn--small" id="randomBtn" title="Pull a random file">
+            Random File
+          </button>
+        </div>
+      </div>
+
+      <div class="divider divider--metal"></div>
+
+      <!-- View container -->
+      <div class="view" id="view"></div>
+
+      <footer class="footer mono">
+        <span class="muted">“Knowledge costs.”</span>
+        <span class="pipe">|</span>
+        <span class="muted">If it starts flickering… stop reading.</span>
+      </footer>
+    </section>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" data-close="true"></div>
+    <div class="modal__panel" role="document">
+      <div class="modal__head">
+        <div class="modal__title">
+          <div class="mono muted" id="modalKicker">FILE</div>
+          <h3 id="modalTitle">Untitled</h3>
+        </div>
+        <button class="icon-btn" id="modalClose" title="Close">
+          <span class="icon" aria-hidden="true">✕</span>
+          <span class="mono">CLOSE</span>
+        </button>
+      </div>
+
+      <div class="divider divider--scratch"></div>
+
+      <div class="modal__body" id="modalBody"></div>
+
+      <div class="divider divider--scratch"></div>
+
+      <div class="modal__foot mono">
+        <span class="muted">HANDLE WITH CARE</span>
+        <span class="pipe">|</span>
+        <span class="muted">Do not speak names aloud.</span>
+      </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <p>© <span id="year"></span> — The Family Business</p>
-  </footer>
+  <!-- Optional ambient audio (never autoplay) -->
+  <audio id="ambience" preload="auto" loop>
+    <!-- You can replace these with your own local files later -->
+    <!-- Keep empty by default so nothing plays unless user supplies sources -->
+  </audio>
 
   <script src="script.js"></script>
 </body>
