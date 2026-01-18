@@ -1,284 +1,170 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Badass WebBuilder Guide</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Navigation Bar -->
-    <nav>
-      <div class="container">
-        <div class="logo">WebBuilder Guide</div>
-        <div class="menu-toggle" aria-label="Toggle navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#planning">Planning</a></li>
-          <li><a href="#domain">Domains &amp; Hosting</a></li>
-          <li><a href="#structure">Structure</a></li>
-          <li><a href="#levels">Roadmap</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>VOIDRIFT // Brutalist Glitch</title>
+  <meta name="description" content="A brutalist glitch landing page with an interactive void rift and CRT effects." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <canvas id="rift" aria-hidden="true"></canvas>
+
+  <div class="crt" aria-hidden="true">
+    <div class="scan"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <header class="top">
+    <div class="mark">
+      <div class="sig">VR</div>
+      <div class="word">
+        <div class="name">VOIDRIFT</div>
+        <div class="sub">BRUTALIST GLITCH INTERFACE</div>
       </div>
-    </nav>
+    </div>
 
-    <main>
-      <!-- Hero Section -->
-      <section id="hero" class="section full-screen fade-in">
-        <div class="hero-bg"></div>
-        <div class="container hero-content">
-          <p id="daily-tip" class="daily-tip"></p>
-          <h1>Build Websites Like a Pro</h1>
-          <p>Your journey to modern, dynamic web design starts here.</p>
-          <a href="#levels" class="cta">Explore the Roadmap</a>
+    <div class="controls">
+      <button class="btn btn--ghost" id="themeBtn" type="button" aria-label="Toggle theme">
+        <span class="btn__icon" aria-hidden="true">◐</span>
+        <span class="btn__text">THEME</span>
+      </button>
+
+      <button class="btn btn--hot" id="overdriveBtn" type="button">
+        <span class="btn__icon" aria-hidden="true">⟟</span>
+        <span class="btn__text">OVERDRIVE</span>
+      </button>
+
+      <button class="btn" id="shatterBtn" type="button">
+        <span class="btn__icon" aria-hidden="true">✶</span>
+        <span class="btn__text">SHATTER</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero__left">
+        <div class="ticker" aria-hidden="true">
+          <span>⚠ SIGNAL</span><span>STABLE</span><span>//</span>
+          <span id="tickA">RIFT</span><span>ACTIVE</span><span>//</span>
+          <span id="tickB">NOISE</span><span>MAX</span><span>//</span>
+          <span>⚠</span>
         </div>
-      </section>
 
-      <!-- Planning Section -->
-      <section id="planning" class="section fade-in">
-        <div class="container">
-          <h2>Planning &amp; Purpose</h2>
-          <p>
-            Before you write a single line of code, clarify your website’s
-            objectives and target audience. Define the actions you want visitors
-            to take and match your goals with the right type of site.
-          </p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>Define Goals</h3>
-              <p>
-                Identify the purpose of your site—portfolio, blog, store—and
-                the needs of your users. This guides every decision
-                【188481598277924†L3-L13】.
-              </p>
-            </div>
-            <div class="card">
-              <h3>Budget &amp; Growth</h3>
-              <p>
-                Plan your budget realistically. Consider hidden costs like
-                maintenance, SSL certificates, and SEO. Plan for future growth
-                with regular updates and performance optimization
-                【188481598277924†L14-L22】.
-              </p>
-            </div>
-            <div class="card">
-              <h3>Use AI Wisely</h3>
-              <p>
-                AI tools can accelerate drafting but require human oversight for
-                branding and complex features【188481598277924†L24-L27】.
-              </p>
-            </div>
-          </div>
+        <h1 class="title">
+          <span class="title__line" data-glitch="OPEN THE RIFT">OPEN THE RIFT</span>
+          <span class="title__line" data-glitch="BEND THE UI">BEND THE UI</span>
+          <span class="title__line title__small">
+            Drag your cursor — the void follows. Click to punch holes in reality.
+          </span>
+        </h1>
+
+        <div class="cta">
+          <a class="btn btn--hot" href="#modules">
+            <span class="btn__icon" aria-hidden="true">➜</span>
+            <span class="btn__text">ENTER</span>
+          </a>
+          <button class="btn btn--ghost" id="muteBtn" type="button">
+            <span class="btn__icon" aria-hidden="true">⟲</span>
+            <span class="btn__text">CALM MODE</span>
+          </button>
         </div>
-      </section>
 
-      <!-- Domain & Hosting Section -->
-      <section id="domain" class="section fade-in">
-        <div class="container">
-          <h2>Domains &amp; Hosting</h2>
-          <p>
-            Choose a memorable domain name and a hosting plan that matches your
-            needs. Understand how the Domain Name System (DNS) translates
-            human‑readable addresses into IP addresses to serve your site.
-          </p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>Choose a Domain</h3>
-              <p>
-                Pick a clear, memorable name without numbers or symbols. Use
-                relevant keywords and register similar spellings to protect
-                your brand【188481598277924†L29-L42】.
-              </p>
-            </div>
-            <div class="card">
-              <h3>Shared vs VPS Hosting</h3>
-              <p>
-                Shared hosting is affordable for small sites but offers limited
-                resources【188481598277924†L55-L87】. A VPS provides dedicated
-                resources and control for growing projects【188481598277924†L88-L121】.
-              </p>
-            </div>
-            <div class="card">
-              <h3>Hosting Types</h3>
-              <p>
-                For high‑traffic sites requiring custom configurations,
-                dedicated servers or cloud hosting provide scalability and
-                performance【188481598277924†L123-L155】.
-              </p>
-            </div>
-          </div>
+        <div class="micro">
+          <div class="micro__chip"><b>TIP</b> Press <kbd>G</kbd> to toggle grid</div>
+          <div class="micro__chip"><b>TIP</b> Press <kbd>O</kbd> for overdrive</div>
+          <div class="micro__chip"><b>TIP</b> Press <kbd>R</kbd> to reset</div>
         </div>
-      </section>
-
-      <!-- Structure Section -->
-      <section id="structure" class="section fade-in">
-        <div class="container">
-          <h2>Website Structure &amp; Technologies</h2>
-          <p>
-            Modern websites rely on HTML for structure, CSS for appearance, and
-            JavaScript for interactivity【188481598277924†L161-L179】. Frameworks like
-            React or Vue can streamline development, while static site
-            generators like Jekyll build pages from templates【188481598277924†L182-L196】.
-          </p>
-          <div class="code-block">
-            <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-  &lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;My Site&lt;/title&gt;
-    &lt;link rel="stylesheet" href="style.css"&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;header&gt;Hello world!&lt;/header&gt;
-    &lt;script src="script.js"&gt;&lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-            </code></pre>
-            <button class="copy-btn" aria-label="Copy code">Copy</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Levels Section -->
-      <section id="levels" class="section fade-in">
-        <div class="container">
-          <h2>Your Learning Journey</h2>
-          <p>
-            Follow a step‑by‑step path from beginner to pro. Expand each level to
-            see the recommended skills, tools, and project ideas.
-          </p>
-          <div class="accordion">
-            <div class="accordion-item">
-              <button class="accordion-header">Beginner Level</button>
-              <div class="accordion-content">
-                <p>
-                  Learn HTML and CSS fundamentals【127171399535766†L12-L31】. Use
-                  drag‑and‑drop builders or simple code editors to create basic
-                  layouts【127171399535766†L20-L27】. Focus on simplicity, clear
-                  navigation, and accessible content【127171399535766†L28-L34】. Build
-                  simple portfolios or blogs【127171399535766†L37-L43】.
-                </p>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <button class="accordion-header">Intermediate Level</button>
-              <div class="accordion-content">
-                <p>
-                  Improve responsiveness with CSS media queries【127171399535766†L69-L72】
-                  and practice JavaScript to add interactivity【127171399535766†L49-L55】.
-                  Explore CMS platforms and frameworks like Bootstrap, and
-                  version control with Git【127171399535766†L57-L67】. Build multi‑page
-                  sites with contact forms or small e‑commerce features【127171399535766†L80-L89】.
-                </p>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <button class="accordion-header">Advanced Level</button>
-              <div class="accordion-content">
-                <p>
-                  Master full‑stack development by learning modern frameworks like
-                  React, Vue, or Angular【127171399535766†L93-L103】. Use build tools
-                  like Webpack and pre‑processors like Sass【127171399535766†L106-L112】.
-                  Integrate APIs, manage state, optimize performance, and
-                  collaborate on GitHub【127171399535766†L112-L117】.
-                </p>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <button class="accordion-header">Professional Level</button>
-              <div class="accordion-content">
-                <p>
-                  Embrace design principles such as harmonious color palettes,
-                  hierarchy, and negative space【936693865659713†L42-L75】. Create
-                  responsive interfaces with fluid grids, container queries, and
-                  fluid typography【936693865659713†L104-L123】. Prioritize
-                  accessibility and user‑centric design【936693865659713†L149-L176】,
-                  and conduct usability testing to refine your work.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Progress bars section -->
-          <h3 class="progress-heading">Progress at a Glance</h3>
-          <div class="progress-grid progress-container fade-in">
-            <div class="progress-item">
-              <span class="progress-title">Beginner</span>
-              <div class="progress-bar"><div class="bar" data-perc="25"></div></div>
-            </div>
-            <div class="progress-item">
-              <span class="progress-title">Intermediate</span>
-              <div class="progress-bar"><div class="bar" data-perc="50"></div></div>
-            </div>
-            <div class="progress-item">
-              <span class="progress-title">Advanced</span>
-              <div class="progress-bar"><div class="bar" data-perc="75"></div></div>
-            </div>
-            <div class="progress-item">
-              <span class="progress-title">Pro</span>
-              <div class="progress-bar"><div class="bar" data-perc="100"></div></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact" class="section fade-in">
-        <div class="container">
-          <h2>Contact Us</h2>
-          <p>
-            Have questions or need personalized guidance? Send us a message!
-          </p>
-          <form id="contact-form" novalidate>
-            <div class="form-group">
-              <label for="name">Name<span>*</span></label>
-              <input type="text" id="name" name="name" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email<span>*</span></label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="message">Message<span>*</span></label>
-              <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Send Message</button>
-            <p id="form-response" class="form-response" aria-live="polite"></p>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <!-- Back to Top Button -->
-    <button id="back-to-top" aria-label="Back to top">↑</button>
-
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <p>
-          &copy; <span id="year"></span> WebBuilder Guide. All rights
-          reserved.
-        </p>
       </div>
+
+      <aside class="hero__right" aria-label="Status panel">
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">STATUS</div>
+            <div class="panel__id">SIG: <span id="sig">—</span></div>
+          </div>
+
+          <div class="panel__body">
+            <div class="metric">
+              <div class="metric__k">CHAOS</div>
+              <div class="metric__bar"><span id="chaosBar" style="--w:72%"></span></div>
+              <div class="metric__v"><span id="chaosVal">72</span>%</div>
+            </div>
+
+            <div class="metric">
+              <div class="metric__k">DISTORT</div>
+              <div class="metric__bar"><span id="distBar" style="--w:58%"></span></div>
+              <div class="metric__v"><span id="distVal">58</span>%</div>
+            </div>
+
+            <div class="metric">
+              <div class="metric__k">SYNC</div>
+              <div class="metric__bar"><span id="syncBar" style="--w:91%"></span></div>
+              <div class="metric__v"><span id="syncVal">91</span>%</div>
+            </div>
+
+            <div class="log" role="log" aria-live="polite" aria-label="Event log"></div>
+          </div>
+
+          <div class="panel__foot">
+            <button class="btn btn--ghost btn--small" id="pingBtn" type="button">
+              <span class="btn__icon" aria-hidden="true">⌁</span>
+              <span class="btn__text">PING</span>
+            </button>
+            <button class="btn btn--ghost btn--small" id="scrambleBtn" type="button">
+              <span class="btn__icon" aria-hidden="true">⟁</span>
+              <span class="btn__text">SCRAMBLE</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="modules">
+      <div class="section__head">
+        <h2>Modules</h2>
+        <p>Brutalist blocks. Violent motion. Clean code. Zero libraries.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Void Rift Canvas</h3>
+          <p>Reactive gravity + shockwaves + chroma smear.</p>
+          <div class="tags">
+            <span>canvas</span><span>noise</span><span>shock</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Glitch Typography</h3>
+          <p>CSS pseudo-layers + jitter + scanline hits.</p>
+          <div class="tags">
+            <span>crt</span><span>glitch</span><span>kinetic</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Overdrive Mode</h3>
+          <p>Turns the whole page into a hostile instrument.</p>
+          <div class="tags">
+            <span>boost</span><span>distort</span><span>chaos</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="foot__line">
+        <span>VOIDRIFT</span><span class="dot" aria-hidden="true"></span>
+        <span id="footSig">SIG: —</span>
+      </div>
+      <div class="foot__fine">Drag. Click. Break it. (Press R to reset.)</div>
     </footer>
+  </main>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
