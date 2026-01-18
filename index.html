@@ -1,103 +1,318 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TACTICAL OPS // RADAR GRID</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>BLACKLIST // Secure Intel Interface</title>
+  <meta name="theme-color" content="#07070b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Free Google fonts: condensed headline + clean UI + mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div id="app">
-    <header class="topbar">
+  <!-- Ambient effects -->
+  <div class="fx fx-grid" aria-hidden="true"></div>
+  <div class="fx fx-vignette" aria-hidden="true"></div>
+  <div class="fx fx-scanline" aria-hidden="true"></div>
+  <div class="fx fx-noise" aria-hidden="true"></div>
+
+  <!-- Top console bar -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <div class="seal" aria-hidden="true">
+        <span class="seal__ring"></span>
+        <span class="seal__dot"></span>
+      </div>
       <div class="brand">
-        <div class="sig">OPS</div>
-        <div class="meta">
-          <div class="title">TACTICAL OPS INTERFACE</div>
-          <div class="sub">RADAR / THREAT VIS / IMPACT SIM</div>
-        </div>
+        <div class="brand__title">BLACKLIST</div>
+        <div class="brand__sub">SECURE INTEL INTERFACE</div>
       </div>
+    </div>
 
-      <div class="status">
-        <div class="pill">
-          <span class="dot" id="connDot"></span>
-          <span id="connLabel">LINK: STANDBY</span>
-        </div>
-        <div class="pill mono" id="clock">00:00:00</div>
+    <div class="topbar__center">
+      <div class="statusline">
+        <span class="pill">CONNECTION: <b>ENCRYPTED</b></span>
+        <span class="pill">CLEARANCE: <b>LVL 4</b></span>
+        <span class="pill">SESSION: <b id="sessionId">—</b></span>
       </div>
-    </header>
+    </div>
 
-    <main class="stage">
-      <canvas id="fx"></canvas>
+    <div class="topbar__right">
+      <div class="clock mono" id="clock">00:00:00</div>
+      <button class="btn btn--ghost" id="btnToggleEffects" type="button" title="Toggle FX (Scanline/Noise)">
+        FX
+      </button>
+    </div>
+  </header>
 
-      <!-- subtle HUD overlay -->
-      <div class="hud">
-        <div class="hud-corners"></div>
+  <!-- Nav tabs -->
+  <nav class="tabs" aria-label="Primary">
+    <button class="tab is-active" data-view="dashboard" type="button">Dashboard</button>
+    <button class="tab" data-view="index" type="button">Blacklist Index</button>
+    <button class="tab" data-view="cases" type="button">Cases</button>
+    <button class="tab" data-view="locker" type="button">Evidence Locker</button>
+    <button class="tab" data-view="logs" type="button">Interrogation Logs</button>
+    <div class="tabs__spacer"></div>
+    <button class="tab tab--danger" id="btnLock" type="button" title="Lock Interface (Esc to close)">Lock</button>
+  </nav>
 
-        <section class="panel">
-          <div class="panel-title">CONTROL PANEL</div>
+  <main class="shell">
+    <!-- HERO / DASHBOARD -->
+    <section class="view is-active" id="view-dashboard" data-view="dashboard">
+      <div class="hero card">
+        <div class="hero__left">
+          <div class="kicker mono">OPERATION //</div>
+          <h1 class="hero__title">Task Force Blacklist</h1>
+          <p class="hero__lead">
+            Access restricted. Unauthorized viewing will be logged. Use the index to open a dossier, crosslink
+            associates, and track evidence across active operations.
+          </p>
 
-          <div class="row">
-            <button class="btn" id="spawnBtn">
-              <span class="btn-ic">+</span> Spawn Contacts
+          <div class="hero__actions">
+            <button class="btn btn--primary" id="btnOpenCurrent" type="button">
+              Open Current Target
             </button>
-            <button class="btn danger" id="clearBtn">
-              <span class="btn-ic">×</span> Clear
+            <button class="btn" data-switch="index" type="button">
+              Search Blacklist
+            </button>
+            <button class="btn btn--ghost" data-switch="locker" type="button">
+              Evidence Locker
             </button>
           </div>
 
-          <div class="row two">
-            <label class="toggle">
-              <input type="checkbox" id="nightVision" checked />
-              <span class="track"></span>
-              <span class="label">Night Vision</span>
-            </label>
-
-            <label class="toggle">
-              <input type="checkbox" id="audio" />
-              <span class="track"></span>
-              <span class="label">Audio</span>
-            </label>
-          </div>
-
-          <div class="row">
-            <label class="field">
-              <span>Threat Level</span>
-              <input id="threat" type="range" min="1" max="10" value="6" />
-              <span class="mono" id="threatVal">6</span>
-            </label>
-          </div>
-
-          <div class="row">
-            <label class="field">
-              <span>Radar Range</span>
-              <input id="range" type="range" min="40" max="160" value="110" />
-              <span class="mono" id="rangeVal">110</span>
-            </label>
-          </div>
-
-          <div class="hint">
-            <div class="k">INTERACT</div>
-            <div class="v">
-              • Click / tap: <b>impact burst</b><br/>
-              • Move mouse: <b>parallax scan</b><br/>
-              • Press <b>R</b>: randomize<br/>
-              • Press <b>Space</b>: pulse sweep
+          <div class="hero__meta">
+            <div class="metaCard">
+              <div class="metaCard__label mono">CURRENT CASE</div>
+              <div class="metaCard__value" id="currentCaseLabel">—</div>
+              <div class="metaCard__sub mono" id="currentCaseSub">—</div>
+            </div>
+            <div class="metaCard">
+              <div class="metaCard__label mono">INTEL COMPLETENESS</div>
+              <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="bar__fill" id="intelBar" style="width: 62%"></div>
+              </div>
+              <div class="metaCard__sub mono" id="intelHint">62% // Moderate confidence</div>
+            </div>
+            <div class="metaCard">
+              <div class="metaCard__label mono">LAST VERIFIED</div>
+              <div class="metaCard__value" id="lastVerified">—</div>
+              <div class="metaCard__sub mono">Time since: <span id="timeSince">—</span></div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section class="readout">
-          <div class="panel-title">READOUT</div>
-          <div class="lines mono" id="readout"></div>
-        </section>
+        <div class="hero__right">
+          <div class="portrait" aria-hidden="true">
+            <div class="portrait__frame">
+              <div class="portrait__scan"></div>
+              <div class="portrait__label mono">
+                <span>LIVE FEED</span>
+                <span class="dot dot--ok"></span>
+              </div>
+              <div class="portrait__hud mono">
+                <div>THREAT: <b class="t-red">ELEVATED</b></div>
+                <div>TRACK: <b class="t-amber">ACTIVE</b></div>
+                <div>NODE: <b class="t-cyan">CH-7</b></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sideFeed card card--thin">
+            <div class="card__head">
+              <h2 class="card__title">Latest Intel</h2>
+              <div class="card__sub mono">Live channel</div>
+            </div>
+            <ul class="feed" id="intelFeed" aria-live="polite"></ul>
+          </div>
+        </div>
       </div>
 
-      <footer class="bottombar mono">
-        <span id="footerLeft">SECTOR A9 • GRID ONLINE</span>
-        <span id="footerRight">CLICK TO SIMULATE IMPACT</span>
-      </footer>
-    </main>
+      <div class="grid2">
+        <section class="card">
+          <div class="card__head">
+            <h2 class="card__title">Most Wanted</h2>
+            <div class="card__sub mono">Priority subjects</div>
+          </div>
+          <div class="strip" id="mostWanted"></div>
+        </section>
+
+        <section class="card">
+          <div class="card__head">
+            <h2 class="card__title">Task Force Notes</h2>
+            <div class="card__sub mono">Directive channel</div>
+          </div>
+          <div class="notes" id="taskNotes"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- BLACKLIST INDEX -->
+    <section class="view" id="view-index" data-view="index">
+      <div class="card">
+        <div class="card__head card__head--row">
+          <div>
+            <h2 class="card__title">Blacklist Index</h2>
+            <div class="card__sub mono">Query the roster. Press <b>/</b> to focus search.</div>
+          </div>
+
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search name, alias, specialty, location…" autocomplete="off" />
+            <button class="btn btn--ghost search__clear" id="btnClearSearch" type="button" title="Clear">×</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <button class="chip is-active" data-filter="all" type="button">All</button>
+          <button class="chip" data-filter="elevated" type="button">Elevated</button>
+          <button class="chip" data-filter="high" type="button">High</button>
+          <button class="chip" data-filter="critical" type="button">Critical</button>
+          <div class="filters__spacer"></div>
+          <div class="small mono" id="resultsCount">—</div>
+        </div>
+
+        <div class="ledger" id="ledger"></div>
+      </div>
+    </section>
+
+    <!-- CASES -->
+    <section class="view" id="view-cases" data-view="cases">
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Cases</h2>
+          <div class="card__sub mono">Active operations & status tracking</div>
+        </div>
+
+        <div class="cases" id="casesGrid"></div>
+      </div>
+    </section>
+
+    <!-- EVIDENCE LOCKER -->
+    <section class="view" id="view-locker" data-view="locker">
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Evidence Locker</h2>
+          <div class="card__sub mono">Sealed items. Click to decrypt.</div>
+        </div>
+
+        <div class="locker" id="lockerGrid"></div>
+      </div>
+    </section>
+
+    <!-- LOGS -->
+    <section class="view" id="view-logs" data-view="logs">
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Interrogation Logs</h2>
+          <div class="card__sub mono">Transcripts with timecode, redactions, and audio markers</div>
+        </div>
+
+        <div class="logs">
+          <div class="logMeta mono">
+            <div>CHANNEL: <b>INT-3</b></div>
+            <div>REC: <b class="t-red">ON</b></div>
+            <div>SCRUB: <b id="scrubHint">00:00</b></div>
+          </div>
+
+          <div class="transcript" id="transcript"></div>
+
+          <div class="logControls">
+            <button class="btn" id="btnLoadLog" type="button">Load Random Segment</button>
+            <button class="btn btn--ghost" id="btnRedactToggle" type="button">Toggle Redactions</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- DOSSIER MODAL -->
+  <dialog class="modal" id="dossierModal" aria-labelledby="dossierTitle">
+    <div class="modal__frame">
+      <div class="modal__top">
+        <div>
+          <div class="mono small" id="dossierStamp">CLASSIFIED // EYES ONLY</div>
+          <h3 id="dossierTitle" class="modal__title">—</h3>
+          <div class="modal__sub mono" id="dossierSub">—</div>
+        </div>
+        <div class="modal__actions">
+          <button class="btn btn--ghost" id="btnCopyDossier" type="button">Copy Summary</button>
+          <button class="btn btn--danger" id="btnCloseModal" type="button">Close</button>
+        </div>
+      </div>
+
+      <div class="modal__body">
+        <aside class="modal__side">
+          <div class="badge" id="threatBadge">THREAT</div>
+
+          <div class="kv mono">
+            <div class="kv__row"><span>BLACKLIST #</span><b id="dossierNum">—</b></div>
+            <div class="kv__row"><span>STATUS</span><b id="dossierStatus">—</b></div>
+            <div class="kv__row"><span>LAST KNOWN</span><b id="dossierLoc">—</b></div>
+            <div class="kv__row"><span>CONFIDENCE</span><b id="dossierConf">—</b></div>
+          </div>
+
+          <div class="miniLinks">
+            <div class="miniLinks__title mono">ASSOCIATES</div>
+            <div class="miniLinks__list" id="associateLinks"></div>
+          </div>
+        </aside>
+
+        <section class="modal__main">
+          <div class="section">
+            <div class="section__title mono">OVERVIEW</div>
+            <p id="dossierOverview" class="section__text">—</p>
+          </div>
+
+          <div class="section">
+            <div class="section__title mono">NOTES</div>
+            <div id="dossierNotes" class="section__text"></div>
+          </div>
+
+          <div class="section">
+            <div class="section__title mono">EVIDENCE</div>
+            <div class="evidenceRow" id="dossierEvidence"></div>
+          </div>
+
+          <div class="section">
+            <div class="section__title mono">REDACTED</div>
+            <div class="redactedBlock" id="dossierRedacted">
+              <span class="redacted">███████████ ████████████████ ██████ ████████</span>
+              <span class="redacted">██████ █████████ ████████ █████████████</span>
+              <span class="redacted">█████████████ █████████ ████ ████████████████</span>
+            </div>
+            <button class="btn btn--ghost" id="btnRequestClearance" type="button">Request Clearance</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- LOCK SCREEN -->
+  <div class="lock" id="lockScreen" hidden>
+    <div class="lock__panel card">
+      <div class="lock__title">INTERFACE LOCKED</div>
+      <div class="lock__sub mono">Enter clearance phrase to resume</div>
+
+      <div class="lock__row">
+        <input class="lock__input mono" id="lockInput" placeholder="CLEARANCE PHRASE…" autocomplete="off" />
+        <button class="btn btn--primary" id="btnUnlock" type="button">Unlock</button>
+      </div>
+
+      <div class="lock__hint mono small">
+        Hint: type <b>LEVEL4</b> or press <b>Esc</b> to cancel.
+      </div>
+    </div>
   </div>
+
+  <footer class="footer mono">
+    <span>BLACKLIST NODE // build 0.9</span>
+    <span>•</span>
+    <span>Keyboard: <b>/</b> Search, <b>Esc</b> Close, <b>Enter</b> Open first result</span>
+  </footer>
 
   <script src="script.js"></script>
 </body>
