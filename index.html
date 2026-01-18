@@ -1,305 +1,546 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Chiefs’ Mess // Quarterdeck</title>
-  <meta name="theme-color" content="#060814" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      name="description"
+      content="Pulse — a tiny, high-polish interactive dashboard demo with accessibility, motion, and offline-ready structure."
+    />
+    <title>Pulse — Interactive Dashboard Demo</title>
 
-  <!-- Link your stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
+    <!-- Performance hints (safe even if assets aren't present yet) -->
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
 
-<body class="site">
+    <link rel="stylesheet" href="style.css" />
 
-  <!-- Skip link -->
-  <a class="skip-link" href="#main">Skip to main content</a>
+    <!-- Defer so DOM exists before JS runs -->
+    <script defer src="app.js"></script>
+  </head>
 
-  <!-- =========================
-       TOP BAR / QUARTERDECK
-  ========================== -->
-  <header class="topbar" role="banner">
-    <div class="topbar__inner">
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-      <!-- Brand -->
-      <a class="brand" href="#" aria-label="Chiefs’ Mess Home">
-        <span class="brand__mark" aria-hidden="true">⚓</span>
-        <span class="brand__name">CHIEFS’ MESS</span>
-        <span class="brand__tag">QUARTERDECK</span>
-      </a>
-
-      <!-- Navigation -->
-      <nav class="nav" aria-label="Primary">
-        <a class="nav__link" href="#standards">Standards</a>
-        <a class="nav__link" href="#training">Training</a>
-        <a class="nav__link" href="#resources">Resources</a>
-        <a class="nav__link nav__link--muted" href="#heritage">Heritage</a>
-      </nav>
-
-      <!-- Actions -->
-      <div class="topbar__actions">
-        <!-- Shipboard Dark / Light Toggle -->
-        <button
-          class="btn btn--ghost theme-toggle"
-          type="button"
-          id="themeToggle"
-          aria-pressed="false"
-          aria-label="Toggle shipboard dark or light mode"
-        >
-          Shipboard: DARK
-        </button>
-
-        <button class="btn btn--ghost" type="button" data-action="open-announce">
-          Today’s Intent
-        </button>
-
-        <a class="btn btn--primary" href="#login">Present Credentials</a>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- =========================
-       MAIN
-  ========================== -->
-  <main id="main" class="main" role="main">
-
-    <!-- HERO / QUARTERDECK GATE -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__inner">
-        <div class="hero__eyebrow">WELCOME ABOARD // QUARTERDECK</div>
-        <h1 id="hero-title" class="hero__title">
-          Standards. Leadership. Readiness.
-        </h1>
-        <p class="hero__lead">
-          A deckplate-focused hub for expectations, qualification paths,
-          and command-ready execution.
-        </p>
-
-        <div class="hero__cta">
-          <a class="tile tile--primary" href="#messboard">
-            <div class="tile__title">Enter Mess Board</div>
-            <div class="tile__meta">Operational dashboard & updates</div>
-          </a>
-
-          <a class="tile" href="#standards">
-            <div class="tile__title">Review Standards</div>
-            <div class="tile__meta">Standing orders & accountability</div>
-          </a>
-
-          <a class="tile" href="#training">
-            <div class="tile__title">Start Training</div>
-            <div class="tile__meta">Qualification paths & checklists</div>
-          </a>
-
-          <a class="tile" href="#resources">
-            <div class="tile__title">Open Resources</div>
-            <div class="tile__meta">Templates, SOPs, trackers</div>
-          </a>
+    <header class="app-header" role="banner">
+      <div class="app-header__inner">
+        <div class="brand" aria-label="Pulse home">
+          <div class="brand__mark" aria-hidden="true">●</div>
+          <div class="brand__text">
+            <div class="brand__name">Pulse</div>
+            <div class="brand__tag">micro-dashboard demo</div>
+          </div>
         </div>
 
-        <!-- Quarterdeck Acknowledgement -->
-        <form class="gate" action="#" method="post">
-          <label class="gate__check">
-            <input type="checkbox" />
-            <span>
-              I acknowledge standards, accountability, and deckplate execution.
-            </span>
-          </label>
-          <button class="btn btn--secondary" type="button" data-action="come-aboard">
-            Come Aboard
+        <nav class="top-nav" aria-label="Primary">
+          <a class="top-nav__link" href="#overview">Overview</a>
+          <a class="top-nav__link" href="#insights">Insights</a>
+          <a class="top-nav__link" href="#lab">Lab</a>
+          <a class="top-nav__link" href="#about">About</a>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            class="icon-btn"
+            type="button"
+            data-action="command-palette"
+            aria-haspopup="dialog"
+            aria-controls="commandPalette"
+            aria-label="Open command palette"
+            title="Command palette (Ctrl/⌘ K)"
+          >
+            <span aria-hidden="true">⌘</span>
           </button>
-        </form>
+
+          <button
+            class="icon-btn"
+            type="button"
+            data-action="toggle-theme"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            <span class="icon-btn__icon" aria-hidden="true">◐</span>
+          </button>
+
+          <button
+            class="btn btn--primary"
+            type="button"
+            data-action="open-modal"
+            aria-haspopup="dialog"
+            aria-controls="quickAddModal"
+          >
+            Quick add
+          </button>
+        </div>
       </div>
 
-      <!-- Background textures -->
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__grid"></div>
-        <div class="hero__nonskid"></div>
+      <div class="app-progress" aria-hidden="true">
+        <div class="app-progress__bar" data-ui="scroll-progress"></div>
       </div>
-    </section>
+    </header>
 
-    <!-- =========================
-         STATUS STRIP
-    ========================== -->
-    <section class="status" aria-label="Quarterdeck snapshot">
-      <div class="status__inner">
-
-        <article class="statuscard">
-          <header class="statuscard__hdr">
-            <h2 class="statuscard__title">Today’s Intent</h2>
-            <div class="statuscard__stamp">LAST UPDATE: 0615L</div>
-          </header>
-          <p class="statuscard__body">
-            Maintain standards. Train deliberately. Document progress.
-            Take care of people.
+    <main id="main" class="app-main">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero__content">
+          <p class="eyebrow">Advanced single-page demo (no libraries)</p>
+          <h1 id="heroTitle" class="hero__title">
+            A small app shell that feels like a product.
+          </h1>
+          <p class="hero__subtitle">
+            Keyboard-first controls, accessible UI, motion that respects your settings,
+            state saved locally, and a “data” layer you can swap for real APIs later.
           </p>
-        </article>
 
-        <article class="statuscard">
-          <header class="statuscard__hdr">
-            <h2 class="statuscard__title">Upcoming Deadlines</h2>
-            <div class="statuscard__stamp">NEXT 72H</div>
-          </header>
-          <ul class="statuscard__list">
-            <li><span class="dot dot--warn"></span> Training sign-offs</li>
-            <li><span class="dot dot--ok"></span> Watchbill review</li>
-            <li><span class="dot dot--warn"></span> Eval inputs</li>
-          </ul>
-        </article>
+          <div class="hero__cta">
+            <button class="btn btn--primary" type="button" data-action="jump" data-target="#overview">
+              Explore demo
+            </button>
+            <button class="btn btn--ghost" type="button" data-action="seed">
+              Seed sample data
+            </button>
+            <button class="btn btn--ghost" type="button" data-action="reset">
+              Reset
+            </button>
+          </div>
 
-        <article class="statuscard">
-          <header class="statuscard__hdr">
-            <h2 class="statuscard__title">Deckplate Status</h2>
-            <div class="statuscard__stamp">READINESS</div>
-          </header>
-          <ul class="statuscard__list">
-            <li>Qualifications: 82%</li>
-            <li>Training Complete: 67%</li>
-            <li>Docs Current: 91%</li>
-          </ul>
-        </article>
+          <div class="hero__chips" role="list" aria-label="Feature highlights">
+            <div class="chip" role="listitem">A11y-first</div>
+            <div class="chip" role="listitem">Motion-safe</div>
+            <div class="chip" role="listitem">Stateful</div>
+            <div class="chip" role="listitem">Performant</div>
+          </div>
+        </div>
 
-      </div>
-    </section>
+        <aside class="hero__panel" aria-label="Today snapshot">
+          <div class="panel">
+            <div class="panel__header">
+              <h2 class="panel__title">Today</h2>
+              <div class="panel__meta">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span data-ui="status-text">Ready</span>
+              </div>
+            </div>
 
-    <!-- =========================
-         MESS BOARD
-    ========================== -->
-    <section id="messboard" class="section section--messboard">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 class="section__title">Mess Board</h2>
-          <p class="section__sub">
-            Intent, updates, trackers, and execution in one place.
+            <div class="kpis" role="list" aria-label="Key metrics">
+              <div class="kpi" role="listitem">
+                <div class="kpi__label">Focus</div>
+                <div class="kpi__value"><span data-ui="kpi-focus">0</span><span class="kpi__unit">min</span></div>
+              </div>
+              <div class="kpi" role="listitem">
+                <div class="kpi__label">Tasks</div>
+                <div class="kpi__value"><span data-ui="kpi-tasks">0</span><span class="kpi__unit">open</span></div>
+              </div>
+              <div class="kpi" role="listitem">
+                <div class="kpi__label">Mood</div>
+                <div class="kpi__value"><span data-ui="kpi-mood">—</span></div>
+              </div>
+            </div>
+
+            <div class="sparkline">
+              <div class="sparkline__label">
+                <span>Trend</span>
+                <span class="sparkline__hint" data-ui="trend-hint">No data yet</span>
+              </div>
+              <canvas
+                class="sparkline__canvas"
+                data-ui="sparkline"
+                width="560"
+                height="180"
+                aria-label="Trend chart"
+                role="img"
+              ></canvas>
+            </div>
+
+            <div class="panel__footer">
+              <button class="btn btn--small" type="button" data-action="export">
+                Export JSON
+              </button>
+              <button class="btn btn--small btn--ghost" type="button" data-action="import">
+                Import JSON
+              </button>
+              <input
+                class="sr-only"
+                type="file"
+                accept="application/json"
+                data-ui="import-file"
+                aria-label="Import JSON file"
+              />
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="overview" class="section" aria-labelledby="overviewTitle">
+        <div class="section__header">
+          <h2 id="overviewTitle" class="section__title">Overview</h2>
+          <p class="section__subtitle">
+            A compact, interactive board. Add items, filter, and see live-updating totals.
           </p>
-        </header>
+        </div>
 
-        <div class="board">
-          <article class="panel panel--priority">
-            <header class="panel__hdr">
-              <h3 class="panel__title">Action Required</h3>
-              <div class="panel__meta">PRIORITY</div>
+        <div class="grid grid--2">
+          <article class="card" aria-labelledby="tasksTitle">
+            <header class="card__header">
+              <h3 id="tasksTitle" class="card__title">Tasks</h3>
+
+              <div class="card__actions" aria-label="Task controls">
+                <label class="field field--compact">
+                  <span class="sr-only">Filter tasks</span>
+                  <input
+                    type="search"
+                    inputmode="search"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Filter…"
+                    data-ui="task-filter"
+                    aria-label="Filter tasks"
+                  />
+                </label>
+
+                <button class="btn btn--small" type="button" data-action="add-task">
+                  Add
+                </button>
+              </div>
             </header>
-            <ul class="panel__list">
-              <li>Review updated standing orders</li>
-              <li>Confirm qualification sign-offs</li>
-              <li>Log completion</li>
+
+            <div class="card__body">
+              <ul class="list" data-ui="task-list" aria-label="Task list">
+                <!-- JS renders tasks -->
+              </ul>
+
+              <p class="empty" data-ui="task-empty" hidden>
+                No tasks yet. Use <kbd>N</kbd> to add one quickly.
+              </p>
+            </div>
+
+            <footer class="card__footer">
+              <div class="meta" aria-label="Task summary">
+                <span><strong data-ui="task-open">0</strong> open</span>
+                <span class="dot" aria-hidden="true">•</span>
+                <span><strong data-ui="task-done">0</strong> done</span>
+              </div>
+
+              <button class="btn btn--small btn--ghost" type="button" data-action="clear-done">
+                Clear done
+              </button>
+            </footer>
+          </article>
+
+          <article class="card" aria-labelledby="timerTitle">
+            <header class="card__header">
+              <h3 id="timerTitle" class="card__title">Focus timer</h3>
+              <div class="pill" data-ui="timer-state" aria-label="Timer state">Idle</div>
+            </header>
+
+            <div class="card__body">
+              <div class="timer" aria-label="Focus timer">
+                <div class="timer__ring" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" width="120" height="120" focusable="false">
+                    <circle class="timer__bg" cx="60" cy="60" r="52" />
+                    <circle class="timer__fg" cx="60" cy="60" r="52" data-ui="timer-ring" />
+                  </svg>
+                </div>
+
+                <div class="timer__readout">
+                  <div class="timer__time" data-ui="timer-time" aria-live="polite">25:00</div>
+                  <div class="timer__hint">Pomodoro-style, adjustable</div>
+                </div>
+              </div>
+
+              <div class="controls" aria-label="Timer controls">
+                <button class="btn btn--small btn--primary" type="button" data-action="timer-toggle">
+                  Start
+                </button>
+                <button class="btn btn--small btn--ghost" type="button" data-action="timer-reset">
+                  Reset
+                </button>
+
+                <label class="field field--inline">
+                  <span class="field__label">Minutes</span>
+                  <input
+                    type="number"
+                    min="5"
+                    max="90"
+                    step="5"
+                    value="25"
+                    data-ui="timer-minutes"
+                    aria-label="Timer minutes"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <footer class="card__footer">
+              <div class="meta">
+                <span>Shortcuts: <kbd>Space</kbd> start/stop, <kbd>R</kbd> reset</span>
+              </div>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <section id="insights" class="section" aria-labelledby="insightsTitle">
+        <div class="section__header">
+          <h2 id="insightsTitle" class="section__title">Insights</h2>
+          <p class="section__subtitle">
+            Lightweight “analytics” computed in the browser (no dependencies).
+          </p>
+        </div>
+
+        <div class="grid grid--3">
+          <article class="card">
+            <header class="card__header">
+              <h3 class="card__title">Momentum</h3>
+            </header>
+            <div class="card__body">
+              <div class="big-number">
+                <span class="big-number__value" data-ui="insight-momentum">0</span>
+                <span class="big-number__label">score</span>
+              </div>
+              <p class="muted">
+                Based on completions + focus minutes (demo formula).
+              </p>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card__header">
+              <h3 class="card__title">Streak</h3>
+            </header>
+            <div class="card__body">
+              <div class="big-number">
+                <span class="big-number__value" data-ui="insight-streak">0</span>
+                <span class="big-number__label">days</span>
+              </div>
+              <p class="muted">
+                Stored locally; resets if you hit reset.
+              </p>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card__header">
+              <h3 class="card__title">Signals</h3>
+            </header>
+            <div class="card__body">
+              <div class="signals" aria-label="Signals">
+                <div class="signal">
+                  <div class="signal__label">Storage</div>
+                  <div class="signal__value" data-ui="signal-storage">—</div>
+                </div>
+                <div class="signal">
+                  <div class="signal__label">Motion</div>
+                  <div class="signal__value" data-ui="signal-motion">—</div>
+                </div>
+                <div class="signal">
+                  <div class="signal__label">Theme</div>
+                  <div class="signal__value" data-ui="signal-theme">—</div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="lab" class="section" aria-labelledby="labTitle">
+        <div class="section__header">
+          <h2 id="labTitle" class="section__title">Lab</h2>
+          <p class="section__subtitle">
+            Toggle advanced behaviors. These are wired in JS using data attributes.
+          </p>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="card">
+            <header class="card__header">
+              <h3 class="card__title">Feature flags</h3>
+            </header>
+            <div class="card__body">
+              <div class="toggles" role="list" aria-label="Feature flags">
+                <label class="toggle" role="listitem">
+                  <input type="checkbox" data-ui="flag-sounds" />
+                  <span class="toggle__ui" aria-hidden="true"></span>
+                  <span class="toggle__text">UI sounds (subtle)</span>
+                </label>
+
+                <label class="toggle" role="listitem">
+                  <input type="checkbox" data-ui="flag-haptics" />
+                  <span class="toggle__ui" aria-hidden="true"></span>
+                  <span class="toggle__text">Haptics (supported devices)</span>
+                </label>
+
+                <label class="toggle" role="listitem">
+                  <input type="checkbox" data-ui="flag-confetti" />
+                  <span class="toggle__ui" aria-hidden="true"></span>
+                  <span class="toggle__text">Confetti on milestones</span>
+                </label>
+
+                <label class="toggle" role="listitem">
+                  <input type="checkbox" data-ui="flag-compact" />
+                  <span class="toggle__ui" aria-hidden="true"></span>
+                  <span class="toggle__text">Compact density</span>
+                </label>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card__header">
+              <h3 class="card__title">Console</h3>
+            </header>
+            <div class="card__body">
+              <div class="console" role="log" aria-live="polite" aria-label="Event log" data-ui="log">
+                <!-- JS writes log lines -->
+              </div>
+              <div class="controls">
+                <button class="btn btn--small" type="button" data-action="log-demo">
+                  Generate events
+                </button>
+                <button class="btn btn--small btn--ghost" type="button" data-action="log-clear">
+                  Clear
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" class="section" aria-labelledby="aboutTitle">
+        <div class="section__header">
+          <h2 id="aboutTitle" class="section__title">About</h2>
+          <p class="section__subtitle">
+            This is a test harness: clean semantics, a11y, and modern UI patterns.
+          </p>
+        </div>
+
+        <article class="card">
+          <div class="card__body prose">
+            <ul>
+              <li>Keyboard shortcuts + command palette</li>
+              <li>Accessible modal + toast notifications</li>
+              <li>Canvas sparkline (no libs)</li>
+              <li>LocalStorage persistence + export/import</li>
+              <li>Reduced-motion support</li>
             </ul>
-          </article>
+            <p class="muted">
+              Next files: <code>style.css</code> and <code>app.js</code>.
+            </p>
+          </div>
+        </article>
+      </section>
+    </main>
 
-          <article class="panel">
-            <header class="panel__hdr">
-              <h3 class="panel__title">Logbook</h3>
-              <div class="panel__meta">STAMPED</div>
-            </header>
-            <ol class="panel__log">
-              <li>0615L — SOP template updated</li>
-              <li>0540L — Training scheduled</li>
-              <li>1810L — Deadline board refreshed</li>
-            </ol>
-          </article>
+    <footer class="app-footer" role="contentinfo">
+      <div class="app-footer__inner">
+        <div class="muted">Pulse demo • Site 1/10</div>
+        <div class="muted">
+          Tip: <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd> opens the command palette.
         </div>
       </div>
-    </section>
+    </footer>
 
-    <!-- =========================
-         STANDARDS
-    ========================== -->
-    <section id="standards" class="section">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 class="section__title">Standards</h2>
-          <p class="section__sub">
-            Know the standard. Meet the standard. Train the standard.
-          </p>
-        </header>
+    <!-- Toast region -->
+    <div class="toasts" aria-live="polite" aria-atomic="true" data-ui="toasts"></div>
 
-        <div class="grid">
-          <article class="card">
-            <h3 class="card__title">Standing Orders</h3>
-            <p class="card__body">Clear expectations and consistency.</p>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Accountability</h3>
-            <p class="card__body">Documentation and follow-through.</p>
-          </article>
-
-          <article class="card">
-            <h3 class="card__title">Safety & Risk</h3>
-            <p class="card__body">Deliberate risk management.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================
-         LOGIN
-    ========================== -->
-    <section id="login" class="section section--login">
-      <div class="section__inner">
-        <header class="section__hdr">
-          <h2 class="section__title">Present Credentials</h2>
-          <p class="section__sub">
-            Restricted tools and internal access.
-          </p>
-        </header>
-
-        <form class="login" action="#" method="post">
-          <label class="field">
-            <span class="field__label">Access ID</span>
-            <input class="field__input" type="text" />
-          </label>
-
-          <label class="field">
-            <span class="field__label">Passphrase</span>
-            <input class="field__input" type="password" />
-          </label>
-
-          <button class="btn btn--primary" type="submit">
-            Authenticate
+    <!-- Quick Add Modal -->
+    <dialog class="modal" id="quickAddModal" aria-labelledby="quickAddTitle">
+      <form method="dialog" class="modal__panel" data-ui="quick-add-form">
+        <header class="modal__header">
+          <h2 id="quickAddTitle" class="modal__title">Quick add</h2>
+          <button class="icon-btn" type="submit" value="cancel" aria-label="Close">
+            <span aria-hidden="true">×</span>
           </button>
-        </form>
+        </header>
+
+        <div class="modal__body">
+          <label class="field">
+            <span class="field__label">Task title</span>
+            <input
+              type="text"
+              name="title"
+              data-ui="quick-title"
+              placeholder="e.g., Ship v1"
+              autocomplete="off"
+              required
+            />
+          </label>
+
+          <div class="row">
+            <label class="field">
+              <span class="field__label">Priority</span>
+              <select name="priority" data-ui="quick-priority">
+                <option value="low">Low</option>
+                <option value="med" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Mood</span>
+              <select name="mood" data-ui="quick-mood">
+                <option value="—" selected>—</option>
+                <option value="🙂">🙂</option>
+                <option value="😐">😐</option>
+                <option value="😄">😄</option>
+                <option value="😴">😴</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="hint">
+            Press <kbd>Enter</kbd> to add. Press <kbd>Esc</kbd> to close.
+          </p>
+        </div>
+
+        <footer class="modal__footer">
+          <button class="btn btn--ghost" type="submit" value="cancel">Cancel</button>
+          <button class="btn btn--primary" type="submit" value="ok" data-action="quick-add-submit">
+            Add
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Command Palette -->
+    <dialog class="palette" id="commandPalette" aria-labelledby="paletteTitle">
+      <form method="dialog" class="palette__panel" data-ui="palette">
+        <header class="palette__header">
+          <h2 id="paletteTitle" class="sr-only">Command palette</h2>
+          <label class="field field--compact palette__search">
+            <span class="sr-only">Search commands</span>
+            <input
+              type="search"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Type a command…"
+              data-ui="palette-input"
+              aria-label="Search commands"
+            />
+          </label>
+          <button class="icon-btn" type="submit" value="cancel" aria-label="Close palette">
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+
+        <div class="palette__body">
+          <ul class="cmds" role="listbox" aria-label="Commands" data-ui="palette-list">
+            <!-- JS renders commands -->
+          </ul>
+
+          <p class="hint muted">
+            Navigate with <kbd>↑</kbd>/<kbd>↓</kbd>, run with <kbd>Enter</kbd>.
+          </p>
+        </div>
+      </form>
+    </dialog>
+
+    <noscript>
+      <div class="noscript">
+        This demo uses JavaScript for interactions. The layout still works, but features are disabled.
       </div>
-    </section>
-
-  </main>
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer__inner">
-      <div>
-        ⚓ Chiefs’ Mess — Quarterdeck Interface
-      </div>
-      <div>
-        Standards · Training · Resources
-      </div>
-    </div>
-  </footer>
-
-  <!-- =========================
-       SCRIPTS
-  ========================== -->
-  <script src="script.js"></script>
-
-  <script>
-    // Minimal inline hooks (optional)
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-action]");
-      if (!btn) return;
-
-      if (btn.dataset.action === "come-aboard") {
-        alert("COME ABOARD — Quarterdeck acknowledged.");
-      }
-
-      if (btn.dataset.action === "open-announce") {
-        alert("TODAY'S INTENT: Maintain standards. Train deliberately. Document progress. Take care of people.");
-      }
-    });
-  </script>
-
-</body>
+    </noscript>
+  </body>
 </html>
