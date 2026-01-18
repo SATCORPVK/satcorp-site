@@ -1,123 +1,108 @@
 /* ===============================
-   BLACKLIST SECURE INTERFACE
+   BLACKLIST // SECURE INTERFACE
    script.js
    =============================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initBootSequence();
-  initTimecode();
-  initCaseNumber();
-  initRedactions();
-  initClearanceModal();
-  initNavFeedback();
-});
 
-/* ---------- BOOT SEQUENCE ---------- */
-function initBootSequence() {
-  setTimeout(() => {
-    document.body.classList.remove("booting");
-    microGlitch();
-  }, 800);
-}
-
-/* ---------- TIMECODE ---------- */
-function initTimecode() {
+  /* ===============================
+     LIVE TIME CODE
+     =============================== */
   const timeEl = document.getElementById("timecode");
 
   function updateTime() {
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2, "0");
-    const mm = String(now.getMinutes()).padStart(2, "0");
-    const ss = String(now.getSeconds()).padStart(2, "0");
-    timeEl.textContent = `${hh}:${mm}:${ss}`;
+    timeEl.textContent = now.toUTCString().slice(17, 25);
   }
-
-  updateTime();
   setInterval(updateTime, 1000);
-}
+  updateTime();
 
-/* ---------- CASE NUMBER ROTATION ---------- */
-function initCaseNumber() {
-  const caseEl = document.getElementById("case-number");
+  /* ===============================
+     TYPING CASE ID
+     =============================== */
+  const caseEl = document.getElementById("case-id");
+  const caseNumber = `BL-${Math.floor(1000 + Math.random() * 9000)}-${new Date().getFullYear()}`;
+  let idx = 0;
 
-  function generateCase() {
-    const year = new Date().getFullYear();
-    const block = Math.floor(Math.random() * 900 + 100);
-    const serial = Math.floor(Math.random() * 9000 + 1000);
-    caseEl.textContent = `${year}-${block}-${serial}`;
+  function typeCase() {
+    if (idx < caseNumber.length) {
+      caseEl.textContent += caseNumber.charAt(idx);
+      idx++;
+      setTimeout(typeCase, 80);
+    }
+  }
+  typeCase();
+
+  /* ===============================
+     NAV TAB SWITCH (VISUAL)
+     =============================== */
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelector(".nav-btn.active")?.classList.remove("active");
+      btn.classList.add("active");
+
+      glitch();
+    });
+  });
+
+  /* ===============================
+     CLEARANCE MODAL
+     =============================== */
+  const modal = document.getElementById("clearanceModal");
+  const openButtons = document.querySelectorAll(".cta.primary");
+  const grant = document.getElementById("grantAccess");
+  const deny = document.getElementById("denyAccess");
+
+  openButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      modal.classList.remove("hidden");
+      glitch();
+    });
+  });
+
+  deny.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  grant.addEventListener("click", () => {
+    modal.classList.add("hidden");
+    stamp("ACCESS GRANTED");
+  });
+
+  /* ===============================
+     GLITCH EFFECT
+     =============================== */
+  function glitch() {
+    document.body.classList.add("glitch");
+    setTimeout(() => document.body.classList.remove("glitch"), 120);
   }
 
-  generateCase();
-  setInterval(generateCase, 6000);
-}
+  /* ===============================
+     STAMP EFFECT
+     =============================== */
+  function stamp(text) {
+    const stamp = document.createElement("div");
+    stamp.textContent = text;
+    stamp.style.position = "fixed";
+    stamp.style.top = "50%";
+    stamp.style.left = "50%";
+    stamp.style.transform = "translate(-50%, -50%) rotate(-8deg)";
+    stamp.style.fontFamily = "Oswald, sans-serif";
+    stamp.style.fontSize = "3rem";
+    stamp.style.color = "rgba(195,38,38,0.85)";
+    stamp.style.border = "4px solid rgba(195,38,38,0.85)";
+    stamp.style.padding = "0.5rem 1rem";
+    stamp.style.zIndex = "2000";
+    stamp.style.pointerEvents = "none";
 
-/* ---------- REDACTION FLICKER ---------- */
-function initRedactions() {
-  const redactedEls = document.querySelectorAll(".redacted");
+    document.body.appendChild(stamp);
 
-  redactedEls.forEach(el => {
-    el.addEventListener("mouseenter", () => {
-      el.classList.add("revealed");
-      setTimeout(() => el.classList.remove("revealed"), 600);
-    });
-  });
-}
+    setTimeout(() => {
+      stamp.style.opacity = "0";
+      stamp.style.transition = "opacity 0.6s ease";
+    }, 400);
 
-/* ---------- CLEARANCE MODAL ---------- */
-function initClearanceModal() {
-  const modal = document.getElementById("clearanceModal");
-  const grantBtn = document.getElementById("grantClearance");
+    setTimeout(() => stamp.remove(), 1200);
+  }
 
-  if (!modal || !grantBtn) return;
-
-  document.body.addEventListener("click", e => {
-    if (e.target.classList.contains("locked")) {
-      modal.classList.remove("hidden");
-      microGlitch();
-    }
-  });
-
-  grantBtn.addEventListener("click", () => {
-    modal.classList.add("hidden");
-    flashStatus("CLEARANCE TEMPORARILY GRANTED");
-  });
-}
-
-/* ---------- NAV FEEDBACK ---------- */
-function initNavFeedback() {
-  const tabs = document.querySelectorAll(".nav-tabs button");
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      microGlitch();
-    });
-  });
-}
-
-/* ---------- MICRO GLITCH ---------- */
-function microGlitch() {
-  document.body.classList.add("glitch");
-
-  setTimeout(() => {
-    document.body.classList.remove("glitch");
-  }, 120);
-}
-
-/* ---------- STATUS FLASH ---------- */
-function flashStatus(message) {
-  const footer = document.querySelector(".system-footer");
-  if (!footer) return;
-
-  const span = document.createElement("span");
-  span.textContent = message;
-  span.style.color = "#9b1c1c";
-  span.style.marginLeft = "1rem";
-
-  footer.appendChild(span);
-
-  setTimeout(() => {
-    span.remove();
-  }, 2500);
-}
+});
