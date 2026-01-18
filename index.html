@@ -1,546 +1,340 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="dark light" />
-    <meta
-      name="description"
-      content="Pulse — a tiny, high-polish interactive dashboard demo with accessibility, motion, and offline-ready structure."
-    />
-    <title>Pulse — Interactive Dashboard Demo</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CivicWorks Alliance | Community Programs & Public Resources</title>
+  <meta name="description" content="CivicWorks Alliance supports community programs, publishes resources, and partners with local organizations to improve outcomes for families and neighborhoods." />
+</head>
 
-    <!-- Performance hints (safe even if assets aren't present yet) -->
-    <meta http-equiv="x-dns-prefetch-control" content="on" />
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-    <link rel="stylesheet" href="style.css" />
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="CivicWorks Alliance home">
+        <span class="brand-mark" aria-hidden="true">CA</span>
+        <span class="brand-text">
+          <span class="brand-name">CivicWorks Alliance</span>
+          <span class="brand-tag">Programs • Resources • Partnerships</span>
+        </span>
+      </a>
 
-    <!-- Defer so DOM exists before JS runs -->
-    <script defer src="app.js"></script>
-  </head>
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+          <span class="sr-only">Menu</span>
+        </button>
 
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="app-header" role="banner">
-      <div class="app-header__inner">
-        <div class="brand" aria-label="Pulse home">
-          <div class="brand__mark" aria-hidden="true">●</div>
-          <div class="brand__text">
-            <div class="brand__name">Pulse</div>
-            <div class="brand__tag">micro-dashboard demo</div>
-          </div>
+        <div id="navMenu" class="nav-menu">
+          <a href="#programs">Programs</a>
+          <a href="#impact">Impact</a>
+          <a href="#news">News</a>
+          <a href="#resources">Resources</a>
+          <a href="#contact">Contact</a>
+          <a class="btn btn-primary" href="#donate">Donate</a>
         </div>
+      </nav>
+    </div>
+  </header>
 
-        <nav class="top-nav" aria-label="Primary">
-          <a class="top-nav__link" href="#overview">Overview</a>
-          <a class="top-nav__link" href="#insights">Insights</a>
-          <a class="top-nav__link" href="#lab">Lab</a>
-          <a class="top-nav__link" href="#about">About</a>
-        </nav>
-
-        <div class="header-actions">
-          <button
-            class="icon-btn"
-            type="button"
-            data-action="command-palette"
-            aria-haspopup="dialog"
-            aria-controls="commandPalette"
-            aria-label="Open command palette"
-            title="Command palette (Ctrl/⌘ K)"
-          >
-            <span aria-hidden="true">⌘</span>
-          </button>
-
-          <button
-            class="icon-btn"
-            type="button"
-            data-action="toggle-theme"
-            aria-label="Toggle theme"
-            title="Toggle theme"
-          >
-            <span class="icon-btn__icon" aria-hidden="true">◐</span>
-          </button>
-
-          <button
-            class="btn btn--primary"
-            type="button"
-            data-action="open-modal"
-            aria-haspopup="dialog"
-            aria-controls="quickAddModal"
-          >
-            Quick add
-          </button>
-        </div>
-      </div>
-
-      <div class="app-progress" aria-hidden="true">
-        <div class="app-progress__bar" data-ui="scroll-progress"></div>
-      </div>
-    </header>
-
-    <main id="main" class="app-main">
-      <section class="hero" aria-labelledby="heroTitle">
-        <div class="hero__content">
-          <p class="eyebrow">Advanced single-page demo (no libraries)</p>
-          <h1 id="heroTitle" class="hero__title">
-            A small app shell that feels like a product.
-          </h1>
-          <p class="hero__subtitle">
-            Keyboard-first controls, accessible UI, motion that respects your settings,
-            state saved locally, and a “data” layer you can swap for real APIs later.
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Serving communities since 2008</p>
+          <h1>Practical programs that help neighborhoods thrive.</h1>
+          <p class="lead">
+            CivicWorks Alliance partners with local groups to deliver job readiness, youth mentoring,
+            and accessible public resources—built around real community needs.
           </p>
 
-          <div class="hero__cta">
-            <button class="btn btn--primary" type="button" data-action="jump" data-target="#overview">
-              Explore demo
-            </button>
-            <button class="btn btn--ghost" type="button" data-action="seed">
-              Seed sample data
-            </button>
-            <button class="btn btn--ghost" type="button" data-action="reset">
-              Reset
-            </button>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#programs">Explore programs</a>
+            <a class="btn btn-ghost" href="#resources">View resources</a>
           </div>
 
-          <div class="hero__chips" role="list" aria-label="Feature highlights">
-            <div class="chip" role="listitem">A11y-first</div>
-            <div class="chip" role="listitem">Motion-safe</div>
-            <div class="chip" role="listitem">Stateful</div>
-            <div class="chip" role="listitem">Performant</div>
-          </div>
-        </div>
-
-        <aside class="hero__panel" aria-label="Today snapshot">
-          <div class="panel">
-            <div class="panel__header">
-              <h2 class="panel__title">Today</h2>
-              <div class="panel__meta">
-                <span class="status-dot" aria-hidden="true"></span>
-                <span data-ui="status-text">Ready</span>
-              </div>
-            </div>
-
-            <div class="kpis" role="list" aria-label="Key metrics">
-              <div class="kpi" role="listitem">
-                <div class="kpi__label">Focus</div>
-                <div class="kpi__value"><span data-ui="kpi-focus">0</span><span class="kpi__unit">min</span></div>
-              </div>
-              <div class="kpi" role="listitem">
-                <div class="kpi__label">Tasks</div>
-                <div class="kpi__value"><span data-ui="kpi-tasks">0</span><span class="kpi__unit">open</span></div>
-              </div>
-              <div class="kpi" role="listitem">
-                <div class="kpi__label">Mood</div>
-                <div class="kpi__value"><span data-ui="kpi-mood">—</span></div>
-              </div>
-            </div>
-
-            <div class="sparkline">
-              <div class="sparkline__label">
-                <span>Trend</span>
-                <span class="sparkline__hint" data-ui="trend-hint">No data yet</span>
-              </div>
-              <canvas
-                class="sparkline__canvas"
-                data-ui="sparkline"
-                width="560"
-                height="180"
-                aria-label="Trend chart"
-                role="img"
-              ></canvas>
-            </div>
-
-            <div class="panel__footer">
-              <button class="btn btn--small" type="button" data-action="export">
-                Export JSON
-              </button>
-              <button class="btn btn--small btn--ghost" type="button" data-action="import">
-                Import JSON
-              </button>
-              <input
-                class="sr-only"
-                type="file"
-                accept="application/json"
-                data-ui="import-file"
-                aria-label="Import JSON file"
-              />
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section id="overview" class="section" aria-labelledby="overviewTitle">
-        <div class="section__header">
-          <h2 id="overviewTitle" class="section__title">Overview</h2>
-          <p class="section__subtitle">
-            A compact, interactive board. Add items, filter, and see live-updating totals.
-          </p>
-        </div>
-
-        <div class="grid grid--2">
-          <article class="card" aria-labelledby="tasksTitle">
-            <header class="card__header">
-              <h3 id="tasksTitle" class="card__title">Tasks</h3>
-
-              <div class="card__actions" aria-label="Task controls">
-                <label class="field field--compact">
-                  <span class="sr-only">Filter tasks</span>
-                  <input
-                    type="search"
-                    inputmode="search"
-                    autocomplete="off"
-                    spellcheck="false"
-                    placeholder="Filter…"
-                    data-ui="task-filter"
-                    aria-label="Filter tasks"
-                  />
-                </label>
-
-                <button class="btn btn--small" type="button" data-action="add-task">
-                  Add
-                </button>
-              </div>
-            </header>
-
-            <div class="card__body">
-              <ul class="list" data-ui="task-list" aria-label="Task list">
-                <!-- JS renders tasks -->
-              </ul>
-
-              <p class="empty" data-ui="task-empty" hidden>
-                No tasks yet. Use <kbd>N</kbd> to add one quickly.
-              </p>
-            </div>
-
-            <footer class="card__footer">
-              <div class="meta" aria-label="Task summary">
-                <span><strong data-ui="task-open">0</strong> open</span>
-                <span class="dot" aria-hidden="true">•</span>
-                <span><strong data-ui="task-done">0</strong> done</span>
-              </div>
-
-              <button class="btn btn--small btn--ghost" type="button" data-action="clear-done">
-                Clear done
-              </button>
-            </footer>
-          </article>
-
-          <article class="card" aria-labelledby="timerTitle">
-            <header class="card__header">
-              <h3 id="timerTitle" class="card__title">Focus timer</h3>
-              <div class="pill" data-ui="timer-state" aria-label="Timer state">Idle</div>
-            </header>
-
-            <div class="card__body">
-              <div class="timer" aria-label="Focus timer">
-                <div class="timer__ring" aria-hidden="true">
-                  <svg viewBox="0 0 120 120" width="120" height="120" focusable="false">
-                    <circle class="timer__bg" cx="60" cy="60" r="52" />
-                    <circle class="timer__fg" cx="60" cy="60" r="52" data-ui="timer-ring" />
-                  </svg>
-                </div>
-
-                <div class="timer__readout">
-                  <div class="timer__time" data-ui="timer-time" aria-live="polite">25:00</div>
-                  <div class="timer__hint">Pomodoro-style, adjustable</div>
-                </div>
-              </div>
-
-              <div class="controls" aria-label="Timer controls">
-                <button class="btn btn--small btn--primary" type="button" data-action="timer-toggle">
-                  Start
-                </button>
-                <button class="btn btn--small btn--ghost" type="button" data-action="timer-reset">
-                  Reset
-                </button>
-
-                <label class="field field--inline">
-                  <span class="field__label">Minutes</span>
-                  <input
-                    type="number"
-                    min="5"
-                    max="90"
-                    step="5"
-                    value="25"
-                    data-ui="timer-minutes"
-                    aria-label="Timer minutes"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <footer class="card__footer">
-              <div class="meta">
-                <span>Shortcuts: <kbd>Space</kbd> start/stop, <kbd>R</kbd> reset</span>
-              </div>
-            </footer>
-          </article>
-        </div>
-      </section>
-
-      <section id="insights" class="section" aria-labelledby="insightsTitle">
-        <div class="section__header">
-          <h2 id="insightsTitle" class="section__title">Insights</h2>
-          <p class="section__subtitle">
-            Lightweight “analytics” computed in the browser (no dependencies).
-          </p>
-        </div>
-
-        <div class="grid grid--3">
-          <article class="card">
-            <header class="card__header">
-              <h3 class="card__title">Momentum</h3>
-            </header>
-            <div class="card__body">
-              <div class="big-number">
-                <span class="big-number__value" data-ui="insight-momentum">0</span>
-                <span class="big-number__label">score</span>
-              </div>
-              <p class="muted">
-                Based on completions + focus minutes (demo formula).
-              </p>
-            </div>
-          </article>
-
-          <article class="card">
-            <header class="card__header">
-              <h3 class="card__title">Streak</h3>
-            </header>
-            <div class="card__body">
-              <div class="big-number">
-                <span class="big-number__value" data-ui="insight-streak">0</span>
-                <span class="big-number__label">days</span>
-              </div>
-              <p class="muted">
-                Stored locally; resets if you hit reset.
-              </p>
-            </div>
-          </article>
-
-          <article class="card">
-            <header class="card__header">
-              <h3 class="card__title">Signals</h3>
-            </header>
-            <div class="card__body">
-              <div class="signals" aria-label="Signals">
-                <div class="signal">
-                  <div class="signal__label">Storage</div>
-                  <div class="signal__value" data-ui="signal-storage">—</div>
-                </div>
-                <div class="signal">
-                  <div class="signal__label">Motion</div>
-                  <div class="signal__value" data-ui="signal-motion">—</div>
-                </div>
-                <div class="signal">
-                  <div class="signal__label">Theme</div>
-                  <div class="signal__value" data-ui="signal-theme">—</div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="lab" class="section" aria-labelledby="labTitle">
-        <div class="section__header">
-          <h2 id="labTitle" class="section__title">Lab</h2>
-          <p class="section__subtitle">
-            Toggle advanced behaviors. These are wired in JS using data attributes.
-          </p>
-        </div>
-
-        <div class="grid grid--2">
-          <article class="card">
-            <header class="card__header">
-              <h3 class="card__title">Feature flags</h3>
-            </header>
-            <div class="card__body">
-              <div class="toggles" role="list" aria-label="Feature flags">
-                <label class="toggle" role="listitem">
-                  <input type="checkbox" data-ui="flag-sounds" />
-                  <span class="toggle__ui" aria-hidden="true"></span>
-                  <span class="toggle__text">UI sounds (subtle)</span>
-                </label>
-
-                <label class="toggle" role="listitem">
-                  <input type="checkbox" data-ui="flag-haptics" />
-                  <span class="toggle__ui" aria-hidden="true"></span>
-                  <span class="toggle__text">Haptics (supported devices)</span>
-                </label>
-
-                <label class="toggle" role="listitem">
-                  <input type="checkbox" data-ui="flag-confetti" />
-                  <span class="toggle__ui" aria-hidden="true"></span>
-                  <span class="toggle__text">Confetti on milestones</span>
-                </label>
-
-                <label class="toggle" role="listitem">
-                  <input type="checkbox" data-ui="flag-compact" />
-                  <span class="toggle__ui" aria-hidden="true"></span>
-                  <span class="toggle__text">Compact density</span>
-                </label>
-              </div>
-            </div>
-          </article>
-
-          <article class="card">
-            <header class="card__header">
-              <h3 class="card__title">Console</h3>
-            </header>
-            <div class="card__body">
-              <div class="console" role="log" aria-live="polite" aria-label="Event log" data-ui="log">
-                <!-- JS writes log lines -->
-              </div>
-              <div class="controls">
-                <button class="btn btn--small" type="button" data-action="log-demo">
-                  Generate events
-                </button>
-                <button class="btn btn--small btn--ghost" type="button" data-action="log-clear">
-                  Clear
-                </button>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="about" class="section" aria-labelledby="aboutTitle">
-        <div class="section__header">
-          <h2 id="aboutTitle" class="section__title">About</h2>
-          <p class="section__subtitle">
-            This is a test harness: clean semantics, a11y, and modern UI patterns.
-          </p>
-        </div>
-
-        <article class="card">
-          <div class="card__body prose">
-            <ul>
-              <li>Keyboard shortcuts + command palette</li>
-              <li>Accessible modal + toast notifications</li>
-              <li>Canvas sparkline (no libs)</li>
-              <li>LocalStorage persistence + export/import</li>
-              <li>Reduced-motion support</li>
-            </ul>
-            <p class="muted">
-              Next files: <code>style.css</code> and <code>app.js</code>.
-            </p>
-          </div>
-        </article>
-      </section>
-    </main>
-
-    <footer class="app-footer" role="contentinfo">
-      <div class="app-footer__inner">
-        <div class="muted">Pulse demo • Site 1/10</div>
-        <div class="muted">
-          Tip: <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd> opens the command palette.
-        </div>
-      </div>
-    </footer>
-
-    <!-- Toast region -->
-    <div class="toasts" aria-live="polite" aria-atomic="true" data-ui="toasts"></div>
-
-    <!-- Quick Add Modal -->
-    <dialog class="modal" id="quickAddModal" aria-labelledby="quickAddTitle">
-      <form method="dialog" class="modal__panel" data-ui="quick-add-form">
-        <header class="modal__header">
-          <h2 id="quickAddTitle" class="modal__title">Quick add</h2>
-          <button class="icon-btn" type="submit" value="cancel" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </header>
-
-        <div class="modal__body">
-          <label class="field">
-            <span class="field__label">Task title</span>
-            <input
-              type="text"
-              name="title"
-              data-ui="quick-title"
-              placeholder="e.g., Ship v1"
-              autocomplete="off"
-              required
-            />
-          </label>
-
-          <div class="row">
-            <label class="field">
-              <span class="field__label">Priority</span>
-              <select name="priority" data-ui="quick-priority">
-                <option value="low">Low</option>
-                <option value="med" selected>Medium</option>
-                <option value="high">High</option>
-              </select>
-            </label>
-
-            <label class="field">
-              <span class="field__label">Mood</span>
-              <select name="mood" data-ui="quick-mood">
-                <option value="—" selected>—</option>
-                <option value="🙂">🙂</option>
-                <option value="😐">😐</option>
-                <option value="😄">😄</option>
-                <option value="😴">😴</option>
-              </select>
-            </label>
-          </div>
-
-          <p class="hint">
-            Press <kbd>Enter</kbd> to add. Press <kbd>Esc</kbd> to close.
-          </p>
-        </div>
-
-        <footer class="modal__footer">
-          <button class="btn btn--ghost" type="submit" value="cancel">Cancel</button>
-          <button class="btn btn--primary" type="submit" value="ok" data-action="quick-add-submit">
-            Add
-          </button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- Command Palette -->
-    <dialog class="palette" id="commandPalette" aria-labelledby="paletteTitle">
-      <form method="dialog" class="palette__panel" data-ui="palette">
-        <header class="palette__header">
-          <h2 id="paletteTitle" class="sr-only">Command palette</h2>
-          <label class="field field--compact palette__search">
-            <span class="sr-only">Search commands</span>
-            <input
-              type="search"
-              autocomplete="off"
-              spellcheck="false"
-              placeholder="Type a command…"
-              data-ui="palette-input"
-              aria-label="Search commands"
-            />
-          </label>
-          <button class="icon-btn" type="submit" value="cancel" aria-label="Close palette">
-            <span aria-hidden="true">×</span>
-          </button>
-        </header>
-
-        <div class="palette__body">
-          <ul class="cmds" role="listbox" aria-label="Commands" data-ui="palette-list">
-            <!-- JS renders commands -->
+          <ul class="hero-stats" aria-label="Key highlights">
+            <li>
+              <span class="stat-value">48</span>
+              <span class="stat-label">active partner orgs</span>
+            </li>
+            <li>
+              <span class="stat-value">12</span>
+              <span class="stat-label">program sites</span>
+            </li>
+            <li>
+              <span class="stat-value">3.2k</span>
+              <span class="stat-label">people served (last year)</span>
+            </li>
           </ul>
-
-          <p class="hint muted">
-            Navigate with <kbd>↑</kbd>/<kbd>↓</kbd>, run with <kbd>Enter</kbd>.
-          </p>
         </div>
-      </form>
-    </dialog>
 
-    <noscript>
-      <div class="noscript">
-        This demo uses JavaScript for interactions. The layout still works, but features are disabled.
+        <div class="hero-card" role="complementary" aria-label="Quick links">
+          <div class="card">
+            <h2 class="card-title">How we can help</h2>
+            <p class="card-text">
+              Find services, upcoming workshops, and practical toolkits for families, job seekers, and community leaders.
+            </p>
+            <div class="quick-links">
+              <a href="#resources" class="quick-link">
+                <span class="quick-link-title">Resource Library</span>
+                <span class="quick-link-desc">Templates, guides, and referrals</span>
+              </a>
+              <a href="#news" class="quick-link">
+                <span class="quick-link-title">Updates</span>
+                <span class="quick-link-desc">Program launches & notices</span>
+              </a>
+              <a href="#contact" class="quick-link">
+                <span class="quick-link-title">Get in touch</span>
+                <span class="quick-link-desc">Partnerships & questions</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="notice" role="status" aria-live="polite">
+            <strong>Now enrolling:</strong> Winter job readiness cohort (limited seats).
+            <a href="#contact">Request info</a>
+          </div>
+        </div>
       </div>
-    </noscript>
-  </body>
+    </section>
+
+    <section id="programs" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Programs</h2>
+          <p>Designed with partners. Delivered locally. Measured for outcomes.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Job Readiness</h3>
+            <p>Resume clinics, interview practice, and employer connections.</p>
+            <ul class="list">
+              <li>Weekly workshops</li>
+              <li>1:1 coaching</li>
+              <li>Placement support</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Youth Mentoring</h3>
+            <p>Mentor matching, tutoring referrals, and safe after-school spaces.</p>
+            <ul class="list">
+              <li>Volunteer-led circles</li>
+              <li>Skill-building sessions</li>
+              <li>Family support</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Community Access</h3>
+            <p>Navigation help for benefits, housing resources, and digital access.</p>
+            <ul class="list">
+              <li>Resource navigation</li>
+              <li>Device & internet support</li>
+              <li>Local referrals</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact" class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Impact snapshot</h2>
+          <p>Clear reporting. Real numbers. Continuous improvement.</p>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-item">
+            <h3>Outcome tracking</h3>
+            <p>We track attendance, completion, and follow-up outcomes in partnership with providers.</p>
+          </div>
+          <div class="impact-item">
+            <h3>Partner-first delivery</h3>
+            <p>Programs are delivered through trusted local organizations and community leaders.</p>
+          </div>
+          <div class="impact-item">
+            <h3>Resource-first approach</h3>
+            <p>We publish toolkits and templates that communities can reuse without a paywall.</p>
+          </div>
+        </div>
+
+        <div class="cta-row" id="donate">
+          <div>
+            <h3>Support community-led work</h3>
+            <p>Your contribution helps fund workshops, materials, and local partner grants.</p>
+          </div>
+          <a class="btn btn-primary" href="#contact">Donate / Sponsor</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>News & updates</h2>
+          <p>Recent announcements from across our programs.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <p class="meta">Announcement</p>
+            <h3>New partner site opens on the South Side</h3>
+            <p>Expanded hours for resource navigation and job-readiness services.</p>
+            <a class="text-link" href="#contact">Ask about services →</a>
+          </article>
+
+          <article class="card">
+            <p class="meta">Program</p>
+            <h3>Mentor orientation: monthly sessions</h3>
+            <p>Join an onboarding session to learn expectations, safety, and support.</p>
+            <a class="text-link" href="#contact">Volunteer interest →</a>
+          </article>
+
+          <article class="card">
+            <p class="meta">Resource</p>
+            <h3>Printable checklist: “First week at a new job”</h3>
+            <p>A quick guide for transportation, paperwork, and communication tips.</p>
+            <a class="text-link" href="#resources">View resources →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Resource library</h2>
+          <p>Simple, practical materials you can use right away.</p>
+        </div>
+
+        <div class="resource-list" role="list">
+          <div class="resource" role="listitem">
+            <h3>Resume template (ATS-friendly)</h3>
+            <p>Clean structure optimized for common applicant tracking systems.</p>
+            <button class="btn btn-ghost" type="button" data-action="download" data-resource="resume-template">
+              Download
+            </button>
+          </div>
+
+          <div class="resource" role="listitem">
+            <h3>Community meeting agenda</h3>
+            <p>Facilitation outline for inclusive, time-boxed discussions.</p>
+            <button class="btn btn-ghost" type="button" data-action="download" data-resource="meeting-agenda">
+              Download
+            </button>
+          </div>
+
+          <div class="resource" role="listitem">
+            <h3>Referral list starter</h3>
+            <p>A worksheet to build your local referral directory for support services.</p>
+            <button class="btn btn-ghost" type="button" data-action="download" data-resource="referral-starter">
+              Download
+            </button>
+          </div>
+        </div>
+
+        <p class="muted-note">
+          *Downloads are demo buttons for this test site (no backend required).
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Contact</h2>
+          <p>Send a message—partnership requests and service questions welcome.</p>
+        </div>
+
+        <div class="contact-grid">
+          <form class="card form" autocomplete="on">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" required />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+
+            <div class="field">
+              <label for="topic">Topic</label>
+              <select id="topic" name="topic" required>
+                <option value="" selected disabled>Select one…</option>
+                <option>Program information</option>
+                <option>Partnership request</option>
+                <option>Volunteer interest</option>
+                <option>Media inquiry</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="How can we help?" required></textarea>
+            </div>
+
+            <div class="form-row">
+              <button class="btn btn-primary" type="submit" data-action="submit-contact">Send message</button>
+              <p class="form-hint" id="formHint">This demo form shows a success toast (no email is sent).</p>
+            </div>
+          </form>
+
+          <aside class="card contact-aside" aria-label="Organization contact details">
+            <h3>Organization office</h3>
+            <p class="contact-line"><strong>Hours:</strong> Mon–Fri, 9:00–5:00</p>
+            <p class="contact-line"><strong>Phone:</strong> (555) 014-2208</p>
+            <p class="contact-line"><strong>Email:</strong> hello@civicworks.example</p>
+
+            <div class="divider" role="presentation"></div>
+
+            <h3>Mailing address</h3>
+            <p class="contact-line">
+              1200 Community Way<br />
+              Suite 210<br />
+              Chicago, IL 60600
+            </p>
+
+            <div class="divider" role="presentation"></div>
+
+            <p class="muted-note">
+              Note: Contact details are placeholders for the scale test.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-brand">CivicWorks Alliance</p>
+        <p class="muted-note">
+          A community-centered organization website demo for testing layout, usability, and lightweight interactivity.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footer">
+        <a href="#programs">Programs</a>
+        <a href="#resources">Resources</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-meta">
+        <p class="muted-note">© <span id="year"></span> CivicWorks Alliance. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
+  <script src="script.js" defer></script>
+</body>
 </html>
