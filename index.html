@@ -1,42 +1,312 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Theme Toggle Demo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>IRON OPS // Tactical Interface</title>
+  <meta name="description" content="A tactical, military-inspired landing page with animated radar and a light/dark toggle." />
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <h1 class="logo">My Website</h1>
+  <!-- Animated background -->
+  <canvas id="fx" aria-hidden="true"></canvas>
 
-      <!-- THEME TOGGLE -->
-      <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
-        <span class="track">
-          <span class="thumb">
-            <span class="icon sun">☀</span>
-            <span class="icon moon">☾</span>
-          </span>
-        </span>
+  <!-- Top HUD -->
+  <header class="hud">
+    <div class="hud__left">
+      <div class="badge" aria-label="Iron Ops">
+        <span class="badge__dot" aria-hidden="true"></span>
+        <span class="badge__text">IRON OPS</span>
+      </div>
+      <div class="chip" id="statusChip" title="System status">
+        <span class="chip__ping" aria-hidden="true"></span>
+        <span class="chip__text">SYSTEM: ARMED</span>
+      </div>
+    </div>
+
+    <nav class="hud__nav" aria-label="Primary">
+      <a href="#mission">Mission</a>
+      <a href="#loadout">Loadout</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="hud__right">
+      <button class="btn btn--ghost" id="themeBtn" type="button" aria-label="Toggle theme">
+        <span class="btn__icon" aria-hidden="true">◐</span>
+        <span class="btn__text">Light/Dark</span>
+      </button>
+      <button class="btn btn--primary" id="armBtn" type="button">
+        <span class="btn__icon" aria-hidden="true">⚡</span>
+        <span class="btn__text">ARM SEQUENCE</span>
       </button>
     </div>
   </header>
 
-  <main class="container">
-    <section class="card">
-      <h2>Light / Dark Theme</h2>
-      <p>
-        Click the toggle in the top right.  
-        Your preference is saved and restored on reload.
-      </p>
+  <!-- Main -->
+  <main class="wrap">
+    <section class="hero" id="top">
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <p class="kicker">TACTICAL INTERFACE / ALPHA</p>
+          <h1 class="title">
+            Deploy. Track. Strike.
+            <span class="title__sub">A rugged UI built for fast ops and zero fluff.</span>
+          </h1>
+
+          <div class="hero__stats" role="list" aria-label="Key stats">
+            <div class="stat" role="listitem">
+              <div class="stat__num" data-count="98">0</div>
+              <div class="stat__label">Uptime</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num" data-count="12">0</div>
+              <div class="stat__label">Active Nodes</div>
+            </div>
+            <div class="stat" role="listitem">
+              <div class="stat__num" data-count="450">0</div>
+              <div class="stat__label">Ops/min</div>
+            </div>
+          </div>
+
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#mission">
+              <span class="btn__icon" aria-hidden="true">➜</span>
+              <span class="btn__text">BRIEFING</span>
+            </a>
+            <button class="btn btn--ghost" type="button" id="shockBtn">
+              <span class="btn__icon" aria-hidden="true">✹</span>
+              <span class="btn__text">TEST BLAST</span>
+            </button>
+          </div>
+
+          <p class="fineprint">
+            Tip: click anywhere for a “blast” ripple. Press <kbd>G</kbd> for stealth grid.
+          </p>
+        </div>
+
+        <aside class="panel" aria-label="Ops panel">
+          <div class="panel__top">
+            <div class="panel__title">OPS PANEL</div>
+            <div class="panel__id">SIG: <span id="sig">—</span></div>
+          </div>
+
+          <div class="panel__body">
+            <div class="readout">
+              <div class="readout__label">THREAT</div>
+              <div class="readout__bar" aria-hidden="true">
+                <span class="readout__fill" style="--v: 0.72"></span>
+              </div>
+              <div class="readout__value"><span id="threat">72</span>%</div>
+            </div>
+
+            <div class="readout">
+              <div class="readout__label">RANGE</div>
+              <div class="readout__bar" aria-hidden="true">
+                <span class="readout__fill" style="--v: 0.48"></span>
+              </div>
+              <div class="readout__value"><span id="range">48</span>km</div>
+            </div>
+
+            <div class="readout">
+              <div class="readout__label">SIGNAL</div>
+              <div class="readout__bar" aria-hidden="true">
+                <span class="readout__fill" style="--v: 0.91"></span>
+              </div>
+              <div class="readout__value"><span id="signal">91</span>dB</div>
+            </div>
+
+            <div class="log" aria-label="Event log" role="log" aria-live="polite"></div>
+          </div>
+
+          <div class="panel__bottom">
+            <button class="btn btn--ghost btn--small" id="pingBtn" type="button">
+              <span class="btn__icon" aria-hidden="true">⌁</span>
+              <span class="btn__text">PING</span>
+            </button>
+            <button class="btn btn--ghost btn--small" id="scrambleBtn" type="button">
+              <span class="btn__icon" aria-hidden="true">⟲</span>
+              <span class="btn__text">SCRAMBLE</span>
+            </button>
+          </div>
+        </aside>
+      </div>
     </section>
+
+    <section class="section" id="mission">
+      <div class="section__head">
+        <h2>Mission</h2>
+        <p>Build a site that feels like a command console: fast, sharp, and a little dangerous.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Purpose-built UI</h3>
+          <p>Clean layout, thick contrast, and “HUD” chrome—no gimmicks, only impact.</p>
+          <ul class="bullets">
+            <li>Accessible structure</li>
+            <li>Responsive grid</li>
+            <li>Reduced-motion friendly</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Dynamic feel</h3>
+          <p>Radar sweep, tracers, and controlled “blast” effects—pure JS + canvas.</p>
+          <ul class="bullets">
+            <li>GPU-friendly canvas</li>
+            <li>Click shockwave</li>
+            <li>Keyboard toggles</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Deploy-ready</h3>
+          <p>Works as a static site—perfect for GitHub Pages / Netlify / Vercel.</p>
+          <ul class="bullets">
+            <li>No build step</li>
+            <li>Single folder</li>
+            <li>Easy hosting</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="loadout">
+      <div class="section__head">
+        <h2>Loadout</h2>
+        <p>Pick your modules. Swap content later—this is a strong starter shell.</p>
+      </div>
+
+      <div class="grid2">
+        <div class="meter">
+          <div class="meter__row">
+            <div class="meter__label">Armor plating</div>
+            <div class="meter__value">A+</div>
+          </div>
+          <div class="meter__track" aria-hidden="true"><span style="--w:92%"></span></div>
+
+          <div class="meter__row">
+            <div class="meter__label">Speed</div>
+            <div class="meter__value">S</div>
+          </div>
+          <div class="meter__track" aria-hidden="true"><span style="--w:84%"></span></div>
+
+          <div class="meter__row">
+            <div class="meter__label">Stealth</div>
+            <div class="meter__value">B</div>
+          </div>
+          <div class="meter__track" aria-hidden="true"><span style="--w:63%"></span></div>
+
+          <div class="meter__row">
+            <div class="meter__label">Payload</div>
+            <div class="meter__value">MAX</div>
+          </div>
+          <div class="meter__track" aria-hidden="true"><span style="--w:96%"></span></div>
+        </div>
+
+        <div class="stack">
+          <div class="stack__item">
+            <div class="stack__tag">MODULE</div>
+            <div class="stack__title">Theme toggle (top HUD)</div>
+            <div class="stack__desc">CSS variables + saved preference. Instant swap, no reload.</div>
+          </div>
+          <div class="stack__item">
+            <div class="stack__tag">MODULE</div>
+            <div class="stack__title">Ops log + status chips</div>
+            <div class="stack__desc">Animated pings, event feed, randomized readouts.</div>
+          </div>
+          <div class="stack__item">
+            <div class="stack__tag">MODULE</div>
+            <div class="stack__title">Radar / tracer canvas</div>
+            <div class="stack__desc">Subtle motion, aggressive vibe. Respects reduced motion.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <div class="section__head">
+        <h2>Timeline</h2>
+        <p>A no-nonsense “ops plan” layout you can reuse for projects, services, or stages.</p>
+      </div>
+
+      <ol class="timeline" aria-label="Ops timeline">
+        <li class="timeline__item">
+          <div class="timeline__pin" aria-hidden="true"></div>
+          <div class="timeline__content">
+            <div class="timeline__title">Recon</div>
+            <div class="timeline__text">Define target, gather requirements, lock visual language.</div>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__pin" aria-hidden="true"></div>
+          <div class="timeline__content">
+            <div class="timeline__title">Build</div>
+            <div class="timeline__text">Assemble sections, wire interactions, tune typography.</div>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__pin" aria-hidden="true"></div>
+          <div class="timeline__content">
+            <div class="timeline__title">Test</div>
+            <div class="timeline__text">Mobile checks, performance pass, accessibility sweep.</div>
+          </div>
+        </li>
+        <li class="timeline__item">
+          <div class="timeline__pin" aria-hidden="true"></div>
+          <div class="timeline__content">
+            <div class="timeline__title">Deploy</div>
+            <div class="timeline__text">Ship to GitHub Pages. Update content. Run the ops.</div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section__head">
+        <h2>Contact</h2>
+        <p>Local-only demo form (no backend). You can wire this to any service later.</p>
+      </div>
+
+      <form class="form" id="contactForm">
+        <label class="field">
+          <span class="field__label">Callsign</span>
+          <input class="field__input" name="name" required placeholder="e.g., Viper-7" autocomplete="name" />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Secure channel</span>
+          <input class="field__input" type="email" name="email" required placeholder="you@domain.com" autocomplete="email" />
+        </label>
+
+        <label class="field field--full">
+          <span class="field__label">Message</span>
+          <textarea class="field__input field__textarea" name="message" required placeholder="Drop the objective…"></textarea>
+        </label>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">
+            <span class="btn__icon" aria-hidden="true">✉</span>
+            <span class="btn__text">SEND</span>
+          </button>
+          <p class="form__note" id="formNote" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__line">
+        <span>IRON OPS</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span id="footSig">SIG: —</span>
+      </div>
+      <div class="footer__fine">Built with HTML/CSS/JS. No dependencies.</div>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <p>© <span id="year"></span> Demo Site</p>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
