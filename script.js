@@ -1,620 +1,540 @@
-// script.js
+/* script.js — SATCORP // BLACKLIST TERMINAL
+   - Theme toggle (dark <-> light)
+   - Nav routing (sections)
+   - Search + filter on Blacklist index
+   - Dossier modal open/close + populate
+   - Redaction reveal effect + typing/scanline polish
+*/
+
 (() => {
   "use strict";
 
-  // -----------------------------
-  // Data (you can replace these)
-  // -----------------------------
-  const subjects = [
+  // ---------- Helpers ----------
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Smoothly prefer reduced motion users
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- State ----------
+  const state = {
+    theme: "dark",
+    route: "home",
+    query: "",
+    threat: "all",
+    activeId: null
+  };
+
+  // ---------- Demo Data ----------
+  // (Replace with your own later; keep structure)
+  const BLACKLIST = [
     {
-      id: "BL-014",
-      number: 14,
-      name: "THE CLEANER",
-      alias: "Mason Vale",
-      specialty: "Removal & evidence sanitation",
-      threat: "high",
+      id: 1,
+      number: "001",
+      name: "THE BROKER",
+      alias: "Sable",
+      specialty: "Connections / Information Arbitrage",
+      threat: 5,
       status: "ACTIVE",
       lastKnown: "Chicago, IL",
-      confidence: "67%",
-      verifiedAt: minutesAgo(186),
-      overview:
-        "A private operator specializing in post-event sanitation—physical cleanup, digital erasure, and witness displacement. Works through proxies and dead drops.",
-      notes: [
-        "Prefers service corridors, loading bays, and municipal access points.",
-        "Uses disposable devices; contact windows under 90 seconds.",
-        "Suspected ties to multiple financial mules and a forged custody chain."
+      summary:
+        "A high-tier intermediary who sells leverage. Never the hands—always the phone. Known to broker deals between rival crews.",
+      associates: ["The Fixer", "The Courier"],
+      evidence: [
+        { type: "doc", title: "Intercepted Call Transcript", tag: "EVID-1042" },
+        { type: "img", title: "Surveillance Still", tag: "EVID-1101" }
       ],
-      associates: [27, 3],
-      evidence: ["E-7712", "E-2280", "E-9001"]
+      timeline: [
+        "48h: Contact pinged near a freight yard.",
+        "6d: Payment trail flagged via shell accounts.",
+        "3w: Last confirmed meet with 'The Fixer'."
+      ]
     },
     {
-      id: "BL-027",
-      number: 27,
+      id: 2,
+      number: "014",
       name: "THE FORGER",
-      alias: "Elena Koss",
-      specialty: "Identity fabrication & travel vectors",
-      threat: "critical",
+      alias: "Ivory",
+      specialty: "Documents / IDs / Passports",
+      threat: 4,
       status: "ACTIVE",
-      lastKnown: "Unknown (EU transit)",
-      confidence: "54%",
-      verifiedAt: minutesAgo(420),
-      overview:
-        "Produces high-fidelity identities and travel documents. Known to seed false leads while routing assets through legitimate corporate structures.",
-      notes: [
-        "Operates via boutique legal offices and medical credential pipelines.",
-        "Leverages 'clean' intermediaries with no obvious criminal profile.",
-        "Redaction request pending on cross-border liaison."
+      lastKnown: "Dallas, TX",
+      summary:
+        "Produces near-perfect identities with chain-of-custody clean rooms. Suspected links to multiple border crossings.",
+      associates: ["The Broker"],
+      evidence: [
+        { type: "doc", title: "Recovered Template Pack", tag: "EVID-0933" },
+        { type: "doc", title: "Customs Alert Notice", tag: "EVID-0990" }
       ],
-      associates: [14, 9],
-      evidence: ["E-1402", "E-6134"]
+      timeline: [
+        "12h: New batch flagged at port of entry.",
+        "9d: Printer signature matched to prior cases."
+      ]
     },
     {
-      id: "BL-003",
-      number: 3,
-      name: "THE BROKER",
-      alias: "Silas Roe",
-      specialty: "Information exchange & asset placement",
-      threat: "elevated",
-      status: "SURVEILLANCE",
-      lastKnown: "New York, NY",
-      confidence: "72%",
-      verifiedAt: minutesAgo(92),
-      overview:
-        "A human switchboard for sensitive intel. Trades in access—where, when, and who. Rarely handles contraband directly.",
-      notes: [
-        "Public-facing philanthropy is likely operational cover.",
-        "Favors art events and private tastings as contact venues.",
-        "Pattern suggests a new handler entering the network."
-      ],
-      associates: [14],
-      evidence: ["E-3319", "E-4400", "E-1055"]
-    },
-    {
-      id: "BL-009",
-      number: 9,
-      name: "THE PHARMACIST",
-      alias: "Dr. Harlow S.",
-      specialty: "Illicit compounds & field sedation",
-      threat: "high",
-      status: "ACTIVE",
-      lastKnown: "St. Louis, MO",
-      confidence: "61%",
-      verifiedAt: minutesAgo(240),
-      overview:
-        "Runs a quiet supply chain for specialized compounds: sedation, compliance, and memory disruption. Packaging mimics hospital stock.",
-      notes: [
-        "Uses after-hours clinic access; shifts rotate to avoid pattern.",
-        "Cold-storage courier network likely subcontracted.",
-        "Suspected tie to missing-person case cluster."
-      ],
-      associates: [27],
-      evidence: ["E-0909", "E-7721"]
-    },
-    {
-      id: "BL-041",
-      number: 41,
-      name: "THE DRIVER",
-      alias: "K. Mercer",
-      specialty: "Exfiltration & pursuit denial",
-      threat: "elevated",
+      id: 3,
+      number: "022",
+      name: "THE COURIER",
+      alias: "Marrow",
+      specialty: "High-risk Transport",
+      threat: 3,
       status: "COLD",
-      lastKnown: "Phoenix, AZ",
-      confidence: "38%",
-      verifiedAt: minutesAgo(980),
-      overview:
-        "Professional exfiltrator. Leaves no signature beyond timing—intersections, service roads, and plate rotations. Known for non-linear routes.",
-      notes: [
-        "Rarely communicates. Prefers single-use codes in public signage.",
-        "May be contracting through third-party logistics firms.",
-        "Vehicle profiles indicate rapid mid-route swaps."
+      lastKnown: "Unknown (Midwest)",
+      summary:
+        "Moves packages nobody else will touch. Operates on dead drops and burned routes. Always one step ahead of surveillance.",
+      associates: ["The Broker"],
+      evidence: [{ type: "img", title: "Route Heat Snapshot", tag: "EVID-0717" }],
+      timeline: [
+        "2m: Activity dropped off after sting attempt.",
+        "5m: Vehicle burned; identity unconfirmed."
+      ]
+    },
+    {
+      id: 4,
+      number: "031",
+      name: "THE FIXER",
+      alias: "Cinder",
+      specialty: "Cleanup / Extraction",
+      threat: 5,
+      status: "ACTIVE",
+      lastKnown: "Houston, TX",
+      summary:
+        "If a problem exists, this subject makes it disappear. Specialists on retainer. High collateral risk.",
+      associates: ["The Broker"],
+      evidence: [
+        { type: "doc", title: "Incident Report (Redacted)", tag: "EVID-1204" },
+        { type: "img", title: "Bodycam Fragment", tag: "EVID-1209" }
       ],
-      associates: [],
-      evidence: ["E-4102"]
+      timeline: [
+        "24h: Contact with known associate detected.",
+        "2w: Linked to extraction in industrial zone."
+      ]
     }
   ];
 
-  const cases = [
-    {
-      title: "OP: NIGHT GLASS",
-      status: "ACTIVE",
-      summary:
-        "Locate the identity pipeline feeding forged clearances into municipal systems. Priority is isolating the broker chain without alerting the handler.",
-      tags: ["Intel: Moderate", "Lead: Hot", "Scope: Citywide"],
-      progress: 62
-    },
-    {
-      title: "OP: HOLLOW SEAL",
-      status: "ACTIVE",
-      summary:
-        "Track evidence disappearances across three jurisdictions. Pattern indicates sanitation crew with digital access to custody logs.",
-      tags: ["Intel: Medium", "Lead: Warm", "Scope: Multi-agency"],
-      progress: 47
-    },
-    {
-      title: "OP: IRON LANTERN",
-      status: "COLD",
-      summary:
-        "Historic exfil routes reactivated. Suspect a new transport coordinator. Monitoring transit data for the next ripple.",
-      tags: ["Intel: Low", "Lead: Cold", "Scope: Regional"],
-      progress: 19
+  // ---------- DOM ----------
+  const dom = {
+    html: document.documentElement,
+    body: document.body,
+    themeBtn: $('[data-action="toggle-theme"]'),
+    routeLinks: $$('[data-route]'),
+    sections: $$("section[data-view]"),
+    statusRoute: $('[data-bind="route"]'),
+    statusTime: $('[data-bind="timecode"]'),
+    statusConn: $('[data-bind="connection"]'),
+
+    // Blacklist index
+    searchInput: $('[data-bind="search"]'),
+    threatSelect: $('[data-bind="threat"]'),
+    listWrap: $('[data-bind="blacklist"]'),
+    resultsCount: $('[data-bind="results-count"]'),
+
+    // Modal
+    modal: $("#dossierModal"),
+    modalClose: $('[data-action="close-modal"]'),
+    modalTitle: $('[data-bind="dossier-title"]'),
+    modalMeta: $('[data-bind="dossier-meta"]'),
+    modalSummary: $('[data-bind="dossier-summary"]'),
+    modalTimeline: $('[data-bind="dossier-timeline"]'),
+    modalAssoc: $('[data-bind="dossier-associates"]'),
+    modalEvidence: $('[data-bind="dossier-evidence"]'),
+
+    // FX layers
+    scanline: $("#scanline"),
+    toast: $("#toast")
+  };
+
+  // ---------- FX: Timecode ----------
+  function startTimecode() {
+    const pad = (n) => String(n).padStart(2, "0");
+    const tick = () => {
+      const d = new Date();
+      const t = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      if (dom.statusTime) dom.statusTime.textContent = t;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // ---------- Theme ----------
+  function loadTheme() {
+    const saved = localStorage.getItem("blacklist_theme");
+    state.theme = saved === "light" ? "light" : "dark";
+    dom.html.dataset.theme = state.theme;
+    updateThemeButton();
+  }
+
+  function updateThemeButton() {
+    if (!dom.themeBtn) return;
+    const next = state.theme === "dark" ? "LIGHT" : "DARK";
+    dom.themeBtn.setAttribute("aria-label", `Switch theme to ${next}`);
+    dom.themeBtn.textContent = `THEME: ${next}`;
+  }
+
+  function toggleTheme() {
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    dom.html.dataset.theme = state.theme;
+    localStorage.setItem("blacklist_theme", state.theme);
+    updateThemeButton();
+    toast(`Theme set: ${state.theme.toUpperCase()}`);
+  }
+
+  // ---------- Routing ----------
+  function setRoute(route) {
+    state.route = route;
+
+    // Update active nav
+    dom.routeLinks.forEach((a) => {
+      const isActive = a.dataset.route === route;
+      a.classList.toggle("is-active", isActive);
+      a.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    // Show section
+    dom.sections.forEach((sec) => {
+      sec.hidden = sec.dataset.view !== route;
+    });
+
+    // Update status
+    if (dom.statusRoute) dom.statusRoute.textContent = route.toUpperCase();
+
+    // Push hash
+    if (location.hash.replace("#", "") !== route) {
+      history.replaceState(null, "", `#${route}`);
     }
-  ];
 
-  const evidence = [
-    { id: "E-7712", title: "Custody Log Fragment", sub: "Checksum mismatch", seal: "CHAIN OK", type: "DOC" },
-    { id: "E-2280", title: "Transit Camera Still", sub: "Partial plate, 02:11", seal: "SEALED", type: "IMG" },
-    { id: "E-9001", title: "Burner Device Dump", sub: "Contacts redacted", seal: "SEALED", type: "BIN" },
-    { id: "E-1402", title: "Passport Substrate", sub: "Fiber anomalies", seal: "CHAIN OK", type: "MAT" },
-    { id: "E-6134", title: "Ledger Snapshot", sub: "Escrow routing", seal: "SEALED", type: "DOC" },
-    { id: "E-3319", title: "Venue Guest List", sub: "Two false names", seal: "CHAIN OK", type: "DOC" },
-    { id: "E-4400", title: "Audio Clip", sub: "Coded phrase", seal: "SEALED", type: "AUD" },
-    { id: "E-1055", title: "Keycard Clone", sub: "RF profile match", seal: "CHAIN OK", type: "HW" },
-    { id: "E-0909", title: "Cold-Pack Label", sub: "Clinic origin", seal: "SEALED", type: "MAT" },
-    { id: "E-7721", title: "Invoice Bundle", sub: "Routing patterns", seal: "SEALED", type: "DOC" },
-    { id: "E-4102", title: "Toll Data Slice", sub: "Loop route", seal: "CHAIN OK", type: "DAT" }
-  ];
+    // Small scanline pulse on route change
+    pulseScanline();
+  }
 
-  const intelLines = [
-    "Unverified sighting: subject moved through service entrance, no CCTV confirmation.",
-    "New alias detected in travel manifests; confidence 0.61.",
-    "Intercepted message mentions 'clean hands' and a 12-minute window.",
-    "Custody chain updated externally—possible admin credential compromise.",
-    "Contact venue changed last minute; pattern consistent with broker protocols.",
-    "Heat signature spike near transit hub; unit dispatched for soft surveillance."
-  ];
+  function initRouting() {
+    dom.routeLinks.forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        setRoute(a.dataset.route);
+      });
+    });
 
-  const notes = [
-    { title: "Directive", body: "Avoid direct contact. Prioritize link analysis. Build the network before the arrest.", meta: "TASK FORCE // 04:12Z" },
-    { title: "Risk", body: "Assume compromised custody logs. Validate with independent timestamps and physical chain markers.", meta: "OPS NOTE // 04:31Z" },
-    { title: "Opportunity", body: "Associate crosslinks suggest a shared handler. Look for the quiet node—the one who never appears twice.", meta: "ANALYST // 05:09Z" }
-  ];
+    // Load from hash
+    const fromHash = location.hash ? location.hash.replace("#", "") : "";
+    const route = dom.sections.some((s) => s.dataset.view === fromHash) ? fromHash : "home";
+    setRoute(route);
+  }
 
-  const transcriptSegments = [
-    [
-      { t: "00:14", who: "AGENT", text: "You moved three assets without leaving a print. That's not luck." },
-      { t: "00:22", who: "SUBJECT", text: "Prints are for people who like to be found." },
-      { t: "00:31", who: "AGENT", text: "We have your chain. One call and it collapses." },
-      { t: "00:38", who: "SUBJECT", text: "You have a <span class='redacted'>████████</span>. Not a chain." }
-    ],
-    [
-      { t: "02:07", who: "AGENT", text: "Why Chicago?" },
-      { t: "02:10", who: "SUBJECT", text: "Because the city forgets. It forgets fast." },
-      { t: "02:18", who: "AGENT", text: "You didn't answer the question." },
-      { t: "02:22", who: "SUBJECT", text: "I did. You just don't like it." }
-    ],
-    [
-      { t: "05:41", who: "AGENT", text: "Name your handler." },
-      { t: "05:44", who: "SUBJECT", text: "If I had one, I'd be dead." },
-      { t: "05:52", who: "AGENT", text: "We can protect you." },
-      { t: "05:56", who: "SUBJECT", text: "Protection is a <span class='wave'>~ waveform ~</span> until the lights go out." }
+  // ---------- Connection status ----------
+  function setConnectionStatus() {
+    if (!dom.statusConn) return;
+    // Simulated status
+    const status = "ENCRYPTED";
+    dom.statusConn.textContent = status;
+  }
+
+  // ---------- Toast ----------
+  let toastTimer = null;
+  function toast(message) {
+    if (!dom.toast) return;
+    dom.toast.textContent = message;
+    dom.toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => dom.toast.classList.remove("show"), 1400);
+  }
+
+  // ---------- Scanline pulse ----------
+  function pulseScanline() {
+    if (!dom.scanline || prefersReduced) return;
+    dom.scanline.classList.remove("pulse");
+    // reflow
+    void dom.scanline.offsetWidth;
+    dom.scanline.classList.add("pulse");
+  }
+
+  // ---------- Render Blacklist ----------
+  function threatLabel(n) {
+    const map = { 1: "LOW", 2: "GUARDED", 3: "ELEVATED", 4: "SEVERE", 5: "CRITICAL" };
+    return map[n] || "UNKNOWN";
+  }
+
+  function threatBadge(n) {
+    const label = threatLabel(n);
+    return `<span class="badge badge--t${n}" title="Threat: ${label}">${label}</span>`;
+  }
+
+  function matches(item, query, threat) {
+    const q = query.trim().toLowerCase();
+    const tOk = threat === "all" ? true : String(item.threat) === threat;
+
+    if (!q) return tOk;
+    const hay = [
+      item.number,
+      item.name,
+      item.alias,
+      item.specialty,
+      item.lastKnown,
+      item.status
     ]
-  ];
+      .join(" ")
+      .toLowerCase();
 
-  // -----------------------------
-  // Utilities
-  // -----------------------------
-  function $(sel, root = document) { return root.querySelector(sel); }
-  function $all(sel, root = document) { return [...root.querySelectorAll(sel)]; }
-
-  function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return tOk && hay.includes(q);
   }
 
-  function uid() {
-    return Math.random().toString(16).slice(2, 10).toUpperCase();
-  }
+  function renderList() {
+    if (!dom.listWrap) return;
 
-  function minutesAgo(mins) {
-    // store as epoch ms
-    return Date.now() - mins * 60_000;
-  }
+    const filtered = BLACKLIST.filter((i) => matches(i, state.query, state.threat));
 
-  function timeSince(ms) {
-    const s = Math.max(0, Math.floor((Date.now() - ms) / 1000));
-    const m = Math.floor(s / 60);
-    const h = Math.floor(m / 60);
-    const d = Math.floor(h / 24);
-    if (d > 0) return `${d}d ${h % 24}h`;
-    if (h > 0) return `${h}h ${m % 60}m`;
-    return `${m}m ${s % 60}s`;
-  }
+    if (dom.resultsCount) dom.resultsCount.textContent = String(filtered.length);
 
-  function escapeHtml(str) {
-    return str.replace(/[&<>"']/g, ch => ({
-      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-    }[ch]));
-  }
+    dom.listWrap.innerHTML = filtered
+      .map((i) => {
+        return `
+          <article class="card dossier-card" tabindex="0" role="button"
+            aria-label="Open dossier for ${i.name}"
+            data-open="${i.id}">
+            <div class="card__top">
+              <div class="stamp">BLACKLIST #${i.number}</div>
+              <div class="card__badges">
+                ${threatBadge(i.threat)}
+                <span class="badge badge--status">${i.status}</span>
+              </div>
+            </div>
 
-  function glitch(el) {
-    el.classList.remove("glitch");
-    void el.offsetWidth; // reflow
-    el.classList.add("glitch");
-  }
+            <h3 class="card__title">${escapeHtml(i.name)}</h3>
+            <div class="card__meta">
+              <div><span class="k">ALIAS</span> <span class="v redacted" data-redact>${escapeHtml(
+                i.alias
+              )}</span></div>
+              <div><span class="k">SPECIALTY</span> <span class="v">${escapeHtml(
+                i.specialty
+              )}</span></div>
+              <div><span class="k">LAST KNOWN</span> <span class="v redacted" data-redact>${escapeHtml(
+                i.lastKnown
+              )}</span></div>
+            </div>
 
-  // -----------------------------
-  // Elements
-  // -----------------------------
-  const sessionIdEl = $("#sessionId");
-  const clockEl = $("#clock");
-  const btnToggleEffects = $("#btnToggleEffects");
-  const tabs = $all(".tab[data-view]");
-  const views = $all(".view");
-  const ledgerEl = $("#ledger");
-  const resultsCountEl = $("#resultsCount");
-  const searchInput = $("#searchInput");
-  const btnClearSearch = $("#btnClearSearch");
-
-  const mostWantedEl = $("#mostWanted");
-  const taskNotesEl = $("#taskNotes");
-  const intelFeedEl = $("#intelFeed");
-
-  const casesGridEl = $("#casesGrid");
-  const lockerGridEl = $("#lockerGrid");
-
-  const transcriptEl = $("#transcript");
-  const scrubHintEl = $("#scrubHint");
-  const btnLoadLog = $("#btnLoadLog");
-  const btnRedactToggle = $("#btnRedactToggle");
-
-  const btnOpenCurrent = $("#btnOpenCurrent");
-
-  // hero meta
-  const currentCaseLabelEl = $("#currentCaseLabel");
-  const currentCaseSubEl = $("#currentCaseSub");
-  const intelBarEl = $("#intelBar");
-  const intelHintEl = $("#intelHint");
-  const lastVerifiedEl = $("#lastVerified");
-  const timeSinceEl = $("#timeSince");
-
-  // modal
-  const dossierModal = $("#dossierModal");
-  const btnCloseModal = $("#btnCloseModal");
-  const btnCopyDossier = $("#btnCopyDossier");
-  const btnRequestClearance = $("#btnRequestClearance");
-
-  const dossierTitleEl = $("#dossierTitle");
-  const dossierSubEl = $("#dossierSub");
-  const threatBadgeEl = $("#threatBadge");
-  const dossierNumEl = $("#dossierNum");
-  const dossierStatusEl = $("#dossierStatus");
-  const dossierLocEl = $("#dossierLoc");
-  const dossierConfEl = $("#dossierConf");
-  const dossierOverviewEl = $("#dossierOverview");
-  const dossierNotesEl = $("#dossierNotes");
-  const associateLinksEl = $("#associateLinks");
-  const dossierEvidenceEl = $("#dossierEvidence");
-  const dossierRedactedEl = $("#dossierRedacted");
-
-  // lock screen
-  const btnLock = $("#btnLock");
-  const lockScreen = $("#lockScreen");
-  const lockInput = $("#lockInput");
-  const btnUnlock = $("#btnUnlock");
-
-  // filters
-  const chips = $all(".chip[data-filter]");
-
-  // -----------------------------
-  // State
-  // -----------------------------
-  let currentView = "dashboard";
-  let filterThreat = "all";
-  let query = "";
-  let redactionsOn = true;
-  let activeSubjectId = subjects[0].id;
-
-  // -----------------------------
-  // Init
-  // -----------------------------
-  sessionIdEl.textContent = uid();
-  tickClock();
-  setInterval(tickClock, 1000);
-
-  // Hero pick "current case"
-  const currentCase = cases[0];
-  currentCaseLabelEl.textContent = currentCase.title;
-  currentCaseSubEl.textContent = `${currentCase.status} // ${currentCase.tags.join(" • ")}`;
-  intelBarEl.style.width = `${currentCase.progress}%`;
-  intelHintEl.textContent = `${currentCase.progress}% // ${progressHint(currentCase.progress)}`;
-
-  // Most recent verified across subjects
-  const mostRecent = subjects.reduce((a, b) => (a.verifiedAt > b.verifiedAt ? a : b), subjects[0]);
-  lastVerifiedEl.textContent = formatTime(mostRecent.verifiedAt);
-  timeSinceEl.textContent = timeSince(mostRecent.verifiedAt);
-  setInterval(() => {
-    timeSinceEl.textContent = timeSince(mostRecent.verifiedAt);
-  }, 1000);
-
-  // Build sections
-  renderMostWanted();
-  renderNotes();
-  renderIntelFeed(true);
-
-  renderCases();
-  renderLocker();
-  renderLedger();
-
-  renderTranscript(randInt(0, transcriptSegments.length - 1));
-
-  // -----------------------------
-  // Events
-  // -----------------------------
-  // Tabs
-  tabs.forEach(btn => {
-    btn.addEventListener("click", () => switchView(btn.dataset.view));
-  });
-
-  // Buttons that switch view
-  $all("[data-switch]").forEach(b => {
-    b.addEventListener("click", () => switchView(b.dataset.switch));
-  });
-
-  // FX toggle
-  btnToggleEffects.addEventListener("click", () => {
-    document.body.classList.toggle("fx-off");
-    glitch(btnToggleEffects);
-  });
-
-  // Search
-  searchInput?.addEventListener("input", () => {
-    query = searchInput.value.trim();
-    renderLedger();
-  });
-
-  btnClearSearch?.addEventListener("click", () => {
-    searchInput.value = "";
-    query = "";
-    renderLedger();
-    searchInput.focus();
-  });
-
-  // Filter chips
-  chips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      chips.forEach(c => c.classList.remove("is-active"));
-      chip.classList.add("is-active");
-      filterThreat = chip.dataset.filter;
-      renderLedger();
-    });
-  });
-
-  // Transcript
-  btnLoadLog.addEventListener("click", () => {
-    renderTranscript(randInt(0, transcriptSegments.length - 1));
-    glitch(btnLoadLog);
-  });
-
-  btnRedactToggle.addEventListener("click", () => {
-    redactionsOn = !redactionsOn;
-    document.body.classList.toggle("reveal-redactions", !redactionsOn);
-    // toggle class on redacted spans
-    $all(".redacted", transcriptEl).forEach(s => {
-      s.classList.toggle("reveal", !redactionsOn);
-    });
-    glitch(btnRedactToggle);
-  });
-
-  // Open current target
-  btnOpenCurrent.addEventListener("click", () => {
-    openDossier(activeSubjectId);
-  });
-
-  // Modal close
-  btnCloseModal.addEventListener("click", () => closeDossier());
-  dossierModal.addEventListener("click", (e) => {
-    // click outside frame closes
-    const rect = $(".modal__frame", dossierModal).getBoundingClientRect();
-    const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-    if (!inside) closeDossier();
-  });
-
-  btnCopyDossier.addEventListener("click", async () => {
-    const subj = subjectsById(activeSubjectId);
-    if (!subj) return;
-    const text =
-`BLACKLIST DOSSIER
-#${subj.number} ${subj.name} (${subj.alias})
-Specialty: ${subj.specialty}
-Threat: ${subj.threat.toUpperCase()} | Status: ${subj.status}
-Last Known: ${subj.lastKnown} | Confidence: ${subj.confidence}
-
-Overview: ${subj.overview}
-Notes: ${subj.notes.join(" / ")}
-Evidence: ${subj.evidence.join(", ")}
-`;
-    try {
-      await navigator.clipboard.writeText(text);
-      btnCopyDossier.textContent = "Copied";
-      setTimeout(() => (btnCopyDossier.textContent = "Copy Summary"), 900);
-    } catch {
-      btnCopyDossier.textContent = "Copy failed";
-      setTimeout(() => (btnCopyDossier.textContent = "Copy Summary"), 900);
-    }
-    glitch(btnCopyDossier);
-  });
-
-  btnRequestClearance.addEventListener("click", () => {
-    // playful “clearance” reveal
-    const reveal = [
-      "Asset names confirmed via secondary chain.",
-      "Handler contact vector: indirect / rotating.",
-      "Location triangulation: pending 3rd ping.",
-      "Recommendation: isolate broker, then collapse the corridor."
-    ];
-    dossierRedactedEl.innerHTML = reveal
-      .map(line => `<span class="redacted reveal">${escapeHtml(line)}</span>`)
+            <p class="card__summary">${escapeHtml(i.summary)}</p>
+            <div class="card__footer">
+              <span class="mono dim">EVIDENCE: ${i.evidence.length}</span>
+              <span class="mono dim">ASSOCIATES: ${i.associates.length}</span>
+              <span class="mono dim">OPEN ➜</span>
+            </div>
+          </article>
+        `;
+      })
       .join("");
-    glitch(btnRequestClearance);
-  });
 
-  // Lock screen
-  btnLock.addEventListener("click", () => openLock());
-  btnUnlock.addEventListener("click", () => tryUnlock());
-  lockInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") tryUnlock();
-    if (e.key === "Escape") closeLock();
-  });
+    // Bind open events
+    $$("[data-open]", dom.listWrap).forEach((el) => {
+      el.addEventListener("click", () => openDossier(Number(el.dataset.open)));
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openDossier(Number(el.dataset.open));
+        }
+      });
+    });
 
-  // Keyboard shortcuts
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "/" && !isTypingTarget(e.target)) {
-      e.preventDefault();
-      switchView("index");
-      searchInput?.focus();
-      return;
+    // Hook redactions
+    initRedactions(dom.listWrap);
+  }
+
+  // ---------- Modal ----------
+  function openDossier(id) {
+    const item = BLACKLIST.find((x) => x.id === id);
+    if (!item || !dom.modal) return;
+
+    state.activeId = id;
+
+    if (dom.modalTitle) dom.modalTitle.textContent = `${item.name} // #${item.number}`;
+
+    if (dom.modalMeta) {
+      dom.modalMeta.innerHTML = `
+        <div class="metaRow"><span class="k">ALIAS</span> <span class="v redacted" data-redact>${escapeHtml(
+          item.alias
+        )}</span></div>
+        <div class="metaRow"><span class="k">SPECIALTY</span> <span class="v">${escapeHtml(
+          item.specialty
+        )}</span></div>
+        <div class="metaRow"><span class="k">THREAT</span> <span class="v">${threatLabel(
+          item.threat
+        )} (${item.threat}/5)</span></div>
+        <div class="metaRow"><span class="k">STATUS</span> <span class="v">${escapeHtml(
+          item.status
+        )}</span></div>
+        <div class="metaRow"><span class="k">LAST KNOWN</span> <span class="v redacted" data-redact>${escapeHtml(
+          item.lastKnown
+        )}</span></div>
+      `;
     }
 
-    if (e.key === "Escape") {
-      if (!lockScreen.hidden) return closeLock();
-      if (dossierModal.open) return closeDossier();
+    if (dom.modalSummary) dom.modalSummary.textContent = item.summary;
+
+    if (dom.modalTimeline) {
+      dom.modalTimeline.innerHTML = item.timeline
+        .map((t) => `<li><span class="dot"></span><span>${escapeHtml(t)}</span></li>`)
+        .join("");
     }
 
-    if (e.key === "Enter" && currentView === "index" && document.activeElement === searchInput) {
-      const first = ledgerEl.querySelector(".row");
-      if (first) {
-        const id = first.getAttribute("data-id");
-        if (id) openDossier(id);
-      }
-    }
-  });
-
-  // Periodically rotate intel feed
-  setInterval(() => renderIntelFeed(false), 4000);
-
-  // -----------------------------
-  // Renderers
-  // -----------------------------
-  function renderMostWanted() {
-    const picks = [...subjects]
-      .sort((a, b) => threatRank(b.threat) - threatRank(a.threat))
-      .slice(0, 3);
-
-    mostWantedEl.innerHTML = picks.map(s => `
-      <div class="wanted">
-        <div class="wanted__top">
-          <div>
-            <div class="wanted__name">${escapeHtml(s.name)}</div>
-            <div class="wanted__spec">${escapeHtml(s.specialty)}</div>
-          </div>
-          <div class="wanted__num">${escapeHtml(s.id)} // ${escapeHtml(s.threat.toUpperCase())}</div>
-        </div>
-        <div class="wanted__cta">
-          <button class="btn btn--primary" data-open="${escapeHtml(s.id)}" type="button">Open Dossier</button>
-          <button class="btn btn--ghost" data-ping="${escapeHtml(s.id)}" type="button">Ping</button>
-        </div>
-      </div>
-    `).join("");
-
-    $all("[data-open]", mostWantedEl).forEach(b => b.addEventListener("click", () => openDossier(b.dataset.open)));
-    $all("[data-ping]", mostWantedEl).forEach(b => b.addEventListener("click", () => pingSubject(b.dataset.ping)));
-  }
-
-  function renderNotes() {
-    taskNotesEl.innerHTML = notes.map(n => `
-      <div class="note">
-        <div class="note__title">${escapeHtml(n.title)}</div>
-        <div class="note__body">${escapeHtml(n.body)}</div>
-        <div class="note__meta">${escapeHtml(n.meta)}</div>
-      </div>
-    `).join("");
-  }
-
-  function renderIntelFeed(initial) {
-    // keep list short
-    const max = 5;
-    if (initial) {
-      intelFeedEl.innerHTML = "";
-      for (let i = 0; i < max; i++) intelFeedEl.appendChild(makeIntelItem(intelLines[i % intelLines.length]));
-      return;
+    if (dom.modalAssoc) {
+      dom.modalAssoc.innerHTML =
+        item.associates.length === 0
+          ? `<span class="dim">None on record.</span>`
+          : item.associates.map((a) => `<span class="pill">${escapeHtml(a)}</span>`).join("");
     }
 
-    // rotate: drop last, add new at top
-    const line = intelLines[randInt(0, intelLines.length - 1)];
-    const li = makeIntelItem(line);
-    intelFeedEl.prepend(li);
-    while (intelFeedEl.children.length > max) intelFeedEl.lastElementChild.remove();
+    if (dom.modalEvidence) {
+      dom.modalEvidence.innerHTML = item.evidence
+        .map((e) => {
+          const icon = e.type === "img" ? "▣" : "▤";
+          return `
+            <div class="evidence">
+              <div class="evidence__icon" aria-hidden="true">${icon}</div>
+              <div class="evidence__body">
+                <div class="evidence__title">${escapeHtml(e.title)}</div>
+                <div class="evidence__tag mono dim">${escapeHtml(e.tag)}</div>
+              </div>
+              <button class="btn btn--ghost small" type="button" data-action="fake-decrypt">DECRYPT</button>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    // Show modal
+    dom.modal.classList.add("open");
+    dom.modal.setAttribute("aria-hidden", "false");
+    dom.body.classList.add("no-scroll");
+
+    // Bind decrypt buttons
+    $$('[data-action="fake-decrypt"]', dom.modal).forEach((b) => {
+      b.addEventListener("click", () => toast("Decrypting… ACCESS DENIED"));
+    });
+
+    initRedactions(dom.modal);
+    pulseScanline();
+
+    // Typing effect for meta if motion allowed
+    if (!prefersReduced) typeIn(dom.modalMeta, 12);
   }
 
-  function makeIntelItem(text) {
-    const li = document.createElement("li");
-    const stamp = `${pad2(randInt(0, 23))}:${pad2(randInt(0, 59))}:${pad2(randInt(0, 59))}Z`;
-    li.innerHTML = `<div class="meta">${stamp} // channel: LIVE</div><div class="msg">${escapeHtml(text)}</div>`;
-    return li;
+  function closeModal() {
+    if (!dom.modal) return;
+    dom.modal.classList.remove("open");
+    dom.modal.setAttribute("aria-hidden", "true");
+    dom.body.classList.remove("no-scroll");
+    state.activeId = null;
   }
 
-  function renderCases() {
-    casesGridEl.innerHTML = cases.map(c => `
-      <div class="case">
-        <div class="case__top">
-          <div class="case__title">${escapeHtml(c.title)}</div>
-          <div class="case__status">${escapeHtml(c.status)}</div>
-        </div>
-        <div class="case__body">${escapeHtml(c.summary)}</div>
-        <div class="case__meta">
-          ${c.tags.map(t => `<span class="tag elevated">${escapeHtml(t)}</span>`).join("")}
-          <span class="tag">${escapeHtml(c.progress + "%")} COMPLETE</span>
-        </div>
-      </div>
-    `).join("");
+  function initModalEvents() {
+    if (dom.modalClose) dom.modalClose.addEventListener("click", closeModal);
+    if (dom.modal) {
+      dom.modal.addEventListener("click", (e) => {
+        if (e.target === dom.modal) closeModal();
+      });
+    }
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && dom.modal?.classList.contains("open")) closeModal();
+    });
   }
 
-  function renderLocker() {
-    lockerGridEl.innerHTML = evidence.map(ev => `
-      <div class="item" role="button" tabindex="0" data-evidence="${escapeHtml(ev.id)}" aria-label="Evidence ${escapeHtml(ev.id)}">
-        <div class="item__id">${escapeHtml(ev.id)} // ${escapeHtml(ev.type)}</div>
-        <div class="item__title">${escapeHtml(ev.title)}</div>
-        <div class="item__sub">${escapeHtml(ev.sub)}</div>
-        <div class="item__seal">
-          <span>${escapeHtml(ev.seal)}</span>
-          <span>DECRYPT ▸</span>
-        </div>
-      </div>
-    `).join("");
+  // ---------- Redaction Reveal ----------
+  function initRedactions(root) {
+    $$("[data-redact]", root).forEach((el) => {
+      if (el.dataset.bound) return;
+      el.dataset.bound = "1";
 
-    $all(".item", lockerGridEl).forEach(card => {
-      const open = () => {
-        const id = card.dataset.evidence;
-        const ev = evidence.find(e => e.id === id);
-        if (!ev) return;
-        // Open modal with a quick “evidence” dossier (simple reuse)
-        openEvidence(ev);
-      };
-      card.addEventListener("click", open);
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+      // store original
+      if (!el.dataset.original) el.dataset.original = el.textContent;
+
+      el.addEventListener("mouseenter", () => {
+        if (prefersReduced) return;
+        el.classList.add("reveal");
+        setTimeout(() => el.classList.remove("reveal"), 700);
+      });
+      el.addEventListener("focus", () => {
+        if (prefersReduced) return;
+        el.classList.add("reveal");
+        setTimeout(() => el.classList.remove("reveal"), 700);
       });
     });
   }
 
-  function renderLedger() {
-    const list = subjects
-      .filter(s => filterThreat === "all" ? true : s.threat === filterThreat)
-      .filter(s => {
-        if (!query) return true;
-        const hay = `${s.id} ${s.name} ${s.alias} ${s.specialty} ${s.lastKnown} ${s.status} ${s.threat}`.toLowerCase();
-        return hay.includes(query.toLowerCase());
-      })
-      .sort((a, b) => threatRank(b.threat) - threatRank(a.threat) || b.number - a.number);
+  // ---------- Typing / Terminal reveal ----------
+  async function typeIn(container, cps = 14) {
+    if (!container || prefersReduced) return;
 
-    resultsCountEl.textContent = `${list.length} RESULTS`;
+    const nodes = Array.from(container.childNodes);
+    const full = container.innerHTML;
+    container.innerHTML = "";
+    container.style.opacity = "1";
 
-    ledgerEl.innerHTML = list.map(s => `
-      <div class="row" data-id="${escapeHtml(s.id)}">
-        <div class="cellTitle">
-          <div class="num mono">${escapeHtml(s.id)}</div>
-          <div class="name">${escapeHtml(s.name)}</div>
-          <div class="alias">Alias: <span class="muted">${escapeHtml(s.alias)}</span></div>
-        </div>
+    // Type as plain text, then restore HTML to avoid breaking tags.
+    const text = stripHtml(full);
+    const delay = Math.floor(1000 / clamp(cps, 6, 30));
 
-        <div class="cell">
-          <div class="muted mono small">SPECIALTY</div>
-          <div>${escapeHtml(s.specialty)}</div>
-        </div>
+    for (let i = 0; i < text.length; i++) {
+      container.textContent += text[i];
+      if (i % 3 === 0) await sleep(delay);
+    }
 
-        <div class="cell">
-          <div class="muted mono small">LAST KNOWN</div>
-          <div>${escapeHtml(s.lastKnown)}</div>
-        </div>
+    // Restore
+    container.innerHTML = full;
+  }
 
-        <div class="cell">
-          <div class="muted mono small">STATUS
+  function stripHtml(html) {
+    const d = document.createElement("div");
+    d.innerHTML = html;
+    return d.textContent || d.innerText || "";
+  }
+
+  // ---------- Search / Filters ----------
+  function initSearch() {
+    if (dom.searchInput) {
+      dom.searchInput.addEventListener("input", (e) => {
+        state.query = e.target.value;
+        renderList();
+      });
+    }
+    if (dom.threatSelect) {
+      dom.threatSelect.addEventListener("change", (e) => {
+        state.threat = e.target.value;
+        renderList();
+      });
+    }
+  }
+
+  // ---------- Safety: escape ----------
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  // ---------- Init ----------
+  function init() {
+    loadTheme();
+    setConnectionStatus();
+    startTimecode();
+
+    if (dom.themeBtn) dom.themeBtn.addEventListener("click", toggleTheme);
+
+    initRouting();
+    initModalEvents();
+    initSearch();
+    renderList();
+
+    // initial redactions across page
+    initRedactions(document);
+
+    // First-load pulse
+    pulseScanline();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
