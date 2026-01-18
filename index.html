@@ -1,312 +1,284 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
-  <title>IRON OPS // Tactical Interface</title>
-  <meta name="description" content="A tactical, military-inspired landing page with animated radar and a light/dark toggle." />
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-  <!-- Animated background -->
-  <canvas id="fx" aria-hidden="true"></canvas>
-
-  <!-- Top HUD -->
-  <header class="hud">
-    <div class="hud__left">
-      <div class="badge" aria-label="Iron Ops">
-        <span class="badge__dot" aria-hidden="true"></span>
-        <span class="badge__text">IRON OPS</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Badass WebBuilder Guide</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="container">
+        <div class="logo">WebBuilder Guide</div>
+        <div class="menu-toggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#planning">Planning</a></li>
+          <li><a href="#domain">Domains &amp; Hosting</a></li>
+          <li><a href="#structure">Structure</a></li>
+          <li><a href="#levels">Roadmap</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
       </div>
-      <div class="chip" id="statusChip" title="System status">
-        <span class="chip__ping" aria-hidden="true"></span>
-        <span class="chip__text">SYSTEM: ARMED</span>
-      </div>
-    </div>
-
-    <nav class="hud__nav" aria-label="Primary">
-      <a href="#mission">Mission</a>
-      <a href="#loadout">Loadout</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#contact">Contact</a>
     </nav>
 
-    <div class="hud__right">
-      <button class="btn btn--ghost" id="themeBtn" type="button" aria-label="Toggle theme">
-        <span class="btn__icon" aria-hidden="true">◐</span>
-        <span class="btn__text">Light/Dark</span>
-      </button>
-      <button class="btn btn--primary" id="armBtn" type="button">
-        <span class="btn__icon" aria-hidden="true">⚡</span>
-        <span class="btn__text">ARM SEQUENCE</span>
-      </button>
-    </div>
-  </header>
+    <main>
+      <!-- Hero Section -->
+      <section id="hero" class="section full-screen fade-in">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+          <p id="daily-tip" class="daily-tip"></p>
+          <h1>Build Websites Like a Pro</h1>
+          <p>Your journey to modern, dynamic web design starts here.</p>
+          <a href="#levels" class="cta">Explore the Roadmap</a>
+        </div>
+      </section>
 
-  <!-- Main -->
-  <main class="wrap">
-    <section class="hero" id="top">
-      <div class="hero__grid">
-        <div class="hero__copy">
-          <p class="kicker">TACTICAL INTERFACE / ALPHA</p>
-          <h1 class="title">
-            Deploy. Track. Strike.
-            <span class="title__sub">A rugged UI built for fast ops and zero fluff.</span>
-          </h1>
-
-          <div class="hero__stats" role="list" aria-label="Key stats">
-            <div class="stat" role="listitem">
-              <div class="stat__num" data-count="98">0</div>
-              <div class="stat__label">Uptime</div>
-            </div>
-            <div class="stat" role="listitem">
-              <div class="stat__num" data-count="12">0</div>
-              <div class="stat__label">Active Nodes</div>
-            </div>
-            <div class="stat" role="listitem">
-              <div class="stat__num" data-count="450">0</div>
-              <div class="stat__label">Ops/min</div>
-            </div>
-          </div>
-
-          <div class="hero__cta">
-            <a class="btn btn--primary" href="#mission">
-              <span class="btn__icon" aria-hidden="true">➜</span>
-              <span class="btn__text">BRIEFING</span>
-            </a>
-            <button class="btn btn--ghost" type="button" id="shockBtn">
-              <span class="btn__icon" aria-hidden="true">✹</span>
-              <span class="btn__text">TEST BLAST</span>
-            </button>
-          </div>
-
-          <p class="fineprint">
-            Tip: click anywhere for a “blast” ripple. Press <kbd>G</kbd> for stealth grid.
+      <!-- Planning Section -->
+      <section id="planning" class="section fade-in">
+        <div class="container">
+          <h2>Planning &amp; Purpose</h2>
+          <p>
+            Before you write a single line of code, clarify your website’s
+            objectives and target audience. Define the actions you want visitors
+            to take and match your goals with the right type of site.
           </p>
-        </div>
-
-        <aside class="panel" aria-label="Ops panel">
-          <div class="panel__top">
-            <div class="panel__title">OPS PANEL</div>
-            <div class="panel__id">SIG: <span id="sig">—</span></div>
-          </div>
-
-          <div class="panel__body">
-            <div class="readout">
-              <div class="readout__label">THREAT</div>
-              <div class="readout__bar" aria-hidden="true">
-                <span class="readout__fill" style="--v: 0.72"></span>
-              </div>
-              <div class="readout__value"><span id="threat">72</span>%</div>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Define Goals</h3>
+              <p>
+                Identify the purpose of your site—portfolio, blog, store—and
+                the needs of your users. This guides every decision
+                【188481598277924†L3-L13】.
+              </p>
             </div>
-
-            <div class="readout">
-              <div class="readout__label">RANGE</div>
-              <div class="readout__bar" aria-hidden="true">
-                <span class="readout__fill" style="--v: 0.48"></span>
-              </div>
-              <div class="readout__value"><span id="range">48</span>km</div>
+            <div class="card">
+              <h3>Budget &amp; Growth</h3>
+              <p>
+                Plan your budget realistically. Consider hidden costs like
+                maintenance, SSL certificates, and SEO. Plan for future growth
+                with regular updates and performance optimization
+                【188481598277924†L14-L22】.
+              </p>
             </div>
-
-            <div class="readout">
-              <div class="readout__label">SIGNAL</div>
-              <div class="readout__bar" aria-hidden="true">
-                <span class="readout__fill" style="--v: 0.91"></span>
-              </div>
-              <div class="readout__value"><span id="signal">91</span>dB</div>
+            <div class="card">
+              <h3>Use AI Wisely</h3>
+              <p>
+                AI tools can accelerate drafting but require human oversight for
+                branding and complex features【188481598277924†L24-L27】.
+              </p>
             </div>
-
-            <div class="log" aria-label="Event log" role="log" aria-live="polite"></div>
-          </div>
-
-          <div class="panel__bottom">
-            <button class="btn btn--ghost btn--small" id="pingBtn" type="button">
-              <span class="btn__icon" aria-hidden="true">⌁</span>
-              <span class="btn__text">PING</span>
-            </button>
-            <button class="btn btn--ghost btn--small" id="scrambleBtn" type="button">
-              <span class="btn__icon" aria-hidden="true">⟲</span>
-              <span class="btn__text">SCRAMBLE</span>
-            </button>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section" id="mission">
-      <div class="section__head">
-        <h2>Mission</h2>
-        <p>Build a site that feels like a command console: fast, sharp, and a little dangerous.</p>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <h3>Purpose-built UI</h3>
-          <p>Clean layout, thick contrast, and “HUD” chrome—no gimmicks, only impact.</p>
-          <ul class="bullets">
-            <li>Accessible structure</li>
-            <li>Responsive grid</li>
-            <li>Reduced-motion friendly</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Dynamic feel</h3>
-          <p>Radar sweep, tracers, and controlled “blast” effects—pure JS + canvas.</p>
-          <ul class="bullets">
-            <li>GPU-friendly canvas</li>
-            <li>Click shockwave</li>
-            <li>Keyboard toggles</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Deploy-ready</h3>
-          <p>Works as a static site—perfect for GitHub Pages / Netlify / Vercel.</p>
-          <ul class="bullets">
-            <li>No build step</li>
-            <li>Single folder</li>
-            <li>Easy hosting</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="loadout">
-      <div class="section__head">
-        <h2>Loadout</h2>
-        <p>Pick your modules. Swap content later—this is a strong starter shell.</p>
-      </div>
-
-      <div class="grid2">
-        <div class="meter">
-          <div class="meter__row">
-            <div class="meter__label">Armor plating</div>
-            <div class="meter__value">A+</div>
-          </div>
-          <div class="meter__track" aria-hidden="true"><span style="--w:92%"></span></div>
-
-          <div class="meter__row">
-            <div class="meter__label">Speed</div>
-            <div class="meter__value">S</div>
-          </div>
-          <div class="meter__track" aria-hidden="true"><span style="--w:84%"></span></div>
-
-          <div class="meter__row">
-            <div class="meter__label">Stealth</div>
-            <div class="meter__value">B</div>
-          </div>
-          <div class="meter__track" aria-hidden="true"><span style="--w:63%"></span></div>
-
-          <div class="meter__row">
-            <div class="meter__label">Payload</div>
-            <div class="meter__value">MAX</div>
-          </div>
-          <div class="meter__track" aria-hidden="true"><span style="--w:96%"></span></div>
-        </div>
-
-        <div class="stack">
-          <div class="stack__item">
-            <div class="stack__tag">MODULE</div>
-            <div class="stack__title">Theme toggle (top HUD)</div>
-            <div class="stack__desc">CSS variables + saved preference. Instant swap, no reload.</div>
-          </div>
-          <div class="stack__item">
-            <div class="stack__tag">MODULE</div>
-            <div class="stack__title">Ops log + status chips</div>
-            <div class="stack__desc">Animated pings, event feed, randomized readouts.</div>
-          </div>
-          <div class="stack__item">
-            <div class="stack__tag">MODULE</div>
-            <div class="stack__title">Radar / tracer canvas</div>
-            <div class="stack__desc">Subtle motion, aggressive vibe. Respects reduced motion.</div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section" id="timeline">
-      <div class="section__head">
-        <h2>Timeline</h2>
-        <p>A no-nonsense “ops plan” layout you can reuse for projects, services, or stages.</p>
-      </div>
-
-      <ol class="timeline" aria-label="Ops timeline">
-        <li class="timeline__item">
-          <div class="timeline__pin" aria-hidden="true"></div>
-          <div class="timeline__content">
-            <div class="timeline__title">Recon</div>
-            <div class="timeline__text">Define target, gather requirements, lock visual language.</div>
+      <!-- Domain & Hosting Section -->
+      <section id="domain" class="section fade-in">
+        <div class="container">
+          <h2>Domains &amp; Hosting</h2>
+          <p>
+            Choose a memorable domain name and a hosting plan that matches your
+            needs. Understand how the Domain Name System (DNS) translates
+            human‑readable addresses into IP addresses to serve your site.
+          </p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Choose a Domain</h3>
+              <p>
+                Pick a clear, memorable name without numbers or symbols. Use
+                relevant keywords and register similar spellings to protect
+                your brand【188481598277924†L29-L42】.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Shared vs VPS Hosting</h3>
+              <p>
+                Shared hosting is affordable for small sites but offers limited
+                resources【188481598277924†L55-L87】. A VPS provides dedicated
+                resources and control for growing projects【188481598277924†L88-L121】.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Hosting Types</h3>
+              <p>
+                For high‑traffic sites requiring custom configurations,
+                dedicated servers or cloud hosting provide scalability and
+                performance【188481598277924†L123-L155】.
+              </p>
+            </div>
           </div>
-        </li>
-        <li class="timeline__item">
-          <div class="timeline__pin" aria-hidden="true"></div>
-          <div class="timeline__content">
-            <div class="timeline__title">Build</div>
-            <div class="timeline__text">Assemble sections, wire interactions, tune typography.</div>
-          </div>
-        </li>
-        <li class="timeline__item">
-          <div class="timeline__pin" aria-hidden="true"></div>
-          <div class="timeline__content">
-            <div class="timeline__title">Test</div>
-            <div class="timeline__text">Mobile checks, performance pass, accessibility sweep.</div>
-          </div>
-        </li>
-        <li class="timeline__item">
-          <div class="timeline__pin" aria-hidden="true"></div>
-          <div class="timeline__content">
-            <div class="timeline__title">Deploy</div>
-            <div class="timeline__text">Ship to GitHub Pages. Update content. Run the ops.</div>
-          </div>
-        </li>
-      </ol>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="section__head">
-        <h2>Contact</h2>
-        <p>Local-only demo form (no backend). You can wire this to any service later.</p>
-      </div>
-
-      <form class="form" id="contactForm">
-        <label class="field">
-          <span class="field__label">Callsign</span>
-          <input class="field__input" name="name" required placeholder="e.g., Viper-7" autocomplete="name" />
-        </label>
-
-        <label class="field">
-          <span class="field__label">Secure channel</span>
-          <input class="field__input" type="email" name="email" required placeholder="you@domain.com" autocomplete="email" />
-        </label>
-
-        <label class="field field--full">
-          <span class="field__label">Message</span>
-          <textarea class="field__input field__textarea" name="message" required placeholder="Drop the objective…"></textarea>
-        </label>
-
-        <div class="form__actions">
-          <button class="btn btn--primary" type="submit">
-            <span class="btn__icon" aria-hidden="true">✉</span>
-            <span class="btn__text">SEND</span>
-          </button>
-          <p class="form__note" id="formNote" role="status" aria-live="polite"></p>
         </div>
-      </form>
-    </section>
+      </section>
 
-    <footer class="footer">
-      <div class="footer__line">
-        <span>IRON OPS</span>
-        <span class="dot" aria-hidden="true"></span>
-        <span id="footSig">SIG: —</span>
+      <!-- Structure Section -->
+      <section id="structure" class="section fade-in">
+        <div class="container">
+          <h2>Website Structure &amp; Technologies</h2>
+          <p>
+            Modern websites rely on HTML for structure, CSS for appearance, and
+            JavaScript for interactivity【188481598277924†L161-L179】. Frameworks like
+            React or Vue can streamline development, while static site
+            generators like Jekyll build pages from templates【188481598277924†L182-L196】.
+          </p>
+          <div class="code-block">
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Site&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;Hello world!&lt;/header&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+            </code></pre>
+            <button class="copy-btn" aria-label="Copy code">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Levels Section -->
+      <section id="levels" class="section fade-in">
+        <div class="container">
+          <h2>Your Learning Journey</h2>
+          <p>
+            Follow a step‑by‑step path from beginner to pro. Expand each level to
+            see the recommended skills, tools, and project ideas.
+          </p>
+          <div class="accordion">
+            <div class="accordion-item">
+              <button class="accordion-header">Beginner Level</button>
+              <div class="accordion-content">
+                <p>
+                  Learn HTML and CSS fundamentals【127171399535766†L12-L31】. Use
+                  drag‑and‑drop builders or simple code editors to create basic
+                  layouts【127171399535766†L20-L27】. Focus on simplicity, clear
+                  navigation, and accessible content【127171399535766†L28-L34】. Build
+                  simple portfolios or blogs【127171399535766†L37-L43】.
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">Intermediate Level</button>
+              <div class="accordion-content">
+                <p>
+                  Improve responsiveness with CSS media queries【127171399535766†L69-L72】
+                  and practice JavaScript to add interactivity【127171399535766†L49-L55】.
+                  Explore CMS platforms and frameworks like Bootstrap, and
+                  version control with Git【127171399535766†L57-L67】. Build multi‑page
+                  sites with contact forms or small e‑commerce features【127171399535766†L80-L89】.
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">Advanced Level</button>
+              <div class="accordion-content">
+                <p>
+                  Master full‑stack development by learning modern frameworks like
+                  React, Vue, or Angular【127171399535766†L93-L103】. Use build tools
+                  like Webpack and pre‑processors like Sass【127171399535766†L106-L112】.
+                  Integrate APIs, manage state, optimize performance, and
+                  collaborate on GitHub【127171399535766†L112-L117】.
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">Professional Level</button>
+              <div class="accordion-content">
+                <p>
+                  Embrace design principles such as harmonious color palettes,
+                  hierarchy, and negative space【936693865659713†L42-L75】. Create
+                  responsive interfaces with fluid grids, container queries, and
+                  fluid typography【936693865659713†L104-L123】. Prioritize
+                  accessibility and user‑centric design【936693865659713†L149-L176】,
+                  and conduct usability testing to refine your work.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress bars section -->
+          <h3 class="progress-heading">Progress at a Glance</h3>
+          <div class="progress-grid progress-container fade-in">
+            <div class="progress-item">
+              <span class="progress-title">Beginner</span>
+              <div class="progress-bar"><div class="bar" data-perc="25"></div></div>
+            </div>
+            <div class="progress-item">
+              <span class="progress-title">Intermediate</span>
+              <div class="progress-bar"><div class="bar" data-perc="50"></div></div>
+            </div>
+            <div class="progress-item">
+              <span class="progress-title">Advanced</span>
+              <div class="progress-bar"><div class="bar" data-perc="75"></div></div>
+            </div>
+            <div class="progress-item">
+              <span class="progress-title">Pro</span>
+              <div class="progress-bar"><div class="bar" data-perc="100"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section fade-in">
+        <div class="container">
+          <h2>Contact Us</h2>
+          <p>
+            Have questions or need personalized guidance? Send us a message!
+          </p>
+          <form id="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">Name<span>*</span></label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email<span>*</span></label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message<span>*</span></label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+            <p id="form-response" class="form-response" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>
+          &copy; <span id="year"></span> WebBuilder Guide. All rights
+          reserved.
+        </p>
       </div>
-      <div class="footer__fine">Built with HTML/CSS/JS. No dependencies.</div>
     </footer>
-  </main>
 
-  <script src="script.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
 </html>
