@@ -1,116 +1,156 @@
-// Get canvas and context
-const canvas = document.getElementById('blastCanvas');
-const ctx = canvas.getContext('2d');
-
-// Resize canvas to fill the window
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  // (If needed, could reset particles on resize, but here we simply adjust the drawing area)
-});
-
-// Overlay text element (for triggering shake effect)
-const overlayText = document.querySelector('.overlay-text');
-
-/**
- * Particle class representing a single explosion particle.
- * Each particle has its own position, velocity (dx, dy), radius, color, and transparency (alpha).
- */
-class Particle {
-  constructor(x, y, dx, dy, radius, color) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;       // velocity in x direction
-    this.dy = dy;       // velocity in y direction
-    this.radius = radius;
-    this.color = color;
-    this.alpha = 1.0;   // opacity (fades from 1 to 0)
-  }
-  draw() {
-    ctx.save();
-    ctx.globalAlpha = this.alpha;       // apply particle’s transparency
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-  update() {
-    this.draw();
-    // Move particle
-    this.x += this.dx;
-    this.y += this.dy;
-    // Fade out
-    this.alpha -= 0.01;
-  }
+/* ---------------------------
+   CSS VARIABLES (DARK DEFAULT)
+---------------------------- */
+:root {
+  --bg: #0f1220;
+  --surface: #1a1e33;
+  --text: #f4f6ff;
+  --muted: #b7bddc;
+  --border: rgba(255,255,255,0.15);
+  --accent: #7dd3fc;
+  --accent-2: #a7f3d0;
+  --radius: 16px;
+  --transition: 180ms ease;
 }
 
-// Array to hold active particles
-let particles = [];
-let animationRunning = false;  // flag to track if animation loop is active
-
-/**
- * Animation loop function – updates and redraws all particles.
- * Uses requestAnimationFrame for smooth 60fps updates:contentReference[oaicite:13]{index=13}.
- */
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas (transparent background)
-
-  // Update particles array
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.update();
-    // Remove particle if completely transparent (faded out)
-    if (p.alpha <= 0) {
-      particles.splice(i, 1);
-    }
-  }
-
-  // Continue the loop if particles remain
-  if (particles.length > 0) {
-    requestAnimationFrame(animate);
-  } else {
-    // Stop animation loop until next explosion
-    animationRunning = false;
-  }
+/* LIGHT THEME */
+[data-theme="light"] {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --muted: #555;
+  --border: rgba(0,0,0,0.15);
+  --accent: #2563eb;
+  --accent-2: #16a34a;
 }
 
-/**
- * Creates an explosion at the given coordinates by spawning multiple particles.
- */
-function createExplosion(x, y) {
-  const particleCount = 80;  // number of particles per explosion (adjust for more/less debris)
-  for (let i = 0; i < particleCount; i++) {
-    // Generate a random direction and speed for each particle
-    const angle = Math.random() * 2 * Math.PI;        // random direction in radians
-    const speed = Math.random() * 5;                  // random speed (0 to 5)
-    const dx = Math.cos(angle) * speed;
-    const dy = Math.sin(angle) * speed;
-    const radius = Math.random() * 3 + 2;             // random size (radius 2px to 5px)
-    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 50%)`;  // random bright color
-    particles.push(new Particle(x, y, dx, dy, radius, color));
-  }
-
-  // Start the animation loop if not already running
-  if (!animationRunning) {
-    animationRunning = true;
-    requestAnimationFrame(animate);
-  }
+/* ---------------------------
+   GLOBAL
+---------------------------- */
+* {
+  box-sizing: border-box;
 }
 
-// On user click/tap, create an explosion at that point and shake the text
-canvas.addEventListener('click', (event) => {
-  // Calculate click coordinates relative to canvas
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+}
 
-  createExplosion(x, y);  // trigger particle burst at (x, y)
+.container {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
 
-  // Trigger the "shake" animation on the overlay text
-  overlayText.classList.remove('shake');
-  void overlayText.offsetWidth;          // trick: reflow to restart the animation if it's already running
-  overlayText.classList.add('shake');
-});
+/* ---------------------------
+   HEADER
+---------------------------- */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* ---------------------------
+   THEME TOGGLE
+---------------------------- */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.track {
+  width: 56px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  transform: translateX(0);
+  transition: transform var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.icon {
+  position: absolute;
+  font-size: 14px;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.sun {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.moon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Light mode animation */
+[data-theme="light"] .thumb {
+  transform: translateX(26px);
+}
+
+[data-theme="light"] .sun {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-theme="light"] .moon {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* ---------------------------
+   CONTENT
+---------------------------- */
+.card {
+  margin-top: 60px;
+  padding: 32px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ---------------------------
+   FOOTER
+---------------------------- */
+.site-footer {
+  margin-top: 80px;
+  padding: 24px 0;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
