@@ -1,169 +1,103 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
-  <title>VOIDRIFT // Brutalist Glitch</title>
-  <meta name="description" content="A brutalist glitch landing page with an interactive void rift and CRT effects." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TACTICAL OPS // RADAR GRID</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <canvas id="rift" aria-hidden="true"></canvas>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="sig">OPS</div>
+        <div class="meta">
+          <div class="title">TACTICAL OPS INTERFACE</div>
+          <div class="sub">RADAR / THREAT VIS / IMPACT SIM</div>
+        </div>
+      </div>
 
-  <div class="crt" aria-hidden="true">
-    <div class="scan"></div>
-    <div class="vignette"></div>
+      <div class="status">
+        <div class="pill">
+          <span class="dot" id="connDot"></span>
+          <span id="connLabel">LINK: STANDBY</span>
+        </div>
+        <div class="pill mono" id="clock">00:00:00</div>
+      </div>
+    </header>
+
+    <main class="stage">
+      <canvas id="fx"></canvas>
+
+      <!-- subtle HUD overlay -->
+      <div class="hud">
+        <div class="hud-corners"></div>
+
+        <section class="panel">
+          <div class="panel-title">CONTROL PANEL</div>
+
+          <div class="row">
+            <button class="btn" id="spawnBtn">
+              <span class="btn-ic">+</span> Spawn Contacts
+            </button>
+            <button class="btn danger" id="clearBtn">
+              <span class="btn-ic">×</span> Clear
+            </button>
+          </div>
+
+          <div class="row two">
+            <label class="toggle">
+              <input type="checkbox" id="nightVision" checked />
+              <span class="track"></span>
+              <span class="label">Night Vision</span>
+            </label>
+
+            <label class="toggle">
+              <input type="checkbox" id="audio" />
+              <span class="track"></span>
+              <span class="label">Audio</span>
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="field">
+              <span>Threat Level</span>
+              <input id="threat" type="range" min="1" max="10" value="6" />
+              <span class="mono" id="threatVal">6</span>
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="field">
+              <span>Radar Range</span>
+              <input id="range" type="range" min="40" max="160" value="110" />
+              <span class="mono" id="rangeVal">110</span>
+            </label>
+          </div>
+
+          <div class="hint">
+            <div class="k">INTERACT</div>
+            <div class="v">
+              • Click / tap: <b>impact burst</b><br/>
+              • Move mouse: <b>parallax scan</b><br/>
+              • Press <b>R</b>: randomize<br/>
+              • Press <b>Space</b>: pulse sweep
+            </div>
+          </div>
+        </section>
+
+        <section class="readout">
+          <div class="panel-title">READOUT</div>
+          <div class="lines mono" id="readout"></div>
+        </section>
+      </div>
+
+      <footer class="bottombar mono">
+        <span id="footerLeft">SECTOR A9 • GRID ONLINE</span>
+        <span id="footerRight">CLICK TO SIMULATE IMPACT</span>
+      </footer>
+    </main>
   </div>
-
-  <header class="top">
-    <div class="mark">
-      <div class="sig">VR</div>
-      <div class="word">
-        <div class="name">VOIDRIFT</div>
-        <div class="sub">BRUTALIST GLITCH INTERFACE</div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button class="btn btn--ghost" id="themeBtn" type="button" aria-label="Toggle theme">
-        <span class="btn__icon" aria-hidden="true">◐</span>
-        <span class="btn__text">THEME</span>
-      </button>
-
-      <button class="btn btn--hot" id="overdriveBtn" type="button">
-        <span class="btn__icon" aria-hidden="true">⟟</span>
-        <span class="btn__text">OVERDRIVE</span>
-      </button>
-
-      <button class="btn" id="shatterBtn" type="button">
-        <span class="btn__icon" aria-hidden="true">✶</span>
-        <span class="btn__text">SHATTER</span>
-      </button>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero__left">
-        <div class="ticker" aria-hidden="true">
-          <span>⚠ SIGNAL</span><span>STABLE</span><span>//</span>
-          <span id="tickA">RIFT</span><span>ACTIVE</span><span>//</span>
-          <span id="tickB">NOISE</span><span>MAX</span><span>//</span>
-          <span>⚠</span>
-        </div>
-
-        <h1 class="title">
-          <span class="title__line" data-glitch="OPEN THE RIFT">OPEN THE RIFT</span>
-          <span class="title__line" data-glitch="BEND THE UI">BEND THE UI</span>
-          <span class="title__line title__small">
-            Drag your cursor — the void follows. Click to punch holes in reality.
-          </span>
-        </h1>
-
-        <div class="cta">
-          <a class="btn btn--hot" href="#modules">
-            <span class="btn__icon" aria-hidden="true">➜</span>
-            <span class="btn__text">ENTER</span>
-          </a>
-          <button class="btn btn--ghost" id="muteBtn" type="button">
-            <span class="btn__icon" aria-hidden="true">⟲</span>
-            <span class="btn__text">CALM MODE</span>
-          </button>
-        </div>
-
-        <div class="micro">
-          <div class="micro__chip"><b>TIP</b> Press <kbd>G</kbd> to toggle grid</div>
-          <div class="micro__chip"><b>TIP</b> Press <kbd>O</kbd> for overdrive</div>
-          <div class="micro__chip"><b>TIP</b> Press <kbd>R</kbd> to reset</div>
-        </div>
-      </div>
-
-      <aside class="hero__right" aria-label="Status panel">
-        <div class="panel">
-          <div class="panel__head">
-            <div class="panel__title">STATUS</div>
-            <div class="panel__id">SIG: <span id="sig">—</span></div>
-          </div>
-
-          <div class="panel__body">
-            <div class="metric">
-              <div class="metric__k">CHAOS</div>
-              <div class="metric__bar"><span id="chaosBar" style="--w:72%"></span></div>
-              <div class="metric__v"><span id="chaosVal">72</span>%</div>
-            </div>
-
-            <div class="metric">
-              <div class="metric__k">DISTORT</div>
-              <div class="metric__bar"><span id="distBar" style="--w:58%"></span></div>
-              <div class="metric__v"><span id="distVal">58</span>%</div>
-            </div>
-
-            <div class="metric">
-              <div class="metric__k">SYNC</div>
-              <div class="metric__bar"><span id="syncBar" style="--w:91%"></span></div>
-              <div class="metric__v"><span id="syncVal">91</span>%</div>
-            </div>
-
-            <div class="log" role="log" aria-live="polite" aria-label="Event log"></div>
-          </div>
-
-          <div class="panel__foot">
-            <button class="btn btn--ghost btn--small" id="pingBtn" type="button">
-              <span class="btn__icon" aria-hidden="true">⌁</span>
-              <span class="btn__text">PING</span>
-            </button>
-            <button class="btn btn--ghost btn--small" id="scrambleBtn" type="button">
-              <span class="btn__icon" aria-hidden="true">⟁</span>
-              <span class="btn__text">SCRAMBLE</span>
-            </button>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="section" id="modules">
-      <div class="section__head">
-        <h2>Modules</h2>
-        <p>Brutalist blocks. Violent motion. Clean code. Zero libraries.</p>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <h3>Void Rift Canvas</h3>
-          <p>Reactive gravity + shockwaves + chroma smear.</p>
-          <div class="tags">
-            <span>canvas</span><span>noise</span><span>shock</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>Glitch Typography</h3>
-          <p>CSS pseudo-layers + jitter + scanline hits.</p>
-          <div class="tags">
-            <span>crt</span><span>glitch</span><span>kinetic</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <h3>Overdrive Mode</h3>
-          <p>Turns the whole page into a hostile instrument.</p>
-          <div class="tags">
-            <span>boost</span><span>distort</span><span>chaos</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <footer class="foot">
-      <div class="foot__line">
-        <span>VOIDRIFT</span><span class="dot" aria-hidden="true"></span>
-        <span id="footSig">SIG: —</span>
-      </div>
-      <div class="foot__fine">Drag. Click. Break it. (Press R to reset.)</div>
-    </footer>
-  </main>
 
   <script src="script.js"></script>
 </body>
