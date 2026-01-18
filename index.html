@@ -2,21 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <!-- Ensures mobile displays use device width :contentReference[oaicite:5]{index=5} -->
-  <title>Explosive Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theme Toggle Demo</title>
   <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
+
 <body>
-  <!-- Overlay text container -->
-  <div class="overlay-text">
-    <h1>Explosive Demo</h1>
-    <p>Click anywhere to ignite a colorful blast!</p>
-  </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="logo">My Website</h1>
 
-  <!-- Full-screen canvas for the explosion effect -->
-  <canvas id="blastCanvas"></canvas>
+      <!-- THEME TOGGLE -->
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+        <span class="track">
+          <span class="thumb">
+            <span class="icon sun">☀</span>
+            <span class="icon moon">☾</span>
+          </span>
+        </span>
+      </button>
+    </div>
+  </header>
 
-  <!-- Include the interactive script at the end of the body -->
-  <script src="script.js"></script>
+  <main class="container">
+    <section class="card">
+      <h2>Light / Dark Theme</h2>
+      <p>
+        Click the toggle in the top right.  
+        Your preference is saved and restored on reload.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Demo Site</p>
+  </footer>
 </body>
 </html>
