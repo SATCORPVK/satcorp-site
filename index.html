@@ -2,147 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BLACKLIST // Secure Intel Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Inter:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<body class="booting">
-
-  <!-- Scanline overlay -->
+  <!-- Scanline Overlay -->
   <div class="scanlines"></div>
 
-  <!-- SYSTEM HEADER -->
-  <header class="system-header">
-    <div class="header-left">
-      <span class="seal">⚠ TASK FORCE</span>
+  <!-- HEADER -->
+  <header class="top-bar">
+    <div class="agency">
+      <span class="seal">⦿</span>
+      <span class="agency-name">TASK FORCE</span>
     </div>
 
-    <div class="header-center">
+    <div class="system-title">
       BLACKLIST // SECURE INTEL INTERFACE
     </div>
 
-    <div class="header-right terminal">
-      <span>Connection: <strong>ENCRYPTED</strong></span>
-      <span>Clearance: <strong>LEVEL 4</strong></span>
-      <span id="timecode">00:00:00</span>
+    <div class="status">
+      <span class="status-item encrypted">ENCRYPTED</span>
+      <span class="status-item clearance">CLR: LVL 4</span>
+      <span class="status-item time" id="timecode">00:00:00</span>
     </div>
   </header>
 
   <!-- NAVIGATION -->
   <nav class="nav-tabs">
-    <button class="active">Cases</button>
-    <button>Blacklist Index</button>
-    <button>Intel Map</button>
-    <button>Evidence Locker</button>
-    <button>Interrogation Logs</button>
-    <button>About / Contact</button>
+    <button class="nav-btn active">Cases</button>
+    <button class="nav-btn">Blacklist Index</button>
+    <button class="nav-btn">Intel Map</button>
+    <button class="nav-btn">Evidence Locker</button>
+    <button class="nav-btn">Interrogation Logs</button>
+    <button class="nav-btn">About / Contact</button>
   </nav>
 
-  <!-- MAIN CONTENT -->
-  <main>
+  <!-- HERO / ACTIVE OPERATION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>OPERATION: BLACKLIST</h1>
 
-    <!-- HERO / ACTIVE OPERATION -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>
-          OPERATION: <span class="redacted">BLACKLIST</span>
-        </h1>
-
-        <p class="case-meta terminal">
-          Case No: <span id="case-number"></span><br>
-          Access restricted. Unauthorized viewing will be logged.
-        </p>
-
-        <div class="hero-actions">
-          <button class="primary">OPEN CURRENT CASE</button>
-          <button class="secondary">SEARCH BLACKLIST</button>
-          <button class="secondary">UPLOAD EVIDENCE</button>
-        </div>
+      <div class="case-number">
+        CASE FILE #
+        <span id="case-id" class="typing"></span>
       </div>
-    </section>
 
-    <!-- MOST WANTED STRIP -->
-    <section class="most-wanted">
-      <h2>Most Wanted</h2>
-
-      <div class="wanted-strip">
-        <article class="wanted-card">
-          <span class="stamp threat">THREAT: EXTREME</span>
-          <h3>#187 — “THE BROKER”</h3>
-          <p>Specialty: Intelligence Trafficking</p>
-        </article>
-
-        <article class="wanted-card">
-          <span class="stamp threat">THREAT: HIGH</span>
-          <h3>#221 — “NIGHTFALL”</h3>
-          <p>Specialty: Covert Extraction</p>
-        </article>
-
-        <article class="wanted-card">
-          <span class="stamp threat">THREAT: SEVERE</span>
-          <h3>#304 — “GLASSHAND”</h3>
-          <p>Specialty: Identity Forgery</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- LATEST INTEL -->
-    <section class="intel-feed">
-      <h2>Latest Intel</h2>
-
-      <ul class="intel-list terminal">
-        <li>
-          <span class="timestamp">+02:14</span>
-          Sighting reported in Eastern Europe. Intel confidence: Moderate.
-        </li>
-        <li>
-          <span class="timestamp">+05:47</span>
-          Surveillance asset compromised. Task Force directive: Maintain discretion.
-        </li>
-        <li>
-          <span class="timestamp">+09:02</span>
-          Blacklist subject #187 contacted intermediary. Monitoring ongoing.
-        </li>
-      </ul>
-    </section>
-
-    <!-- TASK FORCE NOTES -->
-    <section class="task-notes">
-      <h2>Task Force Notes</h2>
-
-      <p>
-        Subject behavior indicates escalation. Network appears wider than previously assessed.
-        Recommend limited exposure, layered assets, and delayed engagement until confirmation.
+      <p class="restricted">
+        ACCESS RESTRICTED. UNAUTHORIZED VIEWING WILL BE LOGGED.
       </p>
-    </section>
 
-  </main>
+      <div class="cta-group">
+        <button class="cta primary">OPEN CURRENT CASE</button>
+        <button class="cta">SEARCH BLACKLIST</button>
+        <button class="cta danger">UPLOAD EVIDENCE</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOST WANTED STRIP -->
+  <section class="most-wanted">
+    <h2>MOST WANTED</h2>
+
+    <div class="wanted-grid">
+      <div class="wanted-card">
+        <span class="badge threat-high">THREAT: HIGH</span>
+        <div class="wanted-name">UNKNOWN // “THE BROKER”</div>
+        <div class="redacted">Last Known Location: ████████</div>
+      </div>
+
+      <div class="wanted-card">
+        <span class="badge threat-mid">THREAT: ELEVATED</span>
+        <div class="wanted-name">ELIAS KANE</div>
+        <div class="redacted">Last Known Location: ████████</div>
+      </div>
+
+      <div class="wanted-card">
+        <span class="badge threat-high">THREAT: SEVERE</span>
+        <div class="wanted-name">SUBJECT 117</div>
+        <div class="redacted">Last Known Location: ████████</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST INTEL -->
+  <section class="intel-feed">
+    <h2>LATEST INTEL</h2>
+
+    <ul class="intel-list">
+      <li>
+        <span class="timestamp">T-72H</span>
+        Surveillance hit confirmed. Asset contact compromised.
+      </li>
+      <li>
+        <span class="timestamp">T-19H</span>
+        Subject possibly operating under new alias.
+      </li>
+      <li>
+        <span class="timestamp">T-03H</span>
+        Intercepted transmission flagged for decryption.
+      </li>
+    </ul>
+  </section>
+
+  <!-- TASK FORCE NOTES -->
+  <section class="task-notes">
+    <h2>TASK FORCE NOTES</h2>
+
+    <p>
+      Subject remains highly mobile and exceptionally resourceful.
+      Recommend continued surveillance and restricted disclosure.
+    </p>
+  </section>
 
   <!-- CLEARANCE MODAL -->
   <div class="modal hidden" id="clearanceModal">
-    <div class="modal-content terminal">
+    <div class="modal-content">
       <h3>REQUEST CLEARANCE</h3>
       <p>
-        This section contains classified material.<br>
-        Clearance escalation will be logged.
+        Additional authorization required.
+        Action will be logged and reviewed.
       </p>
-      <button id="grantClearance">REQUEST ACCESS</button>
+      <button id="grantAccess" class="cta primary">REQUEST ACCESS</button>
+      <button id="denyAccess" class="cta">CANCEL</button>
     </div>
   </div>
 
   <!-- FOOTER -->
-  <footer class="system-footer terminal">
-    <span>CLASSIFIED // EYES ONLY</span>
-    <span>All activity monitored</span>
+  <footer class="footer">
+    <span>CLASSIFIED • EYES ONLY • TASK FORCE</span>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
