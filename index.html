@@ -4,36 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Northbridge Initiative — Building resilient communities</title>
-  <meta name="description" content="Northbridge Initiative builds resilient communities through programs, partnerships, and open research." />
+  <title>Northbridge Initiative</title>
+  <meta name="description" content="Building resilient communities through programs, partnerships, and open research." />
   <meta name="theme-color" content="#0b1220" />
 
-  <!-- Open Graph -->
+  <!-- Social -->
   <meta property="og:title" content="Northbridge Initiative" />
-  <meta property="og:description" content="Programs, research, and partnerships that strengthen resilience and opportunity." />
+  <meta property="og:description" content="Programs, partnerships, and open research." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/og.jpg" />
 
-  <!-- Favicon -->
+  <!-- Assets -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-
-  <!-- ✅ FIXED CSS PATH -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- JS -->
   <script defer src="script.js"></script>
 </head>
 
 <body class="no-js" data-theme="system">
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Announcement -->
   <div class="announce">
     <div class="container announce__inner">
-      <p><strong>2026 Impact Report:</strong> Our latest outcomes, lessons, and open data are now live.</p>
-      <div>
+      <p>
+        <strong>2026 Impact Report:</strong> Our latest outcomes, lessons, and open data are now live.
+      </p>
+      <div class="announce__actions">
         <a class="btn btn--ghost btn--sm" href="#resources">View report</a>
-        <button class="iconbtn" data-announce-dismiss aria-label="Dismiss">×</button>
+        <button class="iconbtn" data-announce-dismiss aria-label="Dismiss announcement">×</button>
       </div>
     </div>
   </div>
@@ -41,6 +40,7 @@
   <!-- Header -->
   <header class="header" data-header>
     <div class="container header__inner">
+
       <a class="brand" href="#">
         <span class="brand__mark"></span>
         <span class="brand__text">
@@ -82,16 +82,21 @@
     </div>
   </header>
 
-  <!-- Main -->
+  <!-- MAIN -->
   <main id="main">
+
+    <!-- HERO -->
     <section class="hero">
       <div class="container hero__grid">
+
         <div>
-          <p class="eyebrow">Community-first. Evidence-led. Built to scale.</p>
+          <p class="eyebrow">Community-first · Evidence-led · Built to scale</p>
+
           <h1>
             Building resilient communities through programs, partnerships,
             and open research.
           </h1>
+
           <p class="hero__lead">
             We design and deliver initiatives that strengthen local capacity—then publish what works so others can build faster.
           </p>
@@ -132,19 +137,38 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- Placeholder sections to anchor nav -->
-    <section id="work" class="section"><div class="container"><h2>Our work</h2></div></section>
-    <section id="impact" class="section section--alt"><div class="container"><h2>Impact</h2></div></section>
-    <section id="events" class="section"><div class="container"><h2>Events</h2></div></section>
-    <section id="resources" class="section section--alt"><div class="container"><h2>Resources</h2></div></section>
-    <section id="about" class="section"><div class="container"><h2>About</h2></div></section>
-    <section id="contact" class="section section--alt"><div class="container"><h2>Contact</h2></div></section>
+    <!-- SECTIONS -->
+    <section id="work" class="section">
+      <div class="container"><h2>Our Work</h2></div>
+    </section>
+
+    <section id="impact" class="section section--alt">
+      <div class="container"><h2>Impact</h2></div>
+    </section>
+
+    <section id="events" class="section">
+      <div class="container"><h2>Events</h2></div>
+    </section>
+
+    <section id="resources" class="section section--alt">
+      <div class="container"><h2>Resources</h2></div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container"><h2>About</h2></div>
+    </section>
+
+    <section id="contact" class="section section--alt">
+      <div class="container"><h2>Contact</h2></div>
+    </section>
+
   </main>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer__bottom">
       <p class="muted small">© <span data-year></span> Northbridge Initiative</p>
@@ -155,17 +179,20 @@
   <!-- Toasts -->
   <div class="toasts" data-toasts></div>
 
-  <!-- Modal root -->
+  <!-- MODAL ROOT (DO NOT AUTO-OPEN) -->
   <div class="modalroot" data-modalroot hidden>
     <div class="backdrop" data-backdrop></div>
+
     <section class="modal" role="dialog" aria-modal="true">
       <header class="modal__header">
         <h2 id="modal-title">Modal</h2>
-        <button class="iconbtn" data-close-modal>×</button>
+        <button class="iconbtn" data-close-modal aria-label="Close modal">×</button>
       </header>
+
       <div class="modal__body">
         <div data-modal-content></div>
       </div>
+
       <footer class="modal__footer">
         <button class="btn btn--ghost" data-close-modal>Close</button>
         <button class="btn btn--primary" data-modal-primary>Continue</button>
@@ -178,5 +205,6 @@
       This site works best with JavaScript enabled.
     </div>
   </noscript>
+
 </body>
 </html>
