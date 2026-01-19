@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Northbridge Initiative — Building resilient communities</title>
-  <meta name="description" content="Northbridge Initiative is a community-first organization delivering programs, research, and partnerships that strengthen resilience and opportunity." />
+  <meta name="description" content="Northbridge Initiative builds resilient communities through programs, partnerships, and open research." />
   <meta name="theme-color" content="#0b1220" />
 
   <!-- Open Graph -->
@@ -13,57 +13,27 @@
   <meta property="og:description" content="Programs, research, and partnerships that strengthen resilience and opportunity." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/og.jpg" />
-  <meta property="og:url" content="https://example.org" />
 
-  <!-- Icons (replace with real assets) -->
+  <!-- Favicon -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
-  <!-- Preconnect (fonts optional; safe defaults if blocked) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- ✅ FIXED CSS PATH -->
+  <link rel="stylesheet" href="style.css" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- JS (deferred) -->
+  <!-- JS -->
   <script defer src="script.js"></script>
-
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Northbridge Initiative",
-    "url":"https://example.org",
-    "logo":"https://example.org/assets/logo.png",
-    "sameAs":[
-      "https://www.linkedin.com/company/example",
-      "https://www.youtube.com/@example"
-    ],
-    "contactPoint":[{
-      "@type":"ContactPoint",
-      "contactType":"general inquiries",
-      "email":"hello@example.org"
-    }]
-  }
-  </script>
 </head>
 
 <body class="no-js" data-theme="system">
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Top announcement -->
-  <div class="announce" role="region" aria-label="Announcement">
+  <!-- Announcement -->
+  <div class="announce">
     <div class="container announce__inner">
-      <p class="announce__text">
-        <strong>2026 Impact Report:</strong> Our latest outcomes, lessons, and open data are now live.
-      </p>
-      <div class="announce__actions">
+      <p><strong>2026 Impact Report:</strong> Our latest outcomes, lessons, and open data are now live.</p>
+      <div>
         <a class="btn btn--ghost btn--sm" href="#resources">View report</a>
-        <button class="iconbtn" type="button" data-announce-dismiss aria-label="Dismiss announcement">
-          <span aria-hidden="true">×</span>
-        </button>
+        <button class="iconbtn" data-announce-dismiss aria-label="Dismiss">×</button>
       </div>
     </div>
   </div>
@@ -71,22 +41,21 @@
   <!-- Header -->
   <header class="header" data-header>
     <div class="container header__inner">
-      <a class="brand" href="#home" aria-label="Northbridge Initiative Home">
-        <span class="brand__mark" aria-hidden="true"></span>
+      <a class="brand" href="#">
+        <span class="brand__mark"></span>
         <span class="brand__text">
           <span class="brand__name">Northbridge</span>
           <span class="brand__tag">Initiative</span>
         </span>
       </a>
 
-      <nav class="nav" aria-label="Primary">
-        <button class="iconbtn nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
-          <span class="iconbtn__icon" aria-hidden="true">≡</span>
-          <span class="iconbtn__label">Menu</span>
+      <nav class="nav">
+        <button class="iconbtn nav__toggle" data-nav-toggle aria-expanded="false">
+          ☰ <span class="iconbtn__label">Menu</span>
         </button>
 
         <div class="nav__panel" id="nav-panel">
-          <ul class="nav__list" role="list">
+          <ul class="nav__list">
             <li><a class="nav__link" href="#work">Our Work</a></li>
             <li><a class="nav__link" href="#impact">Impact</a></li>
             <li><a class="nav__link" href="#events">Events</a></li>
@@ -96,591 +65,117 @@
           </ul>
 
           <div class="nav__cta">
-            <button class="btn btn--ghost" type="button" data-open-modal="donate">Donate</button>
+            <button class="btn btn--ghost" data-open-modal="donate">Donate</button>
             <a class="btn" href="#get-involved">Get involved</a>
           </div>
 
-          <div class="nav__tools" aria-label="Preferences">
-            <button class="chip" type="button" data-theme-toggle aria-pressed="false" title="Toggle theme">
-              <span class="chip__dot" aria-hidden="true"></span>
-              Theme
-            </button>
-            <button class="chip" type="button" data-reduce-motion-toggle aria-pressed="false" title="Reduce motion">
-              Motion
-            </button>
+          <div class="nav__tools">
+            <button class="chip" data-theme-toggle>Theme</button>
+            <button class="chip" data-reduce-motion-toggle>Motion</button>
           </div>
         </div>
       </nav>
     </div>
 
-    <!-- Progress bar -->
-    <div class="scrollbar" aria-hidden="true">
+    <div class="scrollbar">
       <div class="scrollbar__bar" data-scroll-progress></div>
     </div>
   </header>
 
+  <!-- Main -->
   <main id="main">
-    <!-- HERO -->
-    <section id="home" class="hero" aria-label="Hero">
+    <section class="hero">
       <div class="container hero__grid">
-        <div class="hero__content">
-          <p class="eyebrow" data-reveal>Community-first. Evidence-led. Built to scale.</p>
-          <h1 class="hero__title" data-reveal>
-            Building resilient communities through programs, partnerships, and open research.
+        <div>
+          <p class="eyebrow">Community-first. Evidence-led. Built to scale.</p>
+          <h1>
+            Building resilient communities through programs, partnerships,
+            and open research.
           </h1>
-          <p class="hero__lead" data-reveal>
+          <p class="hero__lead">
             We design and deliver initiatives that strengthen local capacity—then publish what works so others can build faster.
           </p>
 
-          <div class="hero__actions" data-reveal>
+          <div class="hero__actions">
             <a class="btn btn--primary" href="#work">Explore our work</a>
-            <button class="btn btn--ghost" type="button" data-open-modal="newsletter">Subscribe</button>
-          </div>
-
-          <div class="hero__meta" data-reveal>
-            <div class="meta">
-              <span class="meta__label">Trusted by</span>
-              <span class="meta__value">cities, foundations, and local partners</span>
-            </div>
-            <div class="meta">
-              <span class="meta__label">Open</span>
-              <span class="meta__value">toolkits • playbooks • datasets</span>
-            </div>
+            <button class="btn btn--ghost" data-open-modal="newsletter">Subscribe</button>
           </div>
         </div>
 
-        <div class="hero__visual" aria-hidden="true">
-          <div class="orb orb--a"></div>
-          <div class="orb orb--b"></div>
-          <div class="card card--glass hero__card" data-parallax>
+        <div class="hero__visual">
+          <div class="card card--glass hero__card">
             <div class="card__header">
-              <div class="badge">Live</div>
-              <div class="muted">Program dashboard</div>
+              <span class="badge">Live</span>
+              <span class="muted">Program dashboard</span>
             </div>
+
             <div class="sparkline" data-sparkline></div>
+
             <div class="kpis">
-              <div class="kpi">
+              <div>
                 <div class="kpi__num" data-count-to="128">0</div>
                 <div class="kpi__label">Partner orgs</div>
               </div>
-              <div class="kpi">
+              <div>
                 <div class="kpi__num" data-count-to="24">0</div>
                 <div class="kpi__label">Active regions</div>
               </div>
-              <div class="kpi">
+              <div>
                 <div class="kpi__num" data-count-to="41000">0</div>
                 <div class="kpi__label">People reached</div>
               </div>
             </div>
+
             <div class="card__footer">
-              <button class="link" type="button" data-open-modal="impact">How we measure →</button>
-              <span class="dot" aria-hidden="true"></span>
+              <button class="link" data-open-modal="impact">How we measure →</button>
               <span class="muted">Updated weekly</span>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="container hero__trust" aria-label="Partner logos">
-        <ul class="logos" role="list">
-          <li class="logos__item" aria-label="Partner One">Partner One</li>
-          <li class="logos__item" aria-label="Partner Two">Partner Two</li>
-          <li class="logos__item" aria-label="Partner Three">Partner Three</li>
-          <li class="logos__item" aria-label="Partner Four">Partner Four</li>
-          <li class="logos__item" aria-label="Partner Five">Partner Five</li>
-        </ul>
-      </div>
     </section>
 
-    <!-- OUR WORK -->
-    <section id="work" class="section">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">Our work</h2>
-          <p class="section__lead">
-            Three pillars that move from immediate support to long-term systems change.
-          </p>
-        </header>
-
-        <div class="grid grid--3" data-stagger>
-          <article class="card card--interactive" data-reveal>
-            <div class="card__icon" aria-hidden="true">◎</div>
-            <h3 class="card__title">Programs</h3>
-            <p class="card__text">
-              Direct delivery with local partners—designed for measurable outcomes and durability.
-            </p>
-            <ul class="bullets" role="list">
-              <li>Capacity-building cohorts</li>
-              <li>Rapid response support</li>
-              <li>Train-the-trainer toolkits</li>
-            </ul>
-            <a class="card__link" href="#get-involved">Join a cohort →</a>
-          </article>
-
-          <article class="card card--interactive" data-reveal>
-            <div class="card__icon" aria-hidden="true">◈</div>
-            <h3 class="card__title">Research</h3>
-            <p class="card__text">
-              Applied research that informs real-world decisions—published with replicable methods.
-            </p>
-            <ul class="bullets" role="list">
-              <li>Open metrics framework</li>
-              <li>Policy briefs</li>
-              <li>Community surveys</li>
-            </ul>
-            <a class="card__link" href="#resources">Browse research →</a>
-          </article>
-
-          <article class="card card--interactive" data-reveal>
-            <div class="card__icon" aria-hidden="true">⬡</div>
-            <h3 class="card__title">Partnerships</h3>
-            <p class="card__text">
-              Cross-sector collaboration that aligns funding, operations, and shared accountability.
-            </p>
-            <ul class="bullets" role="list">
-              <li>Implementation support</li>
-              <li>Shared data standards</li>
-              <li>Co-designed pilots</li>
-            </ul>
-            <button class="card__link link" type="button" data-open-modal="partner">Become a partner →</button>
-          </article>
-        </div>
-
-        <div class="divider" role="separator" aria-hidden="true"></div>
-
-        <div class="split" id="get-involved">
-          <div class="split__a" data-reveal>
-            <h3 class="h3">Get involved</h3>
-            <p class="muted">
-              Volunteer, sponsor a cohort, or adopt our open toolkits inside your organization.
-            </p>
-            <div class="actions">
-              <button class="btn" type="button" data-open-modal="volunteer">Volunteer</button>
-              <button class="btn btn--ghost" type="button" data-open-modal="donate">Donate</button>
-            </div>
-          </div>
-
-          <div class="split__b" data-reveal>
-            <div class="card card--soft">
-              <h4 class="card__title">What “Level 10” means here</h4>
-              <p class="card__text">
-                Design system styling, motion with reduced-motion support, accessible navigation, interactive components,
-                state persistence, performance-friendly animations, and production-ready structure.
-              </p>
-              <ul class="bullets" role="list">
-                <li>Keyboard-first UI & ARIA patterns</li>
-                <li>Scroll progress + reveal animations</li>
-                <li>Theme + motion preferences saved</li>
-                <li>Modals, tabs, filters, live search</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- IMPACT -->
-    <section id="impact" class="section section--alt">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">Impact</h2>
-          <p class="section__lead">
-            Transparent measurement, published methods, and outcomes you can audit.
-          </p>
-        </header>
-
-        <div class="impact">
-          <div class="impact__panel" data-reveal>
-            <div class="tabs" role="tablist" aria-label="Impact tabs">
-              <button class="tab" role="tab" aria-selected="true" aria-controls="panel-outcomes" id="tab-outcomes" data-tab="outcomes">Outcomes</button>
-              <button class="tab" role="tab" aria-selected="false" aria-controls="panel-methods" id="tab-methods" data-tab="methods">Methods</button>
-              <button class="tab" role="tab" aria-selected="false" aria-controls="panel-data" id="tab-data" data-tab="data">Open Data</button>
-            </div>
-
-            <div class="tabpanels">
-              <div id="panel-outcomes" role="tabpanel" tabindex="0" aria-labelledby="tab-outcomes" data-panel="outcomes">
-                <div class="stats">
-                  <div class="stat">
-                    <div class="stat__num" data-count-to="94">0</div>
-                    <div class="stat__label">Programs delivered</div>
-                  </div>
-                  <div class="stat">
-                    <div class="stat__num" data-count-to="12">0</div>
-                    <div class="stat__label">Years in service</div>
-                  </div>
-                  <div class="stat">
-                    <div class="stat__num" data-count-to="370">0</div>
-                    <div class="stat__label">Community partners</div>
-                  </div>
-                </div>
-
-                <div class="chart card card--soft" aria-label="Impact trend chart">
-                  <div class="chart__header">
-                    <strong>Progress over time</strong>
-                    <span class="muted">Illustrative — replace with real data</span>
-                  </div>
-                  <div class="chart__canvas" data-mini-chart></div>
-                </div>
-              </div>
-
-              <div id="panel-methods" role="tabpanel" tabindex="0" aria-labelledby="tab-methods" hidden data-panel="methods">
-                <div class="card card--soft">
-                  <h3 class="card__title">Measurement framework</h3>
-                  <p class="card__text">
-                    We track leading indicators (capacity) and lagging indicators (outcomes), using shared definitions
-                    and privacy-aware aggregation.
-                  </p>
-                  <ol class="steps">
-                    <li><strong>Define:</strong> outcomes, baselines, and equity markers.</li>
-                    <li><strong>Collect:</strong> minimal data, maximum signal.</li>
-                    <li><strong>Validate:</strong> partner review + sampling checks.</li>
-                    <li><strong>Publish:</strong> methods, limitations, and code when possible.</li>
-                  </ol>
-                </div>
-              </div>
-
-              <div id="panel-data" role="tabpanel" tabindex="0" aria-labelledby="tab-data" hidden data-panel="data">
-                <div class="card card--soft">
-                  <h3 class="card__title">Open by default</h3>
-                  <p class="card__text">
-                    Download templates, schemas, and anonymized aggregates to replicate or extend our work.
-                  </p>
-                  <div class="actions">
-                    <a class="btn btn--primary" href="#resources">Open datasets</a>
-                    <button class="btn btn--ghost" type="button" data-open-modal="api">API access</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <aside class="impact__aside" data-reveal aria-label="Impact highlights">
-            <div class="card card--glass">
-              <h3 class="card__title">This quarter</h3>
-              <ul class="bullets" role="list">
-                <li>Launched two new regional cohorts</li>
-                <li>Published a replication toolkit</li>
-                <li>Expanded partner training library</li>
-              </ul>
-              <button class="btn btn--ghost" type="button" data-open-modal="impact">See details</button>
-            </div>
-
-            <div class="card card--soft">
-              <h3 class="card__title">Accessibility & trust</h3>
-              <p class="card__text">
-                Built with keyboard navigation, visible focus, reduced-motion support, and transparent content structure.
-              </p>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- EVENTS -->
-    <section id="events" class="section">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">Events</h2>
-          <p class="section__lead">Workshops, briefings, and partner sessions—designed to be practical.</p>
-        </header>
-
-        <div class="toolbar" data-reveal>
-          <label class="field">
-            <span class="field__label">Search</span>
-            <input class="input" type="search" placeholder="Search events…" data-search="events" />
-          </label>
-
-          <label class="field">
-            <span class="field__label">Filter</span>
-            <select class="select" data-filter="events">
-              <option value="all">All</option>
-              <option value="workshop">Workshops</option>
-              <option value="briefing">Briefings</option>
-              <option value="community">Community</option>
-            </select>
-          </label>
-
-          <button class="btn btn--ghost" type="button" data-reset="events">Reset</button>
-        </div>
-
-        <div class="list" role="list" aria-label="Event list" data-list="events">
-          <!-- Filled by JS for “lvl 10” feel (skeleton below for no-JS) -->
-          <article class="row" role="listitem">
-            <div class="row__date">
-              <div class="datepill">
-                <span class="datepill__m">FEB</span>
-                <span class="datepill__d">05</span>
-              </div>
-            </div>
-            <div class="row__body">
-              <h3 class="row__title">Partner onboarding workshop</h3>
-              <p class="row__meta muted">Virtual • 11:00 AM CT • Workshop</p>
-              <p class="row__desc">A practical walkthrough of toolkits, reporting, and implementation support.</p>
-            </div>
-            <div class="row__actions">
-              <button class="btn btn--sm" type="button" data-open-modal="rsvp">RSVP</button>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESOURCES -->
-    <section id="resources" class="section section--alt">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">Resources</h2>
-          <p class="section__lead">Download playbooks, reports, and templates you can use immediately.</p>
-        </header>
-
-        <div class="grid grid--3" data-stagger>
-          <article class="card card--interactive" data-reveal>
-            <div class="badge badge--soft">Playbook</div>
-            <h3 class="card__title">Community cohort toolkit</h3>
-            <p class="card__text">Facilitation guides, templates, and metrics for running a cohort.</p>
-            <a class="card__link" href="#" aria-label="Download Community cohort toolkit">Download →</a>
-          </article>
-
-          <article class="card card--interactive" data-reveal>
-            <div class="badge badge--soft">Report</div>
-            <h3 class="card__title">2026 Impact report</h3>
-            <p class="card__text">Methods, outcomes, and open appendices with replicable formats.</p>
-            <a class="card__link" href="#" aria-label="Open 2026 Impact report">Open →</a>
-          </article>
-
-          <article class="card card--interactive" data-reveal>
-            <div class="badge badge--soft">Template</div>
-            <h3 class="card__title">Measurement framework</h3>
-            <p class="card__text">Outcome definitions, survey scaffolds, and partner reporting checks.</p>
-            <a class="card__link" href="#" aria-label="Download Measurement framework template">Download →</a>
-          </article>
-        </div>
-
-        <div class="divider" role="separator" aria-hidden="true"></div>
-
-        <div class="newsletter" data-reveal>
-          <div class="newsletter__text">
-            <h3 class="h3">Stay in the loop</h3>
-            <p class="muted">Monthly updates. No spam. Unsubscribe any time.</p>
-          </div>
-          <form class="newsletter__form" data-newsletter aria-label="Newsletter sign-up">
-            <label class="sr-only" for="newsletter-email">Email</label>
-            <input class="input" id="newsletter-email" name="email" type="email" placeholder="you@example.org" autocomplete="email" required />
-            <button class="btn btn--primary" type="submit">Subscribe</button>
-            <p class="formhint muted" id="newsletter-hint">We’ll send a confirmation email.</p>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="section">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">About</h2>
-          <p class="section__lead">
-            We’re a multidisciplinary team of program leaders, researchers, designers, and engineers.
-          </p>
-        </header>
-
-        <div class="split">
-          <div class="split__a" data-reveal>
-            <div class="card card--soft">
-              <h3 class="card__title">Our principles</h3>
-              <ul class="bullets" role="list">
-                <li><strong>Local ownership:</strong> design with, not for.</li>
-                <li><strong>Evidence-led:</strong> measure, learn, publish.</li>
-                <li><strong>Open-by-default:</strong> share tools that scale.</li>
-                <li><strong>Accessibility:</strong> usable for everyone.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="split__b" data-reveal>
-            <div class="card card--glass">
-              <h3 class="card__title">Leadership</h3>
-              <div class="people" role="list">
-                <div class="person" role="listitem">
-                  <div class="avatar" aria-hidden="true"></div>
-                  <div>
-                    <div class="person__name">Alex Rivera</div>
-                    <div class="person__role muted">Executive Director</div>
-                  </div>
-                </div>
-                <div class="person" role="listitem">
-                  <div class="avatar" aria-hidden="true"></div>
-                  <div>
-                    <div class="person__name">Jordan Kim</div>
-                    <div class="person__role muted">Head of Research</div>
-                  </div>
-                </div>
-                <div class="person" role="listitem">
-                  <div class="avatar" aria-hidden="true"></div>
-                  <div>
-                    <div class="person__name">Sam Patel</div>
-                    <div class="person__role muted">Partnerships Lead</div>
-                  </div>
-                </div>
-              </div>
-              <button class="btn btn--ghost" type="button" data-open-modal="team">Meet the team</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section section--alt">
-      <div class="container">
-        <header class="section__header" data-reveal>
-          <h2 class="section__title">Contact</h2>
-          <p class="section__lead">Tell us what you’re building. We’ll reply within 2–3 business days.</p>
-        </header>
-
-        <div class="contact">
-          <form class="card card--soft contact__form" data-contact aria-label="Contact form">
-            <div class="grid grid--2">
-              <label class="field">
-                <span class="field__label">Name</span>
-                <input class="input" name="name" autocomplete="name" required />
-              </label>
-              <label class="field">
-                <span class="field__label">Email</span>
-                <input class="input" name="email" type="email" autocomplete="email" required />
-              </label>
-            </div>
-
-            <label class="field">
-              <span class="field__label">Topic</span>
-              <select class="select" name="topic" required>
-                <option value="" selected disabled>Select…</option>
-                <option value="partnership">Partnership</option>
-                <option value="program">Programs</option>
-                <option value="research">Research</option>
-                <option value="media">Media</option>
-              </select>
-            </label>
-
-            <label class="field">
-              <span class="field__label">Message</span>
-              <textarea class="textarea" name="message" rows="5" required></textarea>
-            </label>
-
-            <div class="actions">
-              <button class="btn btn--primary" type="submit">Send message</button>
-              <p class="muted" role="status" aria-live="polite" data-form-status></p>
-            </div>
-
-            <p class="muted small">
-              By submitting, you agree to our <a href="#" class="link">privacy policy</a>.
-            </p>
-          </form>
-
-          <aside class="contact__aside" aria-label="Contact details" data-reveal>
-            <div class="card card--glass">
-              <h3 class="card__title">Northbridge Initiative</h3>
-              <p class="card__text muted">
-                Chicago, IL • Working with partners nationwide.
-              </p>
-              <dl class="dl">
-                <div class="dl__row">
-                  <dt>Email</dt>
-                  <dd><a class="link" href="mailto:hello@example.org">hello@example.org</a></dd>
-                </div>
-                <div class="dl__row">
-                  <dt>Press</dt>
-                  <dd><a class="link" href="mailto:press@example.org">press@example.org</a></dd>
-                </div>
-                <div class="dl__row">
-                  <dt>Follow</dt>
-                  <dd class="dl__links">
-                    <a class="link" href="#" rel="noopener">LinkedIn</a>
-                    <a class="link" href="#" rel="noopener">YouTube</a>
-                  </dd>
-                </div>
-              </dl>
-              <button class="btn btn--ghost" type="button" data-open-modal="donate">Support our work</button>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
+    <!-- Placeholder sections to anchor nav -->
+    <section id="work" class="section"><div class="container"><h2>Our work</h2></div></section>
+    <section id="impact" class="section section--alt"><div class="container"><h2>Impact</h2></div></section>
+    <section id="events" class="section"><div class="container"><h2>Events</h2></div></section>
+    <section id="resources" class="section section--alt"><div class="container"><h2>Resources</h2></div></section>
+    <section id="about" class="section"><div class="container"><h2>About</h2></div></section>
+    <section id="contact" class="section section--alt"><div class="container"><h2>Contact</h2></div></section>
   </main>
 
   <!-- Footer -->
-  <footer class="footer" role="contentinfo">
-    <div class="container footer__grid">
-      <div class="footer__brand">
-        <div class="brand brand--footer" aria-label="Northbridge Initiative">
-          <span class="brand__mark" aria-hidden="true"></span>
-          <span class="brand__text">
-            <span class="brand__name">Northbridge</span>
-            <span class="brand__tag">Initiative</span>
-          </span>
-        </div>
-        <p class="muted">
-          Building resilient communities through programs, partnerships, and open research.
-        </p>
-      </div>
-
-      <div class="footer__cols">
-        <div class="footer__col">
-          <h3 class="footer__title">Explore</h3>
-          <ul class="footer__list" role="list">
-            <li><a class="link" href="#work">Our work</a></li>
-            <li><a class="link" href="#impact">Impact</a></li>
-            <li><a class="link" href="#events">Events</a></li>
-            <li><a class="link" href="#resources">Resources</a></li>
-          </ul>
-        </div>
-        <div class="footer__col">
-          <h3 class="footer__title">Organization</h3>
-          <ul class="footer__list" role="list">
-            <li><a class="link" href="#about">About</a></li>
-            <li><a class="link" href="#contact">Contact</a></li>
-            <li><a class="link" href="#" data-open-modal="privacy">Privacy</a></li>
-            <li><a class="link" href="#" data-open-modal="terms">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
+  <footer class="footer">
     <div class="container footer__bottom">
-      <p class="muted small">© <span data-year></span> Northbridge Initiative. All rights reserved.</p>
-      <button class="chip" type="button" data-back-to-top>
-        Back to top ↑
-      </button>
+      <p class="muted small">© <span data-year></span> Northbridge Initiative</p>
+      <button class="chip" data-back-to-top>Back to top ↑</button>
     </div>
   </footer>
 
   <!-- Toasts -->
-  <div class="toasts" aria-live="polite" aria-relevant="additions" aria-label="Notifications" data-toasts></div>
+  <div class="toasts" data-toasts></div>
 
   <!-- Modal root -->
   <div class="modalroot" data-modalroot hidden>
     <div class="backdrop" data-backdrop></div>
-
-    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <section class="modal" role="dialog" aria-modal="true">
       <header class="modal__header">
-        <h2 id="modal-title" class="modal__title">Modal title</h2>
-        <button class="iconbtn" type="button" data-close-modal aria-label="Close dialog">×</button>
+        <h2 id="modal-title">Modal</h2>
+        <button class="iconbtn" data-close-modal>×</button>
       </header>
-
       <div class="modal__body">
-        <p id="modal-desc" class="muted">Modal description.</p>
         <div data-modal-content></div>
       </div>
-
       <footer class="modal__footer">
-        <button class="btn btn--ghost" type="button" data-close-modal>Close</button>
-        <button class="btn btn--primary" type="button" data-modal-primary>Continue</button>
+        <button class="btn btn--ghost" data-close-modal>Close</button>
+        <button class="btn btn--primary" data-modal-primary>Continue</button>
       </footer>
     </section>
   </div>
 
   <noscript>
     <div class="noscript">
-      This site works best with JavaScript enabled for enhanced navigation, filters, and interactive components.
+      This site works best with JavaScript enabled.
     </div>
   </noscript>
 </body>
