@@ -1,152 +1,203 @@
+/* =========================
+   Satcorp – script.js
+   ========================= */
+
 (() => {
-  "use strict";
+  /* ---------- Helpers ---------- */
+  const $ = (q, ctx = document) => ctx.querySelector(q);
+  const $$ = (q, ctx = document) => Array.from(ctx.querySelectorAll(q));
 
-  /* ---------------------------------
-     Helpers
-  --------------------------------- */
-  const $ = (q, r = document) => r.querySelector(q);
-  const $$ = (q, r = document) => [...r.querySelectorAll(q)];
-  const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
-
-  document.body.classList.remove("no-js");
-  $("[data-year]") && ($("[data-year]").textContent = new Date().getFullYear());
-
-  /* ---------------------------------
-     Toasts
-  --------------------------------- */
-  const toastRoot = $("[data-toasts]");
-  const toast = (msg) => {
-    if (!toastRoot) return;
-    const t = document.createElement("div");
-    t.className = "toast";
-    t.innerHTML = `<div class="toast__msg">${msg}</div>
-      <button class="iconbtn toast__x">×</button>`;
-    t.querySelector("button").onclick = () => t.remove();
-    toastRoot.appendChild(t);
-    setTimeout(() => t.remove(), 4000);
+  /* ---------- Header Elevation on Scroll ---------- */
+  const header = $(".header");
+  const onScroll = () => {
+    if (!header) return;
+    const elevated = window.scrollY > 8;
+    header.setAttribute("data-elevate", elevated ? "true" : "false");
+    header.style.boxShadow = elevated
+      ? "0 8px 24px rgba(0,0,0,0.35)"
+      : "none";
   };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
-  /* ---------------------------------
-     Scroll progress
-  --------------------------------- */
-  const bar = $("[data-scroll-progress]");
-  if (bar) {
-    window.addEventListener("scroll", () => {
-      const h = document.documentElement;
-      const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-      bar.style.transform = `scaleX(${clamp(p, 0, 1)})`;
-    }, { passive: true });
-  }
+  /* ---------- Mobile Nav Toggle ---------- */
+  const navToggle = $(".nav__toggle");
+  const navMenu = $("#navMenu");
 
-  /* ---------------------------------
-     Navigation
-  --------------------------------- */
-  const navToggle = $("[data-nav-toggle]");
-  const navPanel = $("#nav-panel");
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const open = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!open));
+      navMenu.style.display = open ? "none" : "flex";
+    });
 
-  if (navToggle && navPanel) {
-    navPanel.setAttribute("inert", "");
-    navToggle.onclick = () => {
-      const open = navPanel.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", open);
-      open ? navPanel.removeAttribute("inert") : navPanel.setAttribute("inert", "");
-    };
-  }
-
-  /* ---------------------------------
-     Count up
-  --------------------------------- */
-  $$("[data-count-to]").forEach(el => {
-    const target = Number(el.dataset.countTo);
-    let n = 0;
-    const step = Math.max(1, target / 40);
-    const tick = () => {
-      n += step;
-      if (n >= target) {
-        el.textContent = target.toLocaleString();
-      } else {
-        el.textContent = Math.floor(n).toLocaleString();
-        requestAnimationFrame(tick);
-      }
-    };
-    tick();
-  });
-
-  /* ---------------------------------
-     Sparkline
-  --------------------------------- */
-  const spark = $("[data-sparkline]");
-  if (spark) {
-    [2,3,4,3,5,6,5,7,8,7,9,10].forEach(v => {
-      const b = document.createElement("div");
-      b.className = "sparkline__bar";
-      b.style.height = `${v * 8}%`;
-      spark.appendChild(b);
+    // Close nav when clicking a link (mobile)
+    $$(".nav__link", navMenu).forEach((link) => {
+      link.addEventListener("click", () => {
+        navToggle.setAttribute("aria-expanded", "false");
+        navMenu.style.display = "";
+      });
     });
   }
 
-  /* ---------------------------------
-     MODAL SYSTEM (FIXED)
-  --------------------------------- */
-  const modalRoot = $("[data-modalroot]");
-  const modalContent = $("[data-modal-content]");
-  const modalTitle = $("#modal-title");
-  const modalPrimary = $("[data-modal-primary]");
-  const backdrop = $("[data-backdrop]");
+  /* ---------- KPI Randomization (Demo Telemetry) ---------- */
+  const kpis = {
+    links: { min: 110, max: 140, step: 1 },
+    throughput: { min: 2.1, max: 3.4, step: 0.1 },
+    snr: { min: 15.5, max: 20.2, step: 0.1 },
+    anomalies: { min: 0, max: 1, step: 1 }
+  };
 
-  let modalOpen = false;
+  function randomizeKpis() {
+    Object.keys(kpis).forEach((key) => {
+      const el = document.querySelector(`[data-kpi="${key}"]`);
+      if (!el) return;
+      const cfg = kpis[key];
+      const raw =
+        cfg.min +
+        Math.random() * (cfg.max - cfg.min);
+      const value =
+        cfg.step < 1
+          ? raw.toFixed(1)
+          : Math.round(raw / cfg.step) * cfg.step;
 
-  const closeModal = () => {
-    if (!modalRoot) return;
+      el.textContent = value;
 
-    modalOpen = false;
-    document.documentElement.classList.remove("modal-open");
+      if (key === "anomalies") {
+        el.classList.toggle("kpi__value--ok", Number(value) === 0);
+      }
+    });
 
-    modalRoot.classList.add("is-leaving");
+    const lastSync = $("[data-last-sync]");
+    if (lastSync) {
+      lastSync.textContent = new Date().toLocaleTimeString();
+    }
+  }
 
-    setTimeout(() => {
-      modalRoot.hidden = true;
-      modalRoot.classList.remove("is-leaving");
-      modalContent.innerHTML = "";
-    }, 180);
+  setInterval(randomizeKpis, 3500);
+  randomizeKpis();
 
-    // 🔥 HARD MOBILE RESET
+  /* ---------- Sparkline Canvas ---------- */
+  const canvas = $("#spark");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    const points = [];
+    const MAX_POINTS = 40;
+
+    function drawSpark() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Background
+      ctx.fillStyle = "rgba(255,255,255,0.03)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Line
+      ctx.strokeStyle = "#4cc9f0";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+
+      points.forEach((p, i) => {
+        const x = (i / (MAX_POINTS - 1)) * canvas.width;
+        const y = canvas.height - p * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+
+      ctx.stroke();
+    }
+
+    function tickSpark() {
+      const next = 0.2 + Math.random() * 0.6;
+      points.push(next);
+      if (points.length > MAX_POINTS) points.shift();
+      drawSpark();
+    }
+
+    setInterval(tickSpark, 1000);
+    tickSpark();
+  }
+
+  /* ---------- Accordion ---------- */
+  $$(".accordion").forEach((acc) => {
+    const buttons = $$(".acc__btn", acc);
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+        const panel = btn.nextElementSibling;
+
+        btn.setAttribute("aria-expanded", String(!expanded));
+        if (panel) panel.hidden = expanded;
+      });
+    });
+  });
+
+  /* ---------- Modals ---------- */
+  const openModal = (id) => {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = (modal) => {
+    modal.hidden = true;
     document.body.style.overflow = "";
-    modalRoot.style.pointerEvents = "none";
-    setTimeout(() => modalRoot.style.pointerEvents = "", 200);
   };
 
-  const openModal = (title, html) => {
-    if (!modalRoot) return;
-
-    modalOpen = true;
-    modalRoot.hidden = false;
-    modalRoot.style.pointerEvents = "auto";
-    document.documentElement.classList.add("modal-open");
-
-    modalTitle.textContent = title;
-    modalContent.innerHTML = html;
-
-    modalPrimary.onclick = closeModal;
-  };
-
-  // Bind triggers
-  $$("[data-open-modal]").forEach(btn => {
-    btn.onclick = () => {
-      const type = btn.dataset.openModal;
-      openModal(
-        type.charAt(0).toUpperCase() + type.slice(1),
-        `<p class="muted">This is a demo <strong>${type}</strong> modal.</p>`
-      );
-    };
+  $$("[data-modal-open]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openModal(btn.getAttribute("data-modal-open"));
+    });
   });
 
-  // Close handlers
-  $$("[data-close-modal]").forEach(b => b.onclick = closeModal);
-  backdrop && (backdrop.onclick = closeModal);
-
-  document.addEventListener("keydown", e => {
-    if (modalOpen && e.key === "Escape") closeModal();
+  $$("[data-modal-close]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const modal = el.closest(".modal");
+      if (modal) closeModal(modal);
+    });
   });
 
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      $$(".modal").forEach((m) => {
+        if (!m.hidden) closeModal(m);
+      });
+    }
+  });
+
+  /* ---------- Toasts ---------- */
+  const toast = $("#toast");
+  const toastMsg = $("#toastMsg");
+  let toastTimer;
+
+  function showToast(msg) {
+    if (!toast || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.hidden = true;
+    }, 2200);
+  }
+
+  $$("[data-toast]").forEach((el) => {
+    el.addEventListener("click", () => {
+      showToast(el.getAttribute("data-toast"));
+    });
+  });
+
+  /* ---------- Contact Form (Demo Only) ---------- */
+  const contactForm = $("#contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      showToast("Message sent (demo)");
+      contactForm.reset();
+    });
+  }
+
+  /* ---------- Footer Year ---------- */
+  const year = $("[data-year]");
+  if (year) year.textContent = new Date().getFullYear();
 })();
