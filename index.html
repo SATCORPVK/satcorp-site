@@ -1,664 +1,318 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Satcorp — Satellite Communications & Space Systems</title>
-  <meta name="description" content="Satcorp builds secure satellite communications and space systems for commercial and government missions." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Eternal Love in the Shadows — a romantic nocturne of gothic elegance and modern minimal sensuality." />
+  <title>Eternal Love in the Shadows</title>
 
-  <!-- Fonts (optional, safe fallback if blocked) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Fonts (serif + clean sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Your CSS file (IMPORTANT: style.css) -->
   <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 
 <body>
-  <!-- Skip link -->
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Background -->
-  <div class="bg">
-    <div class="bg__grid" aria-hidden="true"></div>
-    <div class="bg__glow bg__glow--a" aria-hidden="true"></div>
-    <div class="bg__glow bg__glow--b" aria-hidden="true"></div>
-  </div>
-
-  <!-- Header -->
-  <header class="header" data-elevate="false">
-    <div class="container header__inner">
-      <a class="brand" href="#" aria-label="Satcorp home">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" focusable="false">
-            <path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 2a7.98 7.98 0 0 1 7.75 6H12a3.5 3.5 0 0 0-3.44 3H4.25A7.98 7.98 0 0 1 12 4Zm0 16a7.98 7.98 0 0 1-7.75-6h4.31A3.5 3.5 0 0 0 12 16h7.75A7.98 7.98 0 0 1 12 20Z"></path>
-          </svg>
-        </span>
-        <span class="brand__text">Satcorp</span>
-        <span class="brand__tag">Space Systems</span>
+  <!-- Top chrome -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="#top" aria-label="Eternal Love in the Shadows — Home">
+        <span class="brand__sigil" aria-hidden="true">✦</span>
+        <span class="brand__name">Eternal Love</span>
+        <span class="brand__sub">in the Shadows</span>
       </a>
 
       <nav class="nav" aria-label="Primary">
-        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="navMenu">
-          <span class="nav__toggleLines" aria-hidden="true"></span>
-          <span class="sr-only">Open menu</span>
+        <a class="nav__link" href="#vow">The Vow</a>
+        <a class="nav__link" href="#chapters">Chapters</a>
+        <a class="nav__link" href="#devotion">Devotion</a>
+        <a class="nav__link" href="#letters">Letters</a>
+      </nav>
+
+      <div class="controls" aria-label="Site controls">
+        <button class="pill" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle sound ambience">
+          <span class="pill__dot" aria-hidden="true"></span>
+          <span class="pill__label">Silence</span>
         </button>
 
-        <div class="nav__menu" id="navMenu">
-          <a class="nav__link" href="#solutions">Solutions</a>
-          <a class="nav__link" href="#capabilities">Capabilities</a>
-          <a class="nav__link" href="#missions">Missions</a>
-          <a class="nav__link" href="#security">Security</a>
-          <a class="nav__link" href="#insights">Insights</a>
-          <a class="nav__link nav__link--cta" href="#contact">Contact</a>
-        </div>
-      </nav>
+        <button class="pill" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle Light of Dawn theme">
+          <span class="pill__icon" aria-hidden="true">☾</span>
+          <span class="pill__label">Night</span>
+        </button>
+      </div>
     </div>
   </header>
 
+  <!-- Hero -->
+  <section class="hero" id="top" aria-label="Hero">
+    <canvas class="atmos" id="atmosCanvas" aria-hidden="true"></canvas>
+
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <p class="hero__kicker reveal">
+        A romantic nocturne — velvet shadows, candlelight vows.
+      </p>
+
+      <h1 class="hero__title reveal">
+        Even eternity bends to love.
+      </h1>
+
+      <p class="hero__lede reveal">
+        He is not a monster in this story. He is devotion made immortal —
+        a heart that learned to survive the centuries without letting go.
+      </p>
+
+      <div class="hero__actions reveal">
+        <a class="seal" href="#vow" aria-label="Enter the night: Begin the vow">
+          <span class="seal__wax" aria-hidden="true"></span>
+          <span class="seal__text">Enter the night</span>
+          <span class="seal__sigil" aria-hidden="true">✦</span>
+        </a>
+
+        <button class="ghost" id="openWhisper" type="button" aria-haspopup="dialog" aria-controls="whisperModal">
+          Bound beyond death
+        </button>
+      </div>
+
+      <div class="hero__hint" aria-hidden="true">
+        <span class="hero__line"></span>
+        <span class="hero__hintText">Scroll like a heartbeat</span>
+      </div>
+    </div>
+
+    <div class="hero__ornament" aria-hidden="true">
+      <div class="arch"></div>
+      <div class="thorn-divider"></div>
+    </div>
+  </section>
+
   <main id="main">
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero__grid">
-        <div class="hero__copy">
-          <p class="eyebrow">
-            <span class="dot" aria-hidden="true"></span>
-            Secure Satellite Communications • Ground Systems • Mission Ops
+    <!-- Vow -->
+    <section class="section section--vow" id="vow" aria-label="The Vow">
+      <div class="section__inner">
+        <header class="section__header reveal">
+          <h2 class="section__title">The Vow</h2>
+          <p class="section__subtitle">
+            Promises spoken softly — so the night remembers.
           </p>
+        </header>
 
-          <h1 class="hero__title">
-            Mission-ready satellite connectivity
-            <span class="hero__titleAccent">from orbit to operations.</span>
-          </h1>
-
-          <p class="hero__lead">
-            Satcorp designs resilient space and ground infrastructure—integrating payloads,
-            networks, and mission operations with security built in from day one.
-          </p>
-
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="#contact">Request a consult</a>
-            <a class="btn btn--ghost" href="#solutions">Explore solutions</a>
-          </div>
-
-          <dl class="hero__stats" aria-label="Key stats">
-            <div class="stat">
-              <dt class="stat__k">99.99%</dt>
-              <dd class="stat__v">network availability targets</dd>
-            </div>
-            <div class="stat">
-              <dt class="stat__k">&lt; 250ms</dt>
-              <dd class="stat__v">latency pathways with LEO</dd>
-            </div>
-            <div class="stat">
-              <dt class="stat__k">24/7</dt>
-              <dd class="stat__v">mission operations coverage</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div class="hero__panel" aria-label="Satellite network status">
-          <div class="panel">
-            <div class="panel__top">
-              <div class="panel__title">
-                <span class="pill">Live</span>
-                <span>Network Telemetry</span>
-              </div>
-              <div class="panel__actions">
-                <button class="iconBtn" type="button" data-toast="Exported report">
-                  <span class="sr-only">Export</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L11 13.17V3h1ZM5 19h14v2H5v-2Z"/></svg>
-                </button>
-                <button class="iconBtn" type="button" data-toast="Refreshed">
-                  <span class="sr-only">Refresh</span>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 12.65-5.65Z"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="orbit" aria-hidden="true">
-              <div class="orbit__ring orbit__ring--a"></div>
-              <div class="orbit__ring orbit__ring--b"></div>
-              <div class="orbit__sat orbit__sat--a"></div>
-              <div class="orbit__sat orbit__sat--b"></div>
-              <div class="orbit__core"></div>
-            </div>
-
-            <div class="panel__grid">
-              <div class="kpi">
-                <div class="kpi__label">Links</div>
-                <div class="kpi__value" data-kpi="links">128</div>
-                <div class="kpi__meta">active beams</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi__label">Throughput</div>
-                <div class="kpi__value" data-kpi="throughput">2.8</div>
-                <div class="kpi__meta">Gbps aggregate</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi__label">Uplink SNR</div>
-                <div class="kpi__value" data-kpi="snr">18.4</div>
-                <div class="kpi__meta">dB nominal</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi__label">Anomalies</div>
-                <div class="kpi__value kpi__value--ok" data-kpi="anomalies">0</div>
-                <div class="kpi__meta">open alerts</div>
-              </div>
-            </div>
-
-            <div class="sparkWrap">
-              <canvas id="spark" width="640" height="180" aria-label="Throughput chart"></canvas>
-              <div class="sparkLegend">
-                <span class="legendDot" aria-hidden="true"></span>
-                <span>Recent throughput</span>
-              </div>
-            </div>
-
-            <div class="panel__foot">
-              <div class="mini">
-                <span class="mini__label">Last sync</span>
-                <span class="mini__value" data-last-sync>—</span>
-              </div>
-              <div class="mini">
-                <span class="mini__label">Region</span>
-                <span class="mini__value">NA / EU</span>
-              </div>
-              <div class="mini">
-                <span class="mini__label">Mode</span>
-                <span class="mini__value">Secure</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container trust">
-        <p class="trust__label">Trusted by teams building critical connectivity</p>
-        <div class="trust__row" role="list" aria-label="Partner logos">
-          <div class="logo" role="listitem">AeroLink</div>
-          <div class="logo" role="listitem">PolarNav</div>
-          <div class="logo" role="listitem">OrionGov</div>
-          <div class="logo" role="listitem">TerraGrid</div>
-          <div class="logo" role="listitem">BlueHorizon</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Solutions -->
-    <section class="section" id="solutions">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="h2">Solutions built for demanding missions</h2>
-          <p class="muted">
-            Modular architectures that scale from a single ground station to multi-orbit networks.
-          </p>
-        </div>
-
-        <div class="cards">
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🛰️</div>
-            <h3 class="card__title">Satellite Communications</h3>
+        <div class="grid grid--two">
+          <article class="card reveal">
+            <h3 class="card__title">A love that does not die</h3>
             <p class="card__text">
-              High-reliability links with adaptive coding, interference mitigation, and multi-band support.
+              I have worn the dark like a coat for so long that the world forgot the shape of my tenderness.
+              Then you arrived — moonlight in ivory — and my silence learned your name.
             </p>
-            <ul class="checklist">
-              <li>LEO / MEO / GEO routing</li>
-              <li>Beam shaping + handoff</li>
-              <li>Gateway redundancy</li>
-            </ul>
+            <p class="card__quote">
+              “She was the only thing eternity could not take.”
+            </p>
           </article>
 
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">📡</div>
-            <h3 class="card__title">Ground Systems</h3>
+          <article class="card reveal">
+            <h3 class="card__title">No gore. No fear.</h3>
             <p class="card__text">
-              Turnkey station design: RF chain, antennas, virtualization, and observability.
+              This is gothic elegance with modern restraint: clean spacing, deliberate motion, and a crimson glow used like a confession —
+              never a shout.
             </p>
-            <ul class="checklist">
-              <li>Automated scheduling</li>
-              <li>Telemetry pipelines</li>
-              <li>Edge compute</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🧭</div>
-            <h3 class="card__title">Mission Operations</h3>
-            <p class="card__text">
-              24/7 coverage with procedures, simulation, and anomaly response playbooks.
-            </p>
-            <ul class="checklist">
-              <li>Ops center tooling</li>
-              <li>Runbook automation</li>
-              <li>Post-mission analytics</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🔐</div>
-            <h3 class="card__title">Secure Networking</h3>
-            <p class="card__text">
-              Zero-trust patterns and cryptography integration across space-to-ground interfaces.
-            </p>
-            <ul class="checklist">
-              <li>Key management</li>
-              <li>Segmentation</li>
-              <li>Audit + compliance</li>
+            <ul class="list">
+              <li>Moonlit castles, candlelit chambers</li>
+              <li>Hands almost touching, eyes in shadow</li>
+              <li>Velvet texture, firelight warmth</li>
             </ul>
           </article>
         </div>
       </div>
-    </section>
 
-    <!-- Capabilities -->
-    <section class="section section--alt" id="capabilities">
-      <div class="container split">
-        <div>
-          <h2 class="h2">Engineering capabilities</h2>
-          <p class="muted">
-            From concept to deployment—built on standards, testability, and operational clarity.
-          </p>
-
-          <div class="accordion" data-accordion>
-            <button class="acc__btn" type="button" aria-expanded="true">
-              <span>Systems integration</span>
-              <span class="acc__chev" aria-hidden="true"></span>
-            </button>
-            <div class="acc__panel" hidden="false">
-              <p>
-                Interface management across payload, bus, TT&amp;C, RF chain, and cloud services—validated by
-                HIL testbeds and mission sims.
-              </p>
-            </div>
-
-            <button class="acc__btn" type="button" aria-expanded="false">
-              <span>Resilience &amp; redundancy</span>
-              <span class="acc__chev" aria-hidden="true"></span>
-            </button>
-            <div class="acc__panel" hidden>
-              <p>
-                Fault containment regions, multi-region deployments, hot/warm spares, and graceful degradation.
-              </p>
-            </div>
-
-            <button class="acc__btn" type="button" aria-expanded="false">
-              <span>Observability</span>
-              <span class="acc__chev" aria-hidden="true"></span>
-            </button>
-            <div class="acc__panel" hidden>
-              <p>
-                Metrics, logs, traces, and mission KPIs—wired into on-call workflows and incident postmortems.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <aside class="aside">
-          <div class="quote">
-            <p class="quote__text">
-              “Satcorp delivered a hardened comms stack with clear operational controls—our deployment
-              moved from prototype to flight-readiness in weeks.”
-            </p>
-            <div class="quote__by">
-              <div class="avatar" aria-hidden="true">SC</div>
-              <div>
-                <div class="quote__name">Program Lead</div>
-                <div class="quote__meta">Commercial LEO Operator</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="badgeGrid" aria-label="Key assurances">
-            <div class="badge">Secure-by-design</div>
-            <div class="badge">Test-driven</div>
-            <div class="badge">Ops-ready</div>
-            <div class="badge">Vendor-agnostic</div>
-          </div>
-        </aside>
+      <div class="divider" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__sigil">✦</span>
+        <span class="divider__line"></span>
       </div>
     </section>
 
-    <!-- Missions -->
-    <section class="section" id="missions">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="h2">Mission experience</h2>
-          <p class="muted">
-            Representative work across connectivity, sensing, and operational tooling.
+    <!-- Chapters -->
+    <section class="section section--chapters" id="chapters" aria-label="Chapters">
+      <div class="section__inner">
+        <header class="section__header reveal">
+          <h2 class="section__title">Chapters</h2>
+          <p class="section__subtitle">
+            Each section opens like a curtain — slow, velvet, inevitable.
           </p>
-        </div>
+        </header>
 
-        <div class="timeline">
-          <article class="tItem">
-            <div class="tDot" aria-hidden="true"></div>
-            <h3 class="tTitle">LEO gateway modernization</h3>
-            <p class="tText">
-              Upgraded RF and network orchestration for higher throughput and automated station scheduling.
+        <div class="grid grid--three">
+          <article class="tile reveal">
+            <h3 class="tile__title">I. Candlelight</h3>
+            <p class="tile__text">
+              The room is quiet enough to hear the flame breathe.
+              In that small warmth, you find his humanity.
             </p>
-            <div class="tMeta">Ground systems • Automation</div>
+            <a class="tile__link" href="#devotion">Continue</a>
           </article>
 
-          <article class="tItem">
-            <div class="tDot" aria-hidden="true"></div>
-            <h3 class="tTitle">Secure TT&amp;C hardening</h3>
-            <p class="tText">
-              Integrated key management, access controls, and segmented mission networks with audit trails.
+          <article class="tile reveal">
+            <h3 class="tile__title">II. Velvet Night</h3>
+            <p class="tile__text">
+              Shadows do not hide you here —
+              they hold you, like hands that never learned to let go.
             </p>
-            <div class="tMeta">Security • Compliance</div>
+            <a class="tile__link" href="#letters">Continue</a>
           </article>
 
-          <article class="tItem">
-            <div class="tDot" aria-hidden="true"></div>
-            <h3 class="tTitle">Ops center tooling</h3>
-            <p class="tText">
-              Built dashboards and runbooks to reduce detection-to-resolution time during anomalies.
+          <article class="tile reveal">
+            <h3 class="tile__title">III. Crimson Oath</h3>
+            <p class="tile__text">
+              A single red line across the page:
+              not violence — devotion, written in a pulse.
             </p>
-            <div class="tMeta">Mission ops • Observability</div>
+            <button class="tile__link tile__link--button" id="pulseOnce" type="button">
+              Feel the heartbeat
+            </button>
           </article>
         </div>
       </div>
+
+      <div class="arch-divider" aria-hidden="true"></div>
     </section>
 
-    <!-- Security -->
-    <section class="section section--alt" id="security">
-      <div class="container security">
-        <div>
-          <h2 class="h2">Security is not a feature. It’s the architecture.</h2>
-          <p class="muted">
-            Practical controls that map to real operational threats across space, ground, and cloud.
+    <!-- Devotion -->
+    <section class="section section--devotion" id="devotion" aria-label="Devotion">
+      <div class="section__inner">
+        <header class="section__header reveal">
+          <h2 class="section__title">Devotion</h2>
+          <p class="section__subtitle">
+            A modern hush beneath gothic grandeur.
           </p>
+        </header>
 
-          <ul class="security__list">
-            <li>
-              <span class="security__k">Zero-trust access</span>
-              <span class="security__v">Identity-first policies, least privilege, and continuous verification.</span>
-            </li>
-            <li>
-              <span class="security__k">Cryptographic agility</span>
-              <span class="security__v">Pluggable crypto modules and planned rotation strategies.</span>
-            </li>
-            <li>
-              <span class="security__k">Operational resilience</span>
-              <span class="security__v">Runbooks, drills, and observability tuned for fast recovery.</span>
-            </li>
-          </ul>
-        </div>
+        <div class="grid grid--two">
+          <article class="panel reveal">
+            <h3 class="panel__title">Luxury, not dated</h3>
+            <p class="panel__text">
+              Mobile-first, responsive, accessible contrast, and motion that respects the body.
+              The night should seduce — never overwhelm.
+            </p>
 
-        <div class="security__card">
-          <div class="security__cardHead">
-            <span class="pill pill--muted">Checklist</span>
-            <span class="security__cardTitle">Deployment readiness</span>
-          </div>
+            <div class="chips" role="list" aria-label="Design principles">
+              <span class="chip" role="listitem">Soft glow accents</span>
+              <span class="chip" role="listitem">Velvet shadows</span>
+              <span class="chip" role="listitem">Slow fades</span>
+              <span class="chip" role="listitem">Minimal sensuality</span>
+            </div>
+          </article>
 
-          <form class="checkForm" id="readyForm">
-            <label class="tick">
-              <input type="checkbox" checked />
-              <span>Segmentation &amp; boundary controls</span>
-            </label>
-            <label class="tick">
-              <input type="checkbox" checked />
-              <span>Key management + rotation plan</span>
-            </label>
-            <label class="tick">
-              <input type="checkbox" />
-              <span>Incident response runbook</span>
-            </label>
-            <label class="tick">
-              <input type="checkbox" />
-              <span>HIL test coverage</span>
-            </label>
-
-            <button class="btn btn--primary btn--full" type="button" data-toast="Checklist saved">
-              Save checklist
+          <aside class="panel panel--aside reveal" aria-label="Light of Dawn toggle">
+            <h3 class="panel__title">Light of Dawn</h3>
+            <p class="panel__text">
+              If you prefer gentler contrast, toggle the dawn.
+              Love stays the same — only the shadows soften.
+            </p>
+            <button class="cta" id="themeToggle2" type="button">
+              Soften the night
+              <span class="cta__arrow" aria-hidden="true">→</span>
             </button>
+          </aside>
+        </div>
+      </div>
+
+      <div class="divider divider--thin" aria-hidden="true">
+        <span class="divider__line"></span>
+        <span class="divider__sigil divider__sigil--red">⟡</span>
+        <span class="divider__line"></span>
+      </div>
+    </section>
+
+    <!-- Letters (contact-ish) -->
+    <section class="section section--letters" id="letters" aria-label="Letters">
+      <div class="section__inner">
+        <header class="section__header reveal">
+          <h2 class="section__title">Letters</h2>
+          <p class="section__subtitle">
+            Leave a whisper for the immortal heart.
+          </p>
+        </header>
+
+        <div class="grid grid--two">
+          <form class="form reveal" id="letterForm">
+            <label class="field">
+              <span class="field__label">Your name</span>
+              <input class="field__input" name="name" autocomplete="name" placeholder="Write it like a vow" required />
+            </label>
+
+            <label class="field">
+              <span class="field__label">A message</span>
+              <textarea class="field__input field__input--area" name="message" rows="6" placeholder="Speak softly. The night listens." required></textarea>
+            </label>
+
+            <button class="seal seal--small" type="submit">
+              <span class="seal__wax" aria-hidden="true"></span>
+              <span class="seal__text">Send into the dark</span>
+              <span class="seal__sigil" aria-hidden="true">✦</span>
+            </button>
+
+            <p class="form__note" id="formNote" role="status" aria-live="polite"></p>
           </form>
-        </div>
-      </div>
-    </section>
 
-    <!-- Insights -->
-    <section class="section" id="insights">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="h2">Insights</h2>
-          <p class="muted">Short reads on space networking, operations, and reliability.</p>
-        </div>
-
-        <div class="posts">
-          <article class="post">
-            <div class="post__top">
-              <span class="pill pill--muted">Reliability</span>
-              <time class="post__date" datetime="2026-01-01">Jan 2026</time>
-            </div>
-            <h3 class="post__title">Designing gateways for graceful degradation</h3>
-            <p class="post__text">
-              Patterns for redundancy, failover, and observability that prevent single points of mission failure.
+          <div class="quoteBox reveal" aria-label="Poetic excerpt">
+            <p class="quoteBox__text">
+              “I have crossed oceans of night, and still I return to the place your breath begins.”
             </p>
-            <button class="linkBtn" type="button" data-modal-open="m1">Read more</button>
-          </article>
-
-          <article class="post">
-            <div class="post__top">
-              <span class="pill pill--muted">Security</span>
-              <time class="post__date" datetime="2025-12-10">Dec 2025</time>
-            </div>
-            <h3 class="post__title">Zero-trust for space-to-ground links</h3>
-            <p class="post__text">
-              How to apply identity, policy, and segmentation without breaking operations.
+            <p class="quoteBox__sub">
+              — a devotion written by candlelight
             </p>
-            <button class="linkBtn" type="button" data-modal-open="m2">Read more</button>
-          </article>
 
-          <article class="post">
-            <div class="post__top">
-              <span class="pill pill--muted">Ops</span>
-              <time class="post__date" datetime="2025-11-18">Nov 2025</time>
-            </div>
-            <h3 class="post__title">Runbooks that reduce anomaly MTTR</h3>
-            <p class="post__text">
-              Turning tribal knowledge into repeatable automation and better on-call outcomes.
-            </p>
-            <button class="linkBtn" type="button" data-modal-open="m3">Read more</button>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section section--contact" id="contact">
-      <div class="container contact">
-        <div>
-          <h2 class="h2">Talk to Satcorp</h2>
-          <p class="muted">
-            Tell us what you’re building—network design, ground systems, mission ops, or security hardening.
-          </p>
-
-          <div class="contact__meta">
-            <div class="metaRow">
-              <span class="metaRow__k">Email</span>
-              <a class="metaRow__v" href="mailto:hello@satcorp.example">hello@satcorp.example</a>
-            </div>
-            <div class="metaRow">
-              <span class="metaRow__k">HQ</span>
-              <span class="metaRow__v">Chicago, IL</span>
-            </div>
-            <div class="metaRow">
-              <span class="metaRow__k">Response</span>
-              <span class="metaRow__v">1–2 business days</span>
+            <div class="quoteBox__links" aria-label="Secondary actions">
+              <a class="ghost ghost--link" href="#top">Return to the first vow</a>
+              <button class="ghost ghost--link" id="openWhisper2" type="button" aria-haspopup="dialog" aria-controls="whisperModal">
+                Hear a whisper
+              </button>
             </div>
           </div>
         </div>
-
-        <form class="form" id="contactForm">
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" autocomplete="name" placeholder="Jane Doe" required />
-          </div>
-
-          <div class="field">
-            <label for="email">Work email</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="jane@satcorp.com" required />
-          </div>
-
-          <div class="field">
-            <label for="topic">Topic</label>
-            <select id="topic" name="topic" required>
-              <option value="" selected disabled>Select a topic</option>
-              <option>Satellite Communications</option>
-              <option>Ground Systems</option>
-              <option>Mission Operations</option>
-              <option>Security Hardening</option>
-              <option>Partnerships</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="msg">Project details</label>
-            <textarea id="msg" name="msg" rows="4" placeholder="What are you trying to accomplish?" required></textarea>
-          </div>
-
-          <button class="btn btn--primary btn--full" type="submit">
-            Send message
-          </button>
-
-          <p class="form__fine">
-            This demo form uses local validation only. Wire it to your backend when ready.
-          </p>
-        </form>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__left">
-        <div class="footer__brand">
-          <span class="brand__mark brand__mark--sm" aria-hidden="true">
-            <svg viewBox="0 0 24 24" role="img" focusable="false">
-              <path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 2a7.98 7.98 0 0 1 7.75 6H12a3.5 3.5 0 0 0-3.44 3H4.25A7.98 7.98 0 0 1 12 4Zm0 16a7.98 7.98 0 0 1-7.75-6h4.31A3.5 3.5 0 0 0 12 16h7.75A7.98 7.98 0 0 1 12 20Z"></path>
-            </svg>
-          </span>
-          <span>Satcorp</span>
-        </div>
-        <p class="footer__text">
-          Secure satellite communications and mission operations for critical connectivity.
-        </p>
-      </div>
-
-      <div class="footer__right">
-        <div class="footer__cols">
-          <div class="fcol">
-            <div class="fcol__h">Company</div>
-            <a href="#solutions">Solutions</a>
-            <a href="#missions">Missions</a>
-            <a href="#insights">Insights</a>
-          </div>
-          <div class="fcol">
-            <div class="fcol__h">Resources</div>
-            <a href="#security">Security</a>
-            <a href="#capabilities">Capabilities</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <div class="fcol">
-            <div class="fcol__h">Legal</div>
-            <a href="#" data-toast="Demo link">Privacy</a>
-            <a href="#" data-toast="Demo link">Terms</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container footer__bottom">
-      <span>© <span data-year></span> Satcorp. All rights reserved.</span>
-      <span class="footer__sep" aria-hidden="true">•</span>
-      <span class="footer__small">Built for performance, accessibility, and clarity.</span>
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <p class="footer__line">
+        Crafted as a romantic nocturne — slow motion, soft firelight, and love that refuses to end.
+      </p>
+      <p class="footer__small">
+        © <span id="year"></span> Eternal Love in the Shadows
+      </p>
     </div>
   </footer>
 
-  <!-- Modal templates -->
-  <div class="modal" id="m1" role="dialog" aria-modal="true" aria-labelledby="m1Title" hidden>
-    <div class="modal__backdrop" data-modal-close></div>
+  <!-- Modal -->
+  <div class="modal" id="whisperModal" role="dialog" aria-modal="true" aria-labelledby="whisperTitle" aria-describedby="whisperBody" hidden>
+    <div class="modal__backdrop" data-close="true"></div>
+
     <div class="modal__panel" role="document">
-      <div class="modal__head">
-        <h3 class="modal__title" id="m1Title">Designing gateways for graceful degradation</h3>
-        <button class="iconBtn" type="button" data-modal-close>
-          <span class="sr-only">Close</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29l6.3 6.31 6.29-6.31 1.42 1.42Z"/></svg>
+      <button class="modal__close" type="button" aria-label="Close" data-close="true">×</button>
+
+      <h2 class="modal__title" id="whisperTitle">A Whisper</h2>
+      <p class="modal__body" id="whisperBody">
+        Not a warning. Not a curse.
+        Only this — a promise that has survived the centuries:
+        <em>“If you step into my night, I will never let you be alone again.”</em>
+      </p>
+
+      <div class="modal__actions">
+        <button class="cta" id="copyWhisper" type="button">
+          Keep the words
+          <span class="cta__arrow" aria-hidden="true">→</span>
         </button>
-      </div>
-      <div class="modal__body">
-        <p>
-          Build gateways as a set of independent failure domains: RF chain, baseband, routing, orchestration,
-          and telemetry. Instrument every domain, practice failover, and prefer deterministic, automated
-          recovery steps over ad-hoc intervention.
-        </p>
-        <ul class="bullets">
-          <li>Multi-homing + health-checked routing</li>
-          <li>Hot/warm spares for critical components</li>
-          <li>Runbook automation for known failure classes</li>
-        </ul>
+        <button class="ghost" type="button" data-close="true">Return</button>
       </div>
     </div>
   </div>
-
-  <div class="modal" id="m2" role="dialog" aria-modal="true" aria-labelledby="m2Title" hidden>
-    <div class="modal__backdrop" data-modal-close></div>
-    <div class="modal__panel" role="document">
-      <div class="modal__head">
-        <h3 class="modal__title" id="m2Title">Zero-trust for space-to-ground links</h3>
-        <button class="iconBtn" type="button" data-modal-close>
-          <span class="sr-only">Close</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29l6.3 6.31 6.29-6.31 1.42 1.42Z"/></svg>
-        </button>
-      </div>
-      <div class="modal__body">
-        <p>
-          Treat every segment as hostile by default. Anchor access to strong identity, enforce policy at
-          every boundary, and log everything. Design for crypto agility and rotation without downtime.
-        </p>
-        <ul class="bullets">
-          <li>Identity-first authZ (no implicit trust)</li>
-          <li>Network segmentation + service isolation</li>
-          <li>Audit trails + anomaly detection</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="m3" role="dialog" aria-modal="true" aria-labelledby="m3Title" hidden>
-    <div class="modal__backdrop" data-modal-close></div>
-    <div class="modal__panel" role="document">
-      <div class="modal__head">
-        <h3 class="modal__title" id="m3Title">Runbooks that reduce anomaly MTTR</h3>
-        <button class="iconBtn" type="button" data-modal-close>
-          <span class="sr-only">Close</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29l6.3 6.31 6.29-6.31 1.42 1.42Z"/></svg>
-        </button>
-      </div>
-      <div class="modal__body">
-        <p>
-          Write runbooks like code: versioned, reviewed, tested. Track the “first five minutes” actions,
-          link to dashboards, and automate repetitive steps.
-        </p>
-        <ul class="bullets">
-          <li>Decision trees for common anomaly signatures</li>
-          <li>Automations for safe remediations</li>
-          <li>Postmortems that update procedures</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
-    <span class="toast__dot" aria-hidden="true"></span>
-    <span class="toast__msg" id="toastMsg">Done</span>
-  </div>
-
-  <!-- JS -->
-  <script src="script.js"></script>
 </body>
 </html>
