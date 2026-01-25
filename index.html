@@ -3,926 +3,687 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0a0b10" />
-  <title>Able Heart — A Listening Space</title>
-  <meta name="description" content="A cinematic listening space inspired by Able Heart." />
-
-  <!-- Fonts (safe defaults; replace with your preferred pair later) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300,400,600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="dark" />
+  <title>KORN_1990s // STATIC</title>
+  <meta name="description" content="A 1990s-inspired Korn theme: raw, distressed, industrial web aesthetic." />
 
   <style>
     :root{
-      --bg0:#07080c;
-      --bg1:#0a0b10;
-      --ink:#f3f4f7;
-      --muted:rgba(243,244,247,.72);
-      --faint:rgba(243,244,247,.12);
-      --line:rgba(243,244,247,.18);
-      --accent:#b88cff; /* violet-rose */
-      --accent2:#ff7aa5; /* optional warm rose */
-      --radius:20px;
-      --shadow:0 18px 60px rgba(0,0,0,.55);
-      --serif:"Fraunces", ui-serif, Georgia, serif;
-      --sans:"Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --bg:#050506;
+      --ink:#e7e2da;
+      --muted:#a99f92;
+      --rust:#8f2a1f;
+      --bruise:#3a2a4a;
+      --sick:#8aa36a;
+      --steel:#1b1c21;
+      --line:rgba(255,255,255,.08);
+      --grain:rgba(255,255,255,.04);
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(143,42,31,.18), transparent 55%),
+                  radial-gradient(900px 700px at 80% 20%, rgba(58,42,74,.22), transparent 60%),
+                  radial-gradient(900px 900px at 60% 90%, rgba(138,163,106,.10), transparent 60%),
+                  linear-gradient(180deg, #040405 0%, #07070a 40%, #030304 100%);
       color:var(--ink);
-      background:radial-gradient(1200px 900px at 70% 10%, rgba(184,140,255,.18), transparent 55%),
-                 radial-gradient(900px 700px at 20% 80%, rgba(255,122,165,.10), transparent 60%),
-                 linear-gradient(180deg, var(--bg0), var(--bg1));
       font-family:var(--sans);
       overflow-x:hidden;
     }
 
-    /* film grain */
-    .grain{
-      pointer-events:none;
+    /* CRT + grain */
+    body::before{
+      content:"";
       position:fixed; inset:0;
-      opacity:.12;
-      mix-blend-mode:overlay;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-      transform:translateZ(0);
-      animation:grain 7s steps(8) infinite;
-    }
-    @keyframes grain{
-      0%{transform:translate(0,0)}
-      20%{transform:translate(-4%,2%)}
-      40%{transform:translate(3%,-3%)}
-      60%{transform:translate(-2%,-4%)}
-      80%{transform:translate(4%,3%)}
-      100%{transform:translate(0,0)}
-    }
-
-    /* floating particles */
-    .mist{
       pointer-events:none;
-      position:fixed; inset:-10%;
       background:
-        radial-gradient(circle at 20% 40%, rgba(243,244,247,.06), transparent 35%),
-        radial-gradient(circle at 70% 20%, rgba(184,140,255,.08), transparent 40%),
-        radial-gradient(circle at 55% 75%, rgba(255,122,165,.06), transparent 38%);
-      filter:blur(12px);
-      animation:drift 14s ease-in-out infinite alternate;
-      opacity:.9;
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.035) 0px,
+          rgba(255,255,255,.035) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 4px
+        );
+      mix-blend-mode:overlay;
+      opacity:.12;
+      z-index:5;
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      background-image:
+        radial-gradient(var(--grain) 1px, transparent 1px),
+        radial-gradient(rgba(0,0,0,.08) 1px, transparent 1px);
+      background-size: 3px 3px, 4px 4px;
+      background-position: 0 0, 2px 2px;
+      opacity:.18;
+      filter: blur(.2px);
+      z-index:6;
+      animation: drift 10s linear infinite;
     }
     @keyframes drift{
-      from{transform:translate3d(-1%, -1%, 0) scale(1)}
-      to{transform:translate3d(2%, 1.5%, 0) scale(1.03)}
+      from{transform:translate3d(-2%, -1%, 0)}
+      to{transform:translate3d(2%, 1%, 0)}
     }
 
-    header{
-      position:sticky; top:0; z-index:20;
-      backdrop-filter: blur(12px);
-      background:linear-gradient(180deg, rgba(10,11,16,.72), rgba(10,11,16,.28));
-      border-bottom:1px solid rgba(243,244,247,.08);
-    }
-    .nav{
-      max-width:1100px;
+    a{color:inherit}
+    .wrap{
+      width:min(1100px, 92vw);
       margin:0 auto;
-      padding:14px 18px;
+      padding:28px 0 64px;
+      position:relative;
+      z-index:10;
+    }
+
+    /* top bar */
+    .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:14px;
+      gap:16px;
+      padding:14px 12px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(27,28,33,.72), rgba(10,10,12,.42));
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      border-radius:14px;
+      position:sticky;
+      top:12px;
+      backdrop-filter: blur(8px);
     }
     .brand{
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-      letter-spacing:.08em;
+      display:flex; align-items:center; gap:10px;
+      font-family:var(--mono);
+      letter-spacing:.22em;
       text-transform:uppercase;
       font-size:12px;
-      color:var(--muted);
-      user-select:none;
+      opacity:.92;
     }
-    .brand b{
-      font-family:var(--serif);
-      letter-spacing:.10em;
-      font-size:14px;
-      color:var(--ink);
-      text-transform:none;
-    }
-    .nav a{
-      color:var(--muted);
-      text-decoration:none;
-      font-size:13px;
-      padding:8px 10px;
-      border-radius:999px;
-      transition:all .2s ease;
-    }
-    .nav a:hover{
-      color:var(--ink);
-      background:rgba(243,244,247,.06);
-    }
-    .nav .right{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .pill{
-      border:1px solid rgba(243,244,247,.12);
-      background:rgba(243,244,247,.04);
-    }
-
-    main{
-      max-width:1100px;
-      margin:0 auto;
-      padding:34px 18px 90px;
-    }
-
-    /* Intro overlay */
-    .gate{
-      position:fixed; inset:0;
-      z-index:50;
-      display:grid;
-      place-items:center;
-      background:radial-gradient(900px 700px at 50% 30%, rgba(184,140,255,.16), transparent 55%),
-                 linear-gradient(180deg, #05060a, #0a0b10);
-      transition:opacity .55s ease, visibility .55s ease;
-    }
-    .gate[hidden]{opacity:0; visibility:hidden}
-    .gate-inner{
-      width:min(760px, 92vw);
-      padding:26px;
-      border-radius:var(--radius);
-      border:1px solid rgba(243,244,247,.12);
-      background:rgba(10,11,16,.55);
-      box-shadow:var(--shadow);
-      text-align:center;
+    .sig{
+      width:34px; height:34px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.14), transparent 60%),
+        linear-gradient(145deg, rgba(143,42,31,.35), rgba(58,42,74,.35));
       position:relative;
       overflow:hidden;
     }
-    .gate-inner:before{
+    .sig::after{
       content:"";
-      position:absolute; inset:-2px;
-      background:radial-gradient(600px 260px at 50% -10%, rgba(184,140,255,.25), transparent 60%),
-                 radial-gradient(520px 240px at 10% 110%, rgba(255,122,165,.16), transparent 60%);
-      filter:blur(10px);
-      opacity:.7;
-    }
-    .gate-inner > *{position:relative; z-index:1}
-    .gate h1{
-      margin:8px 0 10px;
-      font-family:var(--serif);
-      font-weight:600;
-      font-size:clamp(34px, 5vw, 52px);
-      letter-spacing:.02em;
-    }
-    .gate p{
-      margin:0 auto 18px;
-      max-width:56ch;
-      color:var(--muted);
-      line-height:1.55;
-      font-size:15px;
+      position:absolute; inset:-30%;
+      background: repeating-linear-gradient(135deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 6px, rgba(0,0,0,.25) 6px, rgba(0,0,0,.25) 9px);
+      opacity:.55;
+      transform:rotate(8deg);
     }
 
-    /* heartbeat line */
-    .pulse{
-      margin:14px auto 18px;
-      width:min(520px, 86%);
-      height:42px;
-      border-radius:999px;
-      border:1px solid rgba(243,244,247,.10);
-      background:rgba(243,244,247,.03);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .navbtn{
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      text-decoration:none;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .navbtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.05);
+    }
+    .navbtn:active{transform:translateY(0)}
+    .navbtn::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(200px 70px at var(--mx, 30%) var(--my, 50%), rgba(143,42,31,.22), transparent 60%);
+      opacity:0;
+      transition: opacity .16s ease;
+    }
+    .navbtn:hover::after{opacity:1}
+
+    /* hero */
+    header.hero{
+      margin-top:22px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.18)),
+        radial-gradient(600px 220px at 15% 10%, rgba(143,42,31,.22), transparent 70%),
+        radial-gradient(700px 240px at 80% 20%, rgba(58,42,74,.26), transparent 70%),
+        rgba(10,10,12,.55);
+      padding:34px 22px 24px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      position:relative;
       overflow:hidden;
     }
-    svg{display:block}
-    .pulse path{
-      stroke:rgba(184,140,255,.85);
-      stroke-width:2.2;
-      fill:none;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      stroke-dasharray: 260;
-      stroke-dashoffset: 260;
-      animation:draw 1.4s ease forwards;
-      filter:drop-shadow(0 0 10px rgba(184,140,255,.35));
+    .hero::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.08), transparent 30%),
+        radial-gradient(circle at 85% 25%, rgba(255,255,255,.06), transparent 34%),
+        radial-gradient(circle at 40% 90%, rgba(255,255,255,.05), transparent 40%);
+      opacity:.55;
+      filter: blur(0.4px);
+      pointer-events:none;
     }
-    @keyframes draw{
-      to{stroke-dashoffset:0}
+    .kornWord{
+      margin:0;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height:1.0;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+      font-weight:800;
+      position:relative;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.8),
+        0 16px 50px rgba(0,0,0,.65);
+    }
+    .kornWord .glitch{
+      position:absolute; left:0; top:0;
+      opacity:.18;
+      filter: blur(.3px);
+      transform: translate(2px, 0);
+      color: var(--rust);
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .kornWord .glitch2{
+      position:absolute; left:0; top:0;
+      opacity:.16;
+      transform: translate(-2px, 1px);
+      color: var(--bruise);
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .tagline{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-family:var(--mono);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+      margin-top:22px;
+    }
+    @media (max-width: 860px){
+      .heroGrid{grid-template-columns:1fr}
+      nav{justify-content:flex-start}
+      .topbar{position:static}
     }
 
-    .btn{
-      appearance:none;
-      border:1px solid rgba(243,244,247,.18);
-      background:rgba(243,244,247,.06);
+    .panel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: rgba(0,0,0,.28);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::after{
+      content:"";
+      position:absolute; inset:0;
+      background: repeating-linear-gradient( to right, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 9px);
+      opacity:.12;
+      pointer-events:none;
+    }
+    .panel h2{
+      margin:0 0 8px;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
       color:var(--ink);
-      padding:12px 16px;
-      border-radius:999px;
-      font-weight:600;
-      letter-spacing:.02em;
-      cursor:pointer;
-      transition:transform .15s ease, background .2s ease, border-color .2s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+      opacity:.9;
+    }
+    .panel p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    .ctaRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(143,42,31,.18), rgba(0,0,0,.18));
+      text-decoration:none;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
       user-select:none;
     }
-    .btn:hover{
-      transform:translateY(-1px);
-      background:rgba(243,244,247,.10);
-      border-color:rgba(184,140,255,.42);
+    .cta:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(143,42,31,.26), rgba(0,0,0,.20));
     }
-    .btn:active{transform:translateY(0)}
-    .btn.primary{
-      border-color:rgba(184,140,255,.55);
-      background:linear-gradient(180deg, rgba(184,140,255,.20), rgba(243,244,247,.06));
-      box-shadow:0 12px 40px rgba(184,140,255,.12);
+    .cta.secondary{
+      background: linear-gradient(180deg, rgba(58,42,74,.20), rgba(0,0,0,.18));
     }
-    .btn small{
-      font-weight:600;
-      opacity:.8;
+    .pill{
+      display:inline-flex;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.28);
+      color: var(--muted);
+      font-size:11px;
+      font-family:var(--mono);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-left:10px;
+    }
+
+    /* sections */
+    main{margin-top:18px}
+    section{
+      margin-top:18px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(10,10,12,.45);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+    .secHead{
+      padding:16px 16px 10px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(27,28,33,.56), rgba(0,0,0,.18));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .secHead h3{
+      margin:0;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+    .secBody{padding:16px}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 900px){ .grid3{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: rgba(0,0,0,.25);
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, border-color .12s ease;
+      cursor:default;
+    }
+    .card:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+    }
+    .card strong{
+      display:block;
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+      opacity:.92;
+    }
+    .card span{
+      display:block;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:13px;
+    }
+
+    /* terminal strip */
+    .terminal{
+      font-family:var(--mono);
+      font-size:12px;
+      letter-spacing:.08em;
+      border-top:1px solid var(--line);
+      background: rgba(0,0,0,.35);
+      padding:12px 16px;
+      color: rgba(231,226,218,.86);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .blink{
+      display:inline-block;
+      width:8px;
+      margin-left:4px;
+      border-bottom: 2px solid rgba(231,226,218,.8);
+      animation: blink 1s steps(2,end) infinite;
+      transform: translateY(-1px);
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    footer{
+      margin-top:18px;
+      color:rgba(231,226,218,.62);
+      font-family:var(--mono);
       letter-spacing:.12em;
       text-transform:uppercase;
       font-size:11px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+      padding:10px 4px;
+      opacity:.85;
     }
 
-    /* Hero */
-    .hero{
-      margin-top:26px;
-      padding:34px 26px;
-      border:1px solid rgba(243,244,247,.10);
-      border-radius:var(--radius);
-      background:
-        radial-gradient(820px 380px at 70% 0%, rgba(184,140,255,.18), transparent 60%),
-        radial-gradient(680px 360px at 10% 120%, rgba(255,122,165,.10), transparent 55%),
-        rgba(10,11,16,.42);
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-    .hero:after{
-      content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(90deg, transparent, rgba(243,244,247,.05), transparent);
-      transform:translateX(-120%);
-      animation:shine 8s ease-in-out infinite;
-      opacity:.35;
-    }
-    @keyframes shine{
-      0%{transform:translateX(-120%)}
-      60%{transform:translateX(120%)}
-      100%{transform:translateX(120%)}
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:22px;
-      align-items:center;
-      position:relative;
-      z-index:1;
-    }
-    @media (max-width: 860px){
-      .hero-grid{grid-template-columns:1fr}
-    }
-    .kicker{
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.22em;
-      font-size:11px;
-      margin-bottom:12px;
-    }
-    .hero h2{
-      margin:0 0 12px;
-      font-family:var(--serif);
-      font-size:clamp(30px, 4.1vw, 48px);
-      line-height:1.05;
-      letter-spacing:.01em;
-    }
-    .hero p{
-      margin:0 0 18px;
-      color:var(--muted);
-      line-height:1.6;
-      max-width:62ch;
-    }
-    .hero-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    /* Player card */
-    .card{
-      border:1px solid rgba(243,244,247,.10);
-      border-radius:var(--radius);
-      background:rgba(10,11,16,.42);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .player{
-      padding:18px;
-    }
-    .player-top{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      margin-bottom:12px;
-    }
-    .track-title{
-      font-family:var(--serif);
-      font-size:22px;
-      margin:0 0 4px;
-    }
-    .track-meta{
-      color:var(--muted);
-      font-size:13px;
-      margin:0;
-    }
-    .bar{
-      height:10px;
-      border-radius:999px;
-      background:rgba(243,244,247,.06);
-      border:1px solid rgba(243,244,247,.10);
-      overflow:hidden;
-      margin:14px 0 10px;
-    }
-    .bar > i{
-      display:block;
-      height:100%;
-      width:28%;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(184,140,255,.75), rgba(255,122,165,.55));
-      box-shadow:0 0 18px rgba(184,140,255,.18);
-      animation:prog 6.5s ease-in-out infinite alternate;
-    }
-    @keyframes prog{
-      from{width:18%}
-      to{width:64%}
-    }
-    .player-controls{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .tog{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      color:var(--muted);
-      font-size:12px;
-      user-select:none;
-    }
-    .switch{
-      width:42px; height:24px;
-      border-radius:999px;
-      border:1px solid rgba(243,244,247,.16);
-      background:rgba(243,244,247,.06);
-      position:relative;
-      cursor:pointer;
-    }
-    .switch:before{
-      content:"";
+    /* "broken" edges */
+    .tear{
       position:absolute;
-      top:50%; left:4px;
-      width:16px; height:16px;
-      border-radius:999px;
-      transform:translateY(-50%);
-      background:rgba(243,244,247,.75);
-      transition:left .18s ease, background .18s ease;
-    }
-    .switch.on{
-      border-color:rgba(184,140,255,.45);
-      background:rgba(184,140,255,.14);
-    }
-    .switch.on:before{
-      left:22px;
-      background:rgba(184,140,255,.95);
+      right:-40px;
+      top:14px;
+      width:180px;
+      height:60px;
+      transform: rotate(12deg);
+      background: linear-gradient(90deg, rgba(255,255,255,.08), transparent 60%);
+      filter: blur(.4px);
+      opacity:.35;
+      pointer-events:none;
     }
 
-    /* Sections */
-    section{
-      margin-top:22px;
+    /* reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      body::after{animation:none}
+      .blink{animation:none}
+      .navbtn,.cta,.card{transition:none}
     }
-    .section-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:18px;
-      margin:26px 0 10px;
-    }
-    .section-head h3{
-      margin:0;
-      font-family:var(--serif);
-      font-size:22px;
-      letter-spacing:.02em;
-    }
-    .section-head p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      max-width:70ch;
-      line-height:1.45;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 560px){
-      .grid{grid-template-columns:1fr}
-    }
-
-    .release{
-      padding:16px;
-      border:1px solid rgba(243,244,247,.10);
-      border-radius:18px;
-      background:rgba(10,11,16,.38);
-      transition:transform .18s ease, border-color .2s ease, background .2s ease;
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
-    }
-    .release:hover{
-      transform:translateY(-2px);
-      border-color:rgba(184,140,255,.32);
-      background:rgba(243,244,247,.06);
-    }
-    .release .tag{
-      font-size:11px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.22em;
-      margin-bottom:10px;
-    }
-    .release .name{
-      font-family:var(--serif);
-      font-size:18px;
-      margin:0 0 6px;
-    }
-    .release .desc{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-    }
-
-    /* Secret */
-    .secret-wrap{
-      margin-top:34px;
-      text-align:center;
-      color:rgba(243,244,247,.55);
-      font-size:12px;
-    }
-    .secret{
-      display:inline-block;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px dashed rgba(243,244,247,.18);
-      background:rgba(243,244,247,.03);
-      cursor:pointer;
-      transition:all .2s ease;
-    }
-    .secret:hover{
-      color:rgba(243,244,247,.85);
-      border-color:rgba(184,140,255,.30);
-      background:rgba(184,140,255,.08);
-    }
-
-    /* Modal */
-    .modal{
-      position:fixed; inset:0;
-      display:none;
-      place-items:center;
-      z-index:80;
-      background:rgba(0,0,0,.62);
-      backdrop-filter: blur(10px);
-      padding:18px;
-    }
-    .modal.open{display:grid}
-    .modal-card{
-      width:min(760px, 94vw);
-      border-radius:24px;
-      border:1px solid rgba(243,244,247,.14);
-      background:radial-gradient(800px 350px at 70% 0%, rgba(184,140,255,.18), transparent 60%),
-                 radial-gradient(700px 320px at 10% 120%, rgba(255,122,165,.12), transparent 55%),
-                 rgba(10,11,16,.78);
-      box-shadow:0 20px 80px rgba(0,0,0,.65);
-      overflow:hidden;
-      position:relative;
-    }
-    .modal-body{
-      padding:22px 22px 18px;
-    }
-    .modal-body h4{
-      margin:0 0 6px;
-      font-family:var(--serif);
-      font-size:26px;
-      letter-spacing:.01em;
-    }
-    .modal-body p{
-      margin:0 0 12px;
-      color:var(--muted);
-      line-height:1.6;
-    }
-    .modal-foot{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 18px;
-      border-top:1px solid rgba(243,244,247,.10);
-      color:rgba(243,244,247,.55);
-      font-size:12px;
-    }
-    .x{
-      border:none;
-      background:transparent;
-      color:rgba(243,244,247,.75);
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:700;
-    }
-    .x:hover{background:rgba(243,244,247,.06); color:rgba(243,244,247,.95)}
-
-    footer{
-      margin-top:34px;
-      padding-top:20px;
-      border-top:1px solid rgba(243,244,247,.08);
-      color:rgba(243,244,247,.55);
-      font-size:12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:center;
-    }
-    footer a{color:rgba(243,244,247,.7); text-decoration:none}
-    footer a:hover{color:rgba(243,244,247,.95)}
-    .tiny{opacity:.75}
   </style>
 </head>
 
 <body>
-  <div class="mist"></div>
-  <div class="grain"></div>
-
-  <!-- Intro / Gate -->
-  <div class="gate" id="gate" aria-label="Entrance overlay">
-    <div class="gate-inner">
-      <div class="kicker">A listening space</div>
-      <h1>Able Heart</h1>
-      <p>For the moments that feel too big for words. Soft light, slow breathing UI, and a place to sit with the music.</p>
-
-      <div class="pulse" aria-hidden="true">
-        <svg width="520" height="42" viewBox="0 0 520 42" role="img" aria-label="Pulse line">
-          <path d="M10 22 L90 22 L120 22 L140 22 L155 12 L170 34 L190 10 L210 32 L230 22 L510 22" />
-        </svg>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand" aria-label="site brand">
+        <div class="sig" aria-hidden="true"></div>
+        <div>KORN_1990s // WEB_SHELL</div>
       </div>
 
-      <button class="btn primary" id="enterBtn">
-        <span aria-hidden="true">▶</span>
-        <span>Enter</span>
-        <small>Slow &amp; intentional</small>
-      </button>
-      <div style="margin-top:10px; color:rgba(243,244,247,.55); font-size:12px;">
-        Tip: press <b>Esc</b> anytime to close overlays.
-      </div>
+      <nav aria-label="primary">
+        <a class="navbtn" href="#aesthetic">Aesthetic</a>
+        <a class="navbtn" href="#archive">Archive</a>
+        <a class="navbtn" href="#signals">Signals</a>
+        <a class="navbtn" href="#contact">Contact</a>
+      </nav>
     </div>
-  </div>
 
-  <header>
-    <div class="nav">
-      <div class="brand"><b>Able Heart</b> <span>• listening space</span></div>
-      <div class="right">
-        <a href="#music">Music</a>
-        <a href="#visuals">Moments</a>
-        <a href="#about">About</a>
-        <a class="pill" href="#note">A note</a>
-      </div>
-    </div>
-  </header>
+    <header class="hero">
+      <div class="tear" aria-hidden="true"></div>
 
-  <main>
-    <!-- HERO -->
-    <div class="hero" id="top">
-      <div class="hero-grid">
-        <div>
-          <div class="kicker">Midnight glow • velvet quiet</div>
-          <h2>Built to feel like the first 5 seconds of a song.</h2>
+      <h1 class="kornWord">
+        <span class="glitch" aria-hidden="true">KORN // 1990s</span>
+        <span class="glitch2" aria-hidden="true">KORN // 1990s</span>
+        KORN // 1990s
+      </h1>
+
+      <p class="tagline">distortion • catharsis • industrial grain • late-night dial-up energy</p>
+
+      <div class="heroGrid">
+        <div class="panel">
+          <h2>ENTRY</h2>
           <p>
-            This isn’t a “website.” It’s an atmosphere—soft light, small details, and a place that holds the emotion
-            the way Able Heart does.
+            A dark, distressed interface built like a relic: corroded edges, CRT scanlines,
+            film grain, and heavy negative space—an experience that feels discovered, not delivered.
           </p>
-          <div class="hero-actions">
-            <button class="btn primary" id="playBtn">▶ Play the mood</button>
-            <button class="btn" id="openNoteBtn">Open the note</button>
-            <span class="tiny">No real audio by default (safe demo). Add your embeds later.</span>
+
+          <div class="ctaRow">
+            <a class="cta" href="#archive">Enter Archive <span class="pill">vhs-noise</span></a>
+            <a class="cta secondary" href="#signals">Transmit <span class="pill">feedback</span></a>
           </div>
         </div>
 
-        <div class="card">
-          <div class="player" aria-label="Demo player card">
-            <div class="player-top">
-              <div>
-                <p class="track-title" id="trackTitle">“Soft Static”</p>
-                <p class="track-meta" id="trackMeta">Demo track • 02:48 • headphone hours</p>
-              </div>
-              <button class="btn" id="nextBtn" title="Next mood">Next ▸</button>
-            </div>
+        <div class="panel">
+          <h2>NOW PLAYING</h2>
+          <p>
+            No autoplay. No polish. The page breathes in silence unless you press play—
+            like a warehouse before the first note hits.
+          </p>
 
-            <div class="bar" aria-hidden="true"><i></i></div>
-
-            <div class="player-controls">
-              <button class="btn" id="togglePlay">▶ Play</button>
-
-              <div class="tog">
-                <span>Ambient</span>
-                <div class="switch" id="ambSwitch" role="switch" aria-checked="false" tabindex="0" title="Toggle ambient visuals"></div>
-              </div>
-
-              <div class="tog">
-                <span>Liner notes</span>
-                <div class="switch" id="linerSwitch" role="switch" aria-checked="false" tabindex="0" title="Toggle liner notes mode"></div>
-              </div>
-            </div>
+          <div class="ctaRow">
+            <a class="cta secondary" href="#" id="toggleDistort" role="button" aria-pressed="false">Toggle Distort</a>
+            <a class="cta" href="#" id="panic" role="button">Panic Kill</a>
           </div>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- MUSIC -->
-    <section id="music">
-      <div class="section-head">
-        <div>
-          <h3>Music</h3>
-          <p>Each card is a feeling. Swap titles/art later—this is a clean “Able Heart”-style framework to drop real releases into.</p>
+    <main>
+      <section id="aesthetic" aria-label="aesthetic modules">
+        <div class="secHead">
+          <h3>AE S T H E T I C // MODULES</h3>
+          <span class="pill">distressed-ui</span>
         </div>
-      </div>
+        <div class="secBody">
+          <div class="grid3">
+            <div class="card">
+              <strong>Grain + Static</strong>
+              <span>Always-on texture layers: noise, scanlines, and subtle drift to keep the page alive.</span>
+            </div>
+            <div class="card">
+              <strong>Broken Grid</strong>
+              <span>Clean structure, intentionally “damaged” by asymmetry and offsets—controlled chaos.</span>
+            </div>
+            <div class="card">
+              <strong>Rust / Bruise Accents</strong>
+              <span>Muted blood + bruised purple highlights—used sparingly like impact marks.</span>
+            </div>
+          </div>
+        </div>
+        <div class="terminal" aria-label="terminal strip">
+          &gt; system.boot() ... ok // signal:stable // noise:active<span class="blink" aria-hidden="true"></span>
+        </div>
+      </section>
 
-      <div class="grid" id="releaseGrid">
-        <div class="release" data-title="“Neon Lullaby”" data-desc="A slow pulse. The kind of track that turns headlights into poetry.">
-          <div class="tag">Release</div>
-          <h4 class="name">Neon Lullaby</h4>
-          <p class="desc">A slow pulse. Headlights into poetry.</p>
+      <section id="archive" aria-label="archive">
+        <div class="secHead">
+          <h3>ARCHIVE // FRAGMENTS</h3>
+          <span class="pill">late-90s</span>
         </div>
-        <div class="release" data-title="“Glass Hearts”" data-desc="Bright on the edge of breaking. Warmth under the noise.">
-          <div class="tag">Release</div>
-          <h4 class="name">Glass Hearts</h4>
-          <p class="desc">Bright on the edge of breaking.</p>
+        <div class="secBody">
+          <div class="grid3">
+            <div class="card">
+              <strong>POSTER WALL</strong>
+              <span>High-contrast imagery treatment, shadow-first, never glossy. Like a flyer stapled to steel.</span>
+            </div>
+            <div class="card">
+              <strong>LYRIC SCRAPS</strong>
+              <span>Small blocks of text that feel carved or stamped—emotion as artifact, not marketing copy.</span>
+            </div>
+            <div class="card">
+              <strong>TOUR LOG</strong>
+              <span>Monospace listings, imperfect spacing, and worn separators—like a photocopied setlist.</span>
+            </div>
+          </div>
         </div>
-        <div class="release" data-title="“After the Show”" data-desc="Stage smoke, quiet streets, and the feeling that lingers.">
-          <div class="tag">Release</div>
-          <h4 class="name">After the Show</h4>
-          <p class="desc">Stage smoke and quiet streets.</p>
+        <div class="terminal">
+          &gt; archive.mount("/relics") // ok // checksum: 0x1997<span class="blink" aria-hidden="true"></span>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- VISUALS -->
-    <section id="visuals">
-      <div class="section-head">
-        <div>
-          <h3>Moments</h3>
-          <p>Not “videos.” Moments. Minimal, editorial, and intimate.</p>
+      <section id="signals" aria-label="signals">
+        <div class="secHead">
+          <h3>SIGNALS // FEEDBACK</h3>
+          <span class="pill">no-autoplay</span>
         </div>
-      </div>
-
-      <div class="grid">
-        <div class="release" data-title="Moment: Midnight Drive" data-desc="This song feels like the road knows your name.">
-          <div class="tag">Moment</div>
-          <h4 class="name">Midnight Drive</h4>
-          <p class="desc">The road knows your name.</p>
-        </div>
-        <div class="release" data-title="Moment: Static Bloom" data-desc="Soft distortion, soft light. Like a memory you can hear.">
-          <div class="tag">Moment</div>
-          <h4 class="name">Static Bloom</h4>
-          <p class="desc">A memory you can hear.</p>
-        </div>
-        <div class="release" data-title="Moment: Liner Notes" data-desc="Some songs don’t fix you. They just sit with you.">
-          <div class="tag">Moment</div>
-          <h4 class="name">Liner Notes</h4>
-          <p class="desc">They just sit with you.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="section-head">
-        <div>
-          <h3>About</h3>
-          <p>Write this like a poem, not a biography. (Replace copy with real artist info if you’re publishing.)</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="player" style="padding:22px 20px;">
-          <p style="margin:0 0 8px; font-family:var(--serif); font-size:20px;">
-            Some artists build songs. Able Heart builds rooms.
-          </p>
-          <p style="margin:0; color:var(--muted); line-height:1.7;">
-            A place where quiet becomes cinematic. Where the smallest detail matters. Where the hook hits like a memory.
-            The sound lives somewhere between warmth and electricity—heart, machine, and a slow pulse of light.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECRET / NOTE -->
-    <div class="secret-wrap" id="note">
-      <span class="secret" id="secretBtn">There’s more, if you’re listening closely.</span>
-    </div>
-
-    <footer>
-      <div class="tiny">Built as a romantic demo experience. Swap in real embeds + official links when ready.</div>
-      <div>
-        <a href="#top">Back to top</a>
-        <span class="tiny"> • </span>
-        <a href="#music">Music</a>
-        <span class="tiny"> • </span>
-        <a href="#about">About</a>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Modal (used for releases + secret note) -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Overlay dialog">
-    <div class="modal-card">
-      <div class="modal-body">
-        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
-          <div>
-            <h4 id="modalTitle">A note</h4>
-            <p id="modalDesc">
-              This is where your message goes.
+        <div class="secBody">
+          <div class="panel" style="margin-bottom:14px;">
+            <h2>INTERACTION NOTE</h2>
+            <p>
+              Hover over nav buttons to see reactive heat. Toggle Distort to intensify the screen artifacts.
+              Panic Kill resets the page state instantly.
             </p>
           </div>
-          <button class="x" id="closeModal" aria-label="Close">✕</button>
-        </div>
 
-        <div id="linerBlock" style="display:none; margin-top:14px; border-top:1px solid rgba(243,244,247,.10); padding-top:14px;">
-          <p style="margin:0 0 10px; color:rgba(243,244,247,.55); letter-spacing:.22em; text-transform:uppercase; font-size:11px;">
-            Liner notes
-          </p>
-          <p style="margin:0; color:var(--muted); line-height:1.75;">
-            Replace this with a short lyric-inspired paragraph (not actual copyrighted lyrics).
-            Think: what the song feels like, where it takes you, what it leaves behind.
-          </p>
+          <div class="grid3">
+            <div class="card">
+              <strong>Hover Jitter</strong>
+              <span>Micro-movement and slight edge lift—feels unstable, but intentional.</span>
+            </div>
+            <div class="card">
+              <strong>CRT Layer</strong>
+              <span>Scanlines + subtle contrast bloom to simulate an old display at night.</span>
+            </div>
+            <div class="card">
+              <strong>Quiet Pressure</strong>
+              <span>Silence by default. The design implies sound without forcing it.</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="modal-foot">
-        <span id="modalFoot">Press Esc to close</span>
-        <span>—</span>
-      </div>
-    </div>
+        <div class="terminal">
+          &gt; signal.listen() ... waiting for input<span class="blink" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <section id="contact" aria-label="contact">
+        <div class="secHead">
+          <h3>CONTACT // DROPBOX</h3>
+          <span class="pill">text-only</span>
+        </div>
+        <div class="secBody">
+          <div class="panel">
+            <h2>MESSAGE</h2>
+            <p style="margin-bottom:12px;">
+              This is a theme shell. Wire your real links here (music, merch, dates, socials) and swap in your assets.
+            </p>
+
+            <form onsubmit="return false" aria-label="contact form">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                <input id="name" placeholder="NAME" aria-label="name"
+                       style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
+                <input id="channel" placeholder="CHANNEL" aria-label="channel"
+                       style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
+              </div>
+              <textarea id="msg" rows="4" placeholder="MESSAGE" aria-label="message"
+                        style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.06em"></textarea>
+
+              <div class="ctaRow">
+                <a class="cta" href="#" id="fakeSend" role="button">Transmit</a>
+                <span class="pill" id="status">offline</span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="terminal">
+          &gt; mailbox.ready = true // encryption:none // era:1999<span class="blink" aria-hidden="true"></span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> // KORN_1990s theme shell</div>
+      <div>built: static html • grain • rust • bruise</div>
+    </footer>
   </div>
 
   <script>
-    // --- Entrance gate ---
-    const gate = document.getElementById("gate");
-    const enterBtn = document.getElementById("enterBtn");
-    const playBtn = document.getElementById("playBtn");
-    const openNoteBtn = document.getElementById("openNoteBtn");
-
-    const modal = document.getElementById("modal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDesc  = document.getElementById("modalDesc");
-    const modalFoot  = document.getElementById("modalFoot");
-    const closeModal = document.getElementById("closeModal");
-    const linerBlock = document.getElementById("linerBlock");
-
-    const ambSwitch = document.getElementById("ambSwitch");
-    const linerSwitch = document.getElementById("linerSwitch");
-
-    const trackTitle = document.getElementById("trackTitle");
-    const trackMeta = document.getElementById("trackMeta");
-    const nextBtn = document.getElementById("nextBtn");
-    const togglePlay = document.getElementById("togglePlay");
-
-    const tracks = [
-      { title: "“Soft Static”", meta: "Demo track • 02:48 • headphone hours" },
-      { title: "“Neon Lullaby”", meta: "Demo track • 03:12 • midnight glow" },
-      { title: "“After the Show”", meta: "Demo track • 04:01 • city haze" }
-    ];
-    let t = 0;
-    let playing = false;
-
-    function hideGate(){
-      gate.setAttribute("hidden", "true");
-      setTimeout(()=> gate.style.display="none", 650);
-    }
-
-    enterBtn.addEventListener("click", hideGate);
-
-    // optional: click anywhere outside the inner card to enter
-    gate.addEventListener("click", (e)=>{
-      if(e.target === gate) hideGate();
-    });
-
-    // --- Modal helpers ---
-    function openModal(title, desc, foot="Press Esc to close"){
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden","false");
-      modalTitle.textContent = title;
-      modalDesc.textContent  = desc;
-      modalFoot.textContent  = foot;
-    }
-    function close(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden","true");
-    }
-
-    closeModal.addEventListener("click", close);
-    modal.addEventListener("click", (e)=>{ if(e.target === modal) close(); });
-
-    window.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape"){
-        if(modal.classList.contains("open")) close();
-        else if(gate && gate.style.display !== "none") hideGate();
-      }
-    });
-
-    // --- Switch toggles ---
-    function toggleSwitch(el){
-      el.classList.toggle("on");
-      const on = el.classList.contains("on");
-      el.setAttribute("aria-checked", on ? "true" : "false");
-      return on;
-    }
-
-    ambSwitch.addEventListener("click", ()=>{
-      const on = toggleSwitch(ambSwitch);
-      // subtle ambient intensity change
-      document.querySelector(".mist").style.opacity = on ? "1" : ".75";
-      document.querySelector(".grain").style.opacity = on ? ".15" : ".10";
-    });
-    ambSwitch.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); ambSwitch.click(); }});
-
-    linerSwitch.addEventListener("click", ()=>{
-      const on = toggleSwitch(linerSwitch);
-      linerBlock.style.display = on ? "block" : "none";
-    });
-    linerSwitch.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); linerSwitch.click(); }});
-
-    // --- Fake player (demo UI only) ---
-    function setTrack(i){
-      t = (i + tracks.length) % tracks.length;
-      trackTitle.textContent = tracks[t].title;
-      trackMeta.textContent  = tracks[t].meta;
-    }
-    nextBtn.addEventListener("click", ()=> setTrack(t+1));
-
-    togglePlay.addEventListener("click", ()=>{
-      playing = !playing;
-      togglePlay.textContent = playing ? "❚❚ Pause" : "▶ Play";
-      // tiny feedback pulse
-      document.documentElement.style.setProperty("--accent", playing ? "#ff7aa5" : "#b88cff");
-      setTimeout(()=> document.documentElement.style.setProperty("--accent", "#b88cff"), 420);
-    });
-
-    playBtn.addEventListener("click", ()=>{
-      playing = true;
-      togglePlay.textContent = "❚❚ Pause";
-      openModal("Play the mood", "Drop your real Able Heart embed here (Spotify, Apple Music, YouTube). The site is designed so the player feels like part of the atmosphere—not a loud widget.", "Tip: replace demo with an iframe embed");
-      linerBlock.style.display = linerSwitch.classList.contains("on") ? "block" : "none";
-    });
-
-    // --- Release cards open modal ---
-    document.getElementById("releaseGrid").addEventListener("click", (e)=>{
-      const card = e.target.closest(".release");
-      if(!card) return;
-      openModal(card.dataset.title || "Release", card.dataset.desc || "—", "Click outside to close");
-      linerBlock.style.display = linerSwitch.classList.contains("on") ? "block" : "none";
-    });
-
-    // Moments grid (same behavior)
-    document.querySelectorAll("#visuals .release").forEach(el=>{
-      el.addEventListener("click", ()=>{
-        openModal(el.dataset.title || "Moment", el.dataset.desc || "—", "Click outside to close");
-        linerBlock.style.display = linerSwitch.classList.contains("on") ? "block" : "none";
+    // nav hover heat map
+    document.querySelectorAll(".navbtn").forEach(a => {
+      a.addEventListener("mousemove", (e) => {
+        const r = a.getBoundingClientRect();
+        const mx = ((e.clientX - r.left) / r.width) * 100;
+        const my = ((e.clientY - r.top) / r.height) * 100;
+        a.style.setProperty("--mx", mx + "%");
+        a.style.setProperty("--my", my + "%");
       });
     });
 
-    // --- Secret note (make this personal) ---
-    const secretBtn = document.getElementById("secretBtn");
-    secretBtn.addEventListener("click", ()=>{
-      openModal(
-        "A note for you",
-        "I know how much Able Heart means to you. So I wanted to build a place that feels the way the music makes you feel—quiet, beautiful, and real. This is my love letter in code.",
-        "You can replace this message with your exact words"
-      );
-      linerBlock.style.display = "none";
+    // Distort mode toggles stronger artifacts + micro jitter
+    const toggle = document.getElementById("toggleDistort");
+    let distortOn = false;
+
+    const setDistort = (on) => {
+      distortOn = on;
+      toggle.setAttribute("aria-pressed", String(on));
+
+      if (on) {
+        document.body.style.filter = "contrast(1.08) saturate(1.06)";
+        document.body.style.animation = "shake .22s steps(2,end) infinite";
+      } else {
+        document.body.style.filter = "";
+        document.body.style.animation = "";
+      }
+    };
+
+    // add shake keyframes dynamically (keeps html single-file)
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes shake{
+        0%{transform:translate3d(0,0,0)}
+        25%{transform:translate3d(0.6px,-0.4px,0)}
+        50%{transform:translate3d(-0.5px,0.5px,0)}
+        75%{transform:translate3d(0.4px,0.2px,0)}
+        100%{transform:translate3d(0,0,0)}
+      }
+    `;
+    document.head.appendChild(style);
+
+    toggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      setDistort(!distortOn);
     });
 
-    openNoteBtn.addEventListener("click", ()=> secretBtn.click());
+    // Panic kill: reset UI state
+    document.getElementById("panic").addEventListener("click", (e) => {
+      e.preventDefault();
+      setDistort(false);
+      document.getElementById("status").textContent = "offline";
+      document.getElementById("name").value = "";
+      document.getElementById("channel").value = "";
+      document.getElementById("msg").value = "";
+      window.location.hash = "";
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+
+    // Fake send (visual feedback only)
+    document.getElementById("fakeSend").addEventListener("click", (e) => {
+      e.preventDefault();
+      const status = document.getElementById("status");
+      status.textContent = "transmitting";
+      setTimeout(() => status.textContent = "sent", 600);
+      setTimeout(() => status.textContent = "offline", 2200);
+    });
+
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
