@@ -1,318 +1,817 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Eternal Love in the Shadows — a romantic nocturne of gothic elegance and modern minimal sensuality." />
-  <title>Eternal Love in the Shadows</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="A Moana-inspired ocean-journey landing page (original design)." />
+  <title>Ocean Journey — Moana-Inspired Theme</title>
 
-  <!-- Fonts (serif + clean sans) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ocean-900:#041B2D;
+      --ocean-800:#062B45;
+      --ocean-700:#0B3D5B;
+      --ocean-600:#0E5573;
+      --teal-500:#18B7A7;
+      --foam-200:#E8FFFB;
+      --sand-100:#FFF3D6;
+      --sand-200:#F7E2B6;
+      --sun-500:#FF7A59;
+      --sun-400:#FF9A6B;
+      --leaf-500:#3BC17A;
+      --ink:#07121C;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.12);
+      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
 
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: rgba(255,255,255,.92);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(255,154,107,.25), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 0%, rgba(24,183,167,.22), transparent 55%),
+                  linear-gradient(180deg, var(--ocean-900) 0%, #031423 40%, #020C14 100%);
+      overflow-x:hidden;
+    }
+
+    /* Subtle woven texture */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,.03) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.03) 50%, rgba(255,255,255,.03) 75%, transparent 75%, transparent);
+      background-size: 18px 18px;
+      mix-blend-mode: overlay;
+      opacity:.28;
+      pointer-events:none;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1120px; margin:0 auto; padding: 22px 18px 80px}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0;
+      z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(4,27,45,.68), rgba(4,27,45,.20));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:1120px; margin:0 auto; padding:14px 18px;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+      font-weight:800; letter-spacing:.4px;
+    }
+    .brand-mark{
+      width:34px; height:34px; border-radius:12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 45%),
+        linear-gradient(135deg, rgba(24,183,167,.75), rgba(255,154,107,.65));
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .brand-mark:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.0), rgba(255,255,255,.22), rgba(255,255,255,.0));
+      animation: spin 10s linear infinite;
+      opacity:.6;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .nav-links{display:flex; gap:18px; align-items:center; font-weight:600; opacity:.9}
+    .nav-links a{
+      padding:8px 10px; border-radius:12px;
+      border:1px solid transparent;
+    }
+    .nav-links a:hover{
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+    }
+
+    .nav-actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.95);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:700;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.28)}
+    .btn:active{transform: translateY(0px) scale(.99)}
+    .btn.primary{
+      border-color: rgba(255,255,255,.0);
+      background: linear-gradient(135deg, rgba(24,183,167,.92), rgba(255,154,107,.88));
+      color: #08131a;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+    }
+    .btn.primary:hover{filter: brightness(1.03)}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      font-weight:700;
+      color: rgba(255,255,255,.88);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--teal-500);
+      box-shadow: 0 0 0 5px rgba(24,183,167,.18);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1); opacity:1}
+      50%{transform:scale(1.25); opacity:.7}
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      padding: 54px 0 10px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .9fr;
+      gap: 26px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr; gap:18px}
+      .nav-links{display:none}
+    }
+
+    .hero h1{
+      margin:14px 0 12px;
+      font-size: clamp(36px, 4.6vw, 60px);
+      line-height: 1.03;
+      letter-spacing: -0.8px;
+    }
+    .hero p{
+      margin: 0 0 18px;
+      font-size: 16.5px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.84);
+      max-width: 60ch;
+    }
+
+    .hero-card{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 220px at 20% 10%, rgba(255,154,107,.22), transparent 55%),
+        radial-gradient(760px 300px at 80% 20%, rgba(24,183,167,.18), transparent 60%);
+      pointer-events:none;
+    }
+
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
+    .subtle{
+      font-size: 13px;
+      opacity:.78;
+      margin-top:10px;
+    }
+
+    /* right visual */
+    .ocean-window{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(900px 500px at 30% 0%, rgba(255,154,107,.22), transparent 55%),
+        radial-gradient(800px 500px at 70% 0%, rgba(24,183,167,.22), transparent 56%),
+        linear-gradient(180deg, rgba(11,61,91,.55), rgba(2,12,20,.55));
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding: 18px;
+      min-height: 330px;
+    }
+    .ocean-window canvas{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      opacity:.95;
+    }
+    .window-content{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      height:100%;
+      justify-content:space-between;
+      padding: 10px;
+    }
+    .stat-row{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .stat{
+      flex: 1 1 120px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 12px 12px;
+    }
+    .stat b{display:block; font-size: 18px}
+    .stat span{opacity:.78; font-size: 13px}
+
+    /* SECTIONS */
+    section{padding: 52px 0 0}
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:14px;
+      margin-bottom: 18px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: clamp(22px, 2.8vw, 34px);
+      letter-spacing:-.4px;
+    }
+    .section-head p{margin:0; opacity:.78; max-width: 70ch}
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .cards{grid-template-columns:1fr}
+    }
+    .card{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.075);
+      border-color: rgba(255,255,255,.20);
+    }
+    .icon{
+      width: 40px; height: 40px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(24,183,167,.8), rgba(255,154,107,.75));
+      display:grid; place-items:center;
+      color: #061018;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+      margin-bottom: 12px;
+    }
+    .card h3{margin:0 0 6px; font-size: 18px}
+    .card p{margin:0; opacity:.8; line-height:1.55}
+
+    /* JOURNEY / TIMELINE */
+    .timeline{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+    }
+    .step{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .step:last-child{border-bottom:0}
+    .badge{
+      display:inline-flex; align-items:center; justify-content:center;
+      height: 34px;
+      width: 110px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      font-weight: 800;
+      letter-spacing:.3px;
+      color: rgba(255,255,255,.88);
+    }
+    .step h4{margin:0 0 4px; font-size:16px}
+    .step p{margin:0; opacity:.8; line-height:1.55}
+
+    /* CTA */
+    .cta{
+      margin-top: 52px;
+      border-radius: calc(var(--radius) + 8px);
+      background:
+        radial-gradient(900px 300px at 20% 10%, rgba(255,154,107,.24), transparent 55%),
+        radial-gradient(900px 320px at 80% 0%, rgba(24,183,167,.20), transparent 55%),
+        rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      flex-wrap:wrap;
+    }
+    .cta h3{margin:0; font-size: 20px}
+    .cta p{margin:6px 0 0; opacity:.82}
+    .footer{
+      margin-top: 50px;
+      opacity:.7;
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+      padding-bottom: 10px;
+    }
+
+    /* Decorative waves divider */
+    .wave-divider{
+      height: 46px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(24,183,167,.0), rgba(24,183,167,.18), rgba(255,154,107,.14), rgba(24,183,167,.18), rgba(24,183,167,.0));
+      border: 1px solid rgba(255,255,255,.10);
+      filter: blur(.2px);
+      margin: 34px 0 0;
+      position:relative;
+      overflow:hidden;
+    }
+    .wave-divider:before{
+      content:"";
+      position:absolute; inset:-60%;
+      background:
+        radial-gradient(circle at 30% 60%, rgba(255,255,255,.18), transparent 45%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,.12), transparent 40%);
+      animation: drift 9s ease-in-out infinite;
+      opacity:.65;
+    }
+    @keyframes drift{
+      0%,100%{transform: translateX(-2%) translateY(0%)}
+      50%{transform: translateX(2%) translateY(-1%)}
+    }
+
+    /* Mobile nav button */
+    .menu-btn{display:none}
+    @media (max-width: 980px){
+      .menu-btn{display:inline-flex}
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center; justify-content:center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .modal{
+      width:min(560px, 100%);
+      border-radius: calc(var(--radius) + 8px);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 28px 90px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modal header{
+      padding: 14px 16px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .modal header b{font-size: 15px}
+    .modal .content{padding: 16px}
+    .field{
+      display:grid; gap:8px; margin-bottom: 12px;
+    }
+    input, textarea{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      color: rgba(255,255,255,.92);
+      padding: 11px 12px;
+      outline:none;
+      font: inherit;
+    }
+    textarea{min-height: 100px; resize: vertical}
+    .modal footer{
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
+    }
+    .hint{font-size: 12.5px; opacity:.75; margin-top: 6px}
+  </style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand" aria-label="Brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          Ocean Journey
+          <div style="font-size:12px; font-weight:700; opacity:.7; margin-top:2px">Moana-inspired theme • original design</div>
+        </div>
+      </div>
 
-  <!-- Top chrome -->
-  <header class="topbar" role="banner">
-    <div class="topbar__inner">
-      <a class="brand" href="#top" aria-label="Eternal Love in the Shadows — Home">
-        <span class="brand__sigil" aria-hidden="true">✦</span>
-        <span class="brand__name">Eternal Love</span>
-        <span class="brand__sub">in the Shadows</span>
-      </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a class="nav__link" href="#vow">The Vow</a>
-        <a class="nav__link" href="#chapters">Chapters</a>
-        <a class="nav__link" href="#devotion">Devotion</a>
-        <a class="nav__link" href="#letters">Letters</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#vibe">Vibe</a>
+        <a href="#features">Features</a>
+        <a href="#journey">Journey</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <div class="controls" aria-label="Site controls">
-        <button class="pill" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle sound ambience">
-          <span class="pill__dot" aria-hidden="true"></span>
-          <span class="pill__label">Silence</span>
-        </button>
-
-        <button class="pill" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle Light of Dawn theme">
-          <span class="pill__icon" aria-hidden="true">☾</span>
-          <span class="pill__label">Night</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero" id="top" aria-label="Hero">
-    <canvas class="atmos" id="atmosCanvas" aria-hidden="true"></canvas>
-
-    <div class="hero__veil" aria-hidden="true"></div>
-
-    <div class="hero__content">
-      <p class="hero__kicker reveal">
-        A romantic nocturne — velvet shadows, candlelight vows.
-      </p>
-
-      <h1 class="hero__title reveal">
-        Even eternity bends to love.
-      </h1>
-
-      <p class="hero__lede reveal">
-        He is not a monster in this story. He is devotion made immortal —
-        a heart that learned to survive the centuries without letting go.
-      </p>
-
-      <div class="hero__actions reveal">
-        <a class="seal" href="#vow" aria-label="Enter the night: Begin the vow">
-          <span class="seal__wax" aria-hidden="true"></span>
-          <span class="seal__text">Enter the night</span>
-          <span class="seal__sigil" aria-hidden="true">✦</span>
-        </a>
-
-        <button class="ghost" id="openWhisper" type="button" aria-haspopup="dialog" aria-controls="whisperModal">
-          Bound beyond death
-        </button>
-      </div>
-
-      <div class="hero__hint" aria-hidden="true">
-        <span class="hero__line"></span>
-        <span class="hero__hintText">Scroll like a heartbeat</span>
-      </div>
-    </div>
-
-    <div class="hero__ornament" aria-hidden="true">
-      <div class="arch"></div>
-      <div class="thorn-divider"></div>
-    </div>
-  </section>
-
-  <main id="main">
-    <!-- Vow -->
-    <section class="section section--vow" id="vow" aria-label="The Vow">
-      <div class="section__inner">
-        <header class="section__header reveal">
-          <h2 class="section__title">The Vow</h2>
-          <p class="section__subtitle">
-            Promises spoken softly — so the night remembers.
-          </p>
-        </header>
-
-        <div class="grid grid--two">
-          <article class="card reveal">
-            <h3 class="card__title">A love that does not die</h3>
-            <p class="card__text">
-              I have worn the dark like a coat for so long that the world forgot the shape of my tenderness.
-              Then you arrived — moonlight in ivory — and my silence learned your name.
-            </p>
-            <p class="card__quote">
-              “She was the only thing eternity could not take.”
-            </p>
-          </article>
-
-          <article class="card reveal">
-            <h3 class="card__title">No gore. No fear.</h3>
-            <p class="card__text">
-              This is gothic elegance with modern restraint: clean spacing, deliberate motion, and a crimson glow used like a confession —
-              never a shout.
-            </p>
-            <ul class="list">
-              <li>Moonlit castles, candlelit chambers</li>
-              <li>Hands almost touching, eyes in shadow</li>
-              <li>Velvet texture, firelight warmth</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-
-      <div class="divider" aria-hidden="true">
-        <span class="divider__line"></span>
-        <span class="divider__sigil">✦</span>
-        <span class="divider__line"></span>
-      </div>
-    </section>
-
-    <!-- Chapters -->
-    <section class="section section--chapters" id="chapters" aria-label="Chapters">
-      <div class="section__inner">
-        <header class="section__header reveal">
-          <h2 class="section__title">Chapters</h2>
-          <p class="section__subtitle">
-            Each section opens like a curtain — slow, velvet, inevitable.
-          </p>
-        </header>
-
-        <div class="grid grid--three">
-          <article class="tile reveal">
-            <h3 class="tile__title">I. Candlelight</h3>
-            <p class="tile__text">
-              The room is quiet enough to hear the flame breathe.
-              In that small warmth, you find his humanity.
-            </p>
-            <a class="tile__link" href="#devotion">Continue</a>
-          </article>
-
-          <article class="tile reveal">
-            <h3 class="tile__title">II. Velvet Night</h3>
-            <p class="tile__text">
-              Shadows do not hide you here —
-              they hold you, like hands that never learned to let go.
-            </p>
-            <a class="tile__link" href="#letters">Continue</a>
-          </article>
-
-          <article class="tile reveal">
-            <h3 class="tile__title">III. Crimson Oath</h3>
-            <p class="tile__text">
-              A single red line across the page:
-              not violence — devotion, written in a pulse.
-            </p>
-            <button class="tile__link tile__link--button" id="pulseOnce" type="button">
-              Feel the heartbeat
-            </button>
-          </article>
-        </div>
-      </div>
-
-      <div class="arch-divider" aria-hidden="true"></div>
-    </section>
-
-    <!-- Devotion -->
-    <section class="section section--devotion" id="devotion" aria-label="Devotion">
-      <div class="section__inner">
-        <header class="section__header reveal">
-          <h2 class="section__title">Devotion</h2>
-          <p class="section__subtitle">
-            A modern hush beneath gothic grandeur.
-          </p>
-        </header>
-
-        <div class="grid grid--two">
-          <article class="panel reveal">
-            <h3 class="panel__title">Luxury, not dated</h3>
-            <p class="panel__text">
-              Mobile-first, responsive, accessible contrast, and motion that respects the body.
-              The night should seduce — never overwhelm.
-            </p>
-
-            <div class="chips" role="list" aria-label="Design principles">
-              <span class="chip" role="listitem">Soft glow accents</span>
-              <span class="chip" role="listitem">Velvet shadows</span>
-              <span class="chip" role="listitem">Slow fades</span>
-              <span class="chip" role="listitem">Minimal sensuality</span>
-            </div>
-          </article>
-
-          <aside class="panel panel--aside reveal" aria-label="Light of Dawn toggle">
-            <h3 class="panel__title">Light of Dawn</h3>
-            <p class="panel__text">
-              If you prefer gentler contrast, toggle the dawn.
-              Love stays the same — only the shadows soften.
-            </p>
-            <button class="cta" id="themeToggle2" type="button">
-              Soften the night
-              <span class="cta__arrow" aria-hidden="true">→</span>
-            </button>
-          </aside>
-        </div>
-      </div>
-
-      <div class="divider divider--thin" aria-hidden="true">
-        <span class="divider__line"></span>
-        <span class="divider__sigil divider__sigil--red">⟡</span>
-        <span class="divider__line"></span>
-      </div>
-    </section>
-
-    <!-- Letters (contact-ish) -->
-    <section class="section section--letters" id="letters" aria-label="Letters">
-      <div class="section__inner">
-        <header class="section__header reveal">
-          <h2 class="section__title">Letters</h2>
-          <p class="section__subtitle">
-            Leave a whisper for the immortal heart.
-          </p>
-        </header>
-
-        <div class="grid grid--two">
-          <form class="form reveal" id="letterForm">
-            <label class="field">
-              <span class="field__label">Your name</span>
-              <input class="field__input" name="name" autocomplete="name" placeholder="Write it like a vow" required />
-            </label>
-
-            <label class="field">
-              <span class="field__label">A message</span>
-              <textarea class="field__input field__input--area" name="message" rows="6" placeholder="Speak softly. The night listens." required></textarea>
-            </label>
-
-            <button class="seal seal--small" type="submit">
-              <span class="seal__wax" aria-hidden="true"></span>
-              <span class="seal__text">Send into the dark</span>
-              <span class="seal__sigil" aria-hidden="true">✦</span>
-            </button>
-
-            <p class="form__note" id="formNote" role="status" aria-live="polite"></p>
-          </form>
-
-          <div class="quoteBox reveal" aria-label="Poetic excerpt">
-            <p class="quoteBox__text">
-              “I have crossed oceans of night, and still I return to the place your breath begins.”
-            </p>
-            <p class="quoteBox__sub">
-              — a devotion written by candlelight
-            </p>
-
-            <div class="quoteBox__links" aria-label="Secondary actions">
-              <a class="ghost ghost--link" href="#top">Return to the first vow</a>
-              <button class="ghost ghost--link" id="openWhisper2" type="button" aria-haspopup="dialog" aria-controls="whisperModal">
-                Hear a whisper
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer" role="contentinfo">
-    <div class="footer__inner">
-      <p class="footer__line">
-        Crafted as a romantic nocturne — slow motion, soft firelight, and love that refuses to end.
-      </p>
-      <p class="footer__small">
-        © <span id="year"></span> Eternal Love in the Shadows
-      </p>
-    </div>
-  </footer>
-
-  <!-- Modal -->
-  <div class="modal" id="whisperModal" role="dialog" aria-modal="true" aria-labelledby="whisperTitle" aria-describedby="whisperBody" hidden>
-    <div class="modal__backdrop" data-close="true"></div>
-
-    <div class="modal__panel" role="document">
-      <button class="modal__close" type="button" aria-label="Close" data-close="true">×</button>
-
-      <h2 class="modal__title" id="whisperTitle">A Whisper</h2>
-      <p class="modal__body" id="whisperBody">
-        Not a warning. Not a curse.
-        Only this — a promise that has survived the centuries:
-        <em>“If you step into my night, I will never let you be alone again.”</em>
-      </p>
-
-      <div class="modal__actions">
-        <button class="cta" id="copyWhisper" type="button">
-          Keep the words
-          <span class="cta__arrow" aria-hidden="true">→</span>
-        </button>
-        <button class="ghost" type="button" data-close="true">Return</button>
+      <div class="nav-actions">
+        <span class="pill" title="Live ocean ambience (visual only)">
+          <span class="dot" aria-hidden="true"></span>
+          Tide Mode
+        </span>
+        <button class="btn menu-btn" id="menuBtn" type="button">Menu</button>
+        <button class="btn primary" id="openModalBtn" type="button">Start the Voyage</button>
       </div>
     </div>
   </div>
+
+  <main class="wrap">
+    <header class="hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <span class="pill">🌺 Island warmth • 🌊 ocean motion • 🔥 sunset energy</span>
+          <h1>Build a website that feels like an <span style="color: var(--foam-200)">ocean adventure</span>.</h1>
+          <p>
+            This layout is inspired by the *spirit* of Moana: open horizons, brave storytelling, and nature-led design.
+            Clean sections flow like tides, motion is gentle, and every interaction feels handcrafted—like carving a path across the sea.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#features">Explore Features</a>
+            <button class="btn" id="scrollJourney" type="button">See the Journey</button>
+            <a class="btn" href="#contact">Contact</a>
+          </div>
+          <div class="subtle">Tip: Replace text + icons with your brand content. Keep the motion subtle for a premium feel.</div>
+
+          <div class="wave-divider" aria-hidden="true"></div>
+        </div>
+
+        <aside class="ocean-window" aria-label="Ocean Visual">
+          <canvas id="oceanCanvas"></canvas>
+          <div class="window-content">
+            <div>
+              <div class="pill">✨ Scroll = gentle parallax • 🫧 Hover = ripple glow</div>
+              <h3 style="margin:10px 0 0; font-size:20px; letter-spacing:-.2px">
+                A calm, immersive hero window
+              </h3>
+              <p style="margin:6px 0 0; opacity:.82; line-height:1.55">
+                Soft waves, drifting light, and a horizon gradient—evoking exploration without using copyrighted artwork.
+              </p>
+            </div>
+
+            <div class="stat-row" aria-label="Quick stats">
+              <div class="stat">
+                <b id="statWaves">3</b>
+                <span>Wave layers</span>
+              </div>
+              <div class="stat">
+                <b id="statBreeze">Low</b>
+                <span>Motion intensity</span>
+              </div>
+              <div class="stat">
+                <b id="statMood">Sunset</b>
+                <span>Color mood</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="vibe">
+      <div class="section-head">
+        <div>
+          <h2>Vibe & Design Language</h2>
+          <p>Natural textures, airy spacing, and wave-like transitions—warm, adventurous, and inviting.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon">🌊</div>
+          <h3>Fluid layout</h3>
+          <p>Curved edges, soft dividers, and gentle rhythm between sections—like following the tide.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🌺</div>
+          <h3>Island warmth</h3>
+          <p>Sunset coral accents + sandy highlights give the site a welcoming, grounded tone.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🪵</div>
+          <h3>Handcrafted feel</h3>
+          <p>Subtle woven texture and organic motion create a “made-with-care” atmosphere.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-head">
+        <div>
+          <h2>Feature Blocks</h2>
+          <p>Use these as your service cards, product highlights, or story chapters.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon">🧭</div>
+          <h3>Guided navigation</h3>
+          <p>Simple anchors and clear hierarchy so users feel led—not lost.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🫧</div>
+          <h3>Ripple interactions</h3>
+          <p>Hover states glow softly, like light dancing on water.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🌤️</div>
+          <h3>Horizon gradients</h3>
+          <p>Deep ocean-to-night fades paired with warm sunrise/sunset accents.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="journey">
+      <div class="section-head">
+        <div>
+          <h2>The Journey</h2>
+          <p>A narrative-style timeline you can adapt for a brand story, onboarding steps, or a portfolio process.</p>
+        </div>
+        <a class="btn" href="#top">Back to top</a>
+      </div>
+
+      <div class="timeline" role="list">
+        <div class="step" role="listitem">
+          <div><span class="badge">01 • Call</span></div>
+          <div>
+            <h4>Set your direction</h4>
+            <p>Define the goal, audience, and the “why”—like choosing your star in the sky.</p>
+          </div>
+        </div>
+
+        <div class="step" role="listitem">
+          <div><span class="badge">02 • Map</span></div>
+          <div>
+            <h4>Chart the sections</h4>
+            <p>Plan the site flow: hero → features → story → CTA. Keep it airy and readable.</p>
+          </div>
+        </div>
+
+        <div class="step" role="listitem">
+          <div><span class="badge">03 • Build</span></div>
+          <div>
+            <h4>Design with motion</h4>
+            <p>Use subtle animation and curved layout choices. The site should feel alive—never noisy.</p>
+          </div>
+        </div>
+
+        <div class="step" role="listitem">
+          <div><span class="badge">04 • Polish</span></div>
+          <div>
+            <h4>Refine the details</h4>
+            <p>Reduce clutter, sharpen typography, and ensure mobile feels effortless.</p>
+          </div>
+        </div>
+
+        <div class="step" role="listitem">
+          <div><span class="badge">05 • Launch</span></div>
+          <div>
+            <h4>Send it out to sea</h4>
+            <p>Deploy to GitHub Pages/Cloudflare Pages, add analytics, and iterate based on real use.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta" id="contact">
+        <div>
+          <h3>Want this turned into your real site?</h3>
+          <p>Swap in your name, links, and sections—then deploy. Or use it as a theme baseline for a full build.</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn primary" id="openModalBtn2" type="button">Request a Build</button>
+          <a class="btn" href="#features">Review Features</a>
+        </div>
+      </div>
+
+      <footer class="footer" aria-label="Footer">
+        <div>© <span id="year"></span> Ocean Journey</div>
+        <div style="max-width: 70ch">
+          Inspired by the *vibe* of an ocean adventure story. This is an original UI concept and does not include Disney artwork or copyrighted assets.
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header>
+        <b id="modalTitle">Start the Voyage</b>
+        <button class="btn" id="closeModalBtn" type="button">Close</button>
+      </header>
+      <div class="content">
+        <div class="field">
+          <label for="name" style="font-weight:800; opacity:.9">Name</label>
+          <input id="name" placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="goal" style="font-weight:800; opacity:.9">What are we building?</label>
+          <textarea id="goal" placeholder="Example: a link hub, portfolio, or landing page with ocean theme..."></textarea>
+          <div class="hint">This is a demo modal—wire it to your backend or form service if needed.</div>
+        </div>
+      </div>
+      <footer>
+        <button class="btn" id="cancelBtn" type="button">Cancel</button>
+        <button class="btn primary" id="sendBtn" type="button">Send</button>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Smooth scroll helpers
+    const smoothTo = (id) => {
+      const el = document.querySelector(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    document.getElementById("scrollJourney").addEventListener("click", () => smoothTo("#journey"));
+
+    // Mobile menu (simple)
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      const targets = ["#vibe","#features","#journey","#contact"];
+      const next = targets.find(sel => {
+        const el = document.querySelector(sel);
+        return el && el.getBoundingClientRect().top > 120;
+      }) || "#vibe";
+      smoothTo(next);
+    });
+
+    // Modal logic
+    const backdrop = document.getElementById("modalBackdrop");
+    const open = () => { backdrop.style.display = "flex"; setTimeout(()=>document.getElementById("name").focus(), 40); };
+    const close = () => { backdrop.style.display = "none"; };
+
+    document.getElementById("openModalBtn").addEventListener("click", open);
+    document.getElementById("openModalBtn2").addEventListener("click", open);
+    document.getElementById("closeModalBtn").addEventListener("click", close);
+    document.getElementById("cancelBtn").addEventListener("click", close);
+    backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const name = document.getElementById("name").value.trim() || "Explorer";
+      const goal = document.getElementById("goal").value.trim() || "No details provided.";
+      alert(`Thanks, ${name}!\\n\\nRequest received:\\n${goal}`);
+      close();
+      document.getElementById("name").value = "";
+      document.getElementById("goal").value = "";
+    });
+
+    // Ocean canvas (simple animated wave field)
+    const canvas = document.getElementById("oceanCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const state = {
+      t: 0,
+      dpr: Math.max(1, Math.min(2, window.devicePixelRatio || 1)),
+      breeze: 0.65, // motion intensity
+    };
+
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width * state.dpr);
+      canvas.height = Math.floor(rect.height * state.dpr);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // Update stats
+    document.getElementById("statWaves").textContent = "3";
+    document.getElementById("statBreeze").textContent = "Low";
+    document.getElementById("statMood").textContent = "Sunset";
+
+    function draw(){
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+
+      // Background glow
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "rgba(255,154,107,0.14)");
+      grad.addColorStop(0.35, "rgba(24,183,167,0.10)");
+      grad.addColorStop(1, "rgba(0,0,0,0.15)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,w,h);
+
+      // Horizon line haze
+      ctx.fillStyle = "rgba(255,255,255,0.06)";
+      ctx.fillRect(0, h*0.35, w, 1);
+
+      // Waves
+      const layers = [
+        { amp: 10, len: 140, y: 0.62, alpha: 0.14 },
+        { amp: 14, len: 190, y: 0.70, alpha: 0.12 },
+        { amp: 18, len: 240, y: 0.80, alpha: 0.10 }
+      ];
+
+      layers.forEach((L, i) => {
+        ctx.beginPath();
+        const baseY = h * L.y;
+        const A = L.amp * state.dpr;
+        const k = (Math.PI * 2) / (L.len * state.dpr);
+        const speed = (0.9 + i*0.18) * state.breeze;
+
+        ctx.moveTo(0, baseY);
+
+        for (let x = 0; x <= w; x += 6*state.dpr){
+          const y = baseY + Math.sin(x * k + state.t * speed) * A
+                         + Math.sin(x * k * 0.7 + state.t * speed * 1.3) * (A*0.35);
+          ctx.lineTo(x, y);
+        }
+
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+
+        // Fill wave with subtle tint
+        ctx.fillStyle = `rgba(24,183,167,${L.alpha})`;
+        ctx.fill();
+
+        // Foam stroke
+        ctx.strokeStyle = `rgba(255,255,255,${Math.min(0.16, L.alpha + 0.05)})`;
+        ctx.lineWidth = 1.2 * state.dpr;
+        ctx.stroke();
+      });
+
+      // Sparkle points
+      const sparkCount = 26;
+      for (let i=0;i<sparkCount;i++){
+        const x = (i * 97 + (state.t*22)) % w;
+        const y = h*0.18 + (Math.sin((i*1.7) + state.t*0.9) * h*0.03) + (i%6)*2*state.dpr;
+        const r = (1 + (i%3)) * state.dpr;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(255,255,255,0.10)";
+        ctx.fill();
+      }
+
+      state.t += 0.016;
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Gentle parallax (mouse move)
+    const oceanWindow = document.querySelector(".ocean-window");
+    oceanWindow.addEventListener("pointermove", (e) => {
+      const rect = oceanWindow.getBoundingClientRect();
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      oceanWindow.style.transform = `translateY(-1px) rotateX(${(-ny*2).toFixed(2)}deg) rotateY(${(nx*2).toFixed(2)}deg)`;
+    });
+    oceanWindow.addEventListener("pointerleave", () => {
+      oceanWindow.style.transform = "translateY(0px) rotateX(0deg) rotateY(0deg)";
+    });
+
+    // Reduced motion support
+    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced){
+      state.breeze = 0.15;
+      document.getElementById("statBreeze").textContent = "Minimal";
+    }
+  </script>
 </body>
 </html>
+```
