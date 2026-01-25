@@ -1,211 +1,257 @@
-// script.js — Moana-inspired ocean journey theme (original code)
+/* Able Heart — script.js
+   Works with the index.html + styles.css I provided.
+   - Entrance gate
+   - Modal system
+   - Demo “player” (no real audio)
+   - Toggle switches (ambient + liner notes)
+   - Release/Moment card modals
+   - Secret love-note modal
+*/
 
-// Year
-const yearEl = document.getElementById("year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+(() => {
+  // --- Helpers ---
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-// Smooth scroll helper
-const smoothTo = (id) => {
-  const el = document.querySelector(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-};
+  // --- Elements ---
+  const gate = $("#gate");
+  const enterBtn = $("#enterBtn");
+  const playBtn = $("#playBtn");
+  const openNoteBtn = $("#openNoteBtn");
 
-// Buttons / nav helpers
-const journeyBtn = document.getElementById("scrollJourney");
-if (journeyBtn) journeyBtn.addEventListener("click", () => smoothTo("#journey"));
+  const modal = $("#modal");
+  const modalTitle = $("#modalTitle");
+  const modalDesc = $("#modalDesc");
+  const modalFoot = $("#modalFoot");
+  const closeModalBtn = $("#closeModal");
+  const linerBlock = $("#linerBlock");
 
-const menuBtn = document.getElementById("menuBtn");
-if (menuBtn) {
-  menuBtn.addEventListener("click", () => {
-    // Simple "next section" jump on mobile
-    const targets = ["#vibe", "#features", "#journey", "#contact"];
-    const next =
-      targets.find((sel) => {
-        const node = document.querySelector(sel);
-        return node && node.getBoundingClientRect().top > 120;
-      }) || "#vibe";
-    smoothTo(next);
-  });
-}
+  const ambSwitch = $("#ambSwitch");
+  const linerSwitch = $("#linerSwitch");
 
-// Modal logic
-const backdrop = document.getElementById("modalBackdrop");
-const openModalBtn = document.getElementById("openModalBtn");
-const openModalBtn2 = document.getElementById("openModalBtn2");
-const closeModalBtn = document.getElementById("closeModalBtn");
-const cancelBtn = document.getElementById("cancelBtn");
-const sendBtn = document.getElementById("sendBtn");
+  const trackTitle = $("#trackTitle");
+  const trackMeta = $("#trackMeta");
+  const nextBtn = $("#nextBtn");
+  const togglePlay = $("#togglePlay");
 
-const openModal = () => {
-  if (!backdrop) return;
-  backdrop.style.display = "flex";
-  setTimeout(() => {
-    const name = document.getElementById("name");
-    if (name) name.focus();
-  }, 40);
-};
+  const mist = $(".mist");
+  const grain = $(".grain");
 
-const closeModal = () => {
-  if (!backdrop) return;
-  backdrop.style.display = "none";
-};
+  const releaseGrid = $("#releaseGrid");
+  const visualsSection = $("#visuals");
+  const secretBtn = $("#secretBtn");
 
-if (openModalBtn) openModalBtn.addEventListener("click", openModal);
-if (openModalBtn2) openModalBtn2.addEventListener("click", openModal);
-if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-if (cancelBtn) cancelBtn.addEventListener("click", closeModal);
-
-if (backdrop) {
-  backdrop.addEventListener("click", (e) => {
-    if (e.target === backdrop) closeModal();
-  });
-}
-
-window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeModal();
-});
-
-if (sendBtn) {
-  sendBtn.addEventListener("click", () => {
-    const name = (document.getElementById("name")?.value || "").trim() || "Explorer";
-    const goal = (document.getElementById("goal")?.value || "").trim() || "No details provided.";
-    alert(`Thanks, ${name}!\n\nRequest received:\n${goal}`);
-
-    const nameEl = document.getElementById("name");
-    const goalEl = document.getElementById("goal");
-    if (nameEl) nameEl.value = "";
-    if (goalEl) goalEl.value = "";
-    closeModal();
-  });
-}
-
-// Ocean canvas animation (simple wave field)
-const canvas = document.getElementById("oceanCanvas");
-const ctx = canvas?.getContext?.("2d");
-
-const state = {
-  t: 0,
-  dpr: Math.max(1, Math.min(2, window.devicePixelRatio || 1)),
-  breeze: 0.65, // motion intensity
-};
-
-const prefersReduced =
-  window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-if (prefersReduced) state.breeze = 0.15;
-
-// Optional: update stats if elements exist
-const statWaves = document.getElementById("statWaves");
-const statBreeze = document.getElementById("statBreeze");
-const statMood = document.getElementById("statMood");
-if (statWaves) statWaves.textContent = "3";
-if (statBreeze) statBreeze.textContent = prefersReduced ? "Minimal" : "Low";
-if (statMood) statMood.textContent = "Sunset";
-
-function resizeCanvas() {
-  if (!canvas) return;
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = Math.floor(rect.width * state.dpr);
-  canvas.height = Math.floor(rect.height * state.dpr);
-}
-
-function drawOcean() {
-  if (!canvas || !ctx) return;
-
-  const w = canvas.width,
-    h = canvas.height;
-
-  ctx.clearRect(0, 0, w, h);
-
-  // Background glow
-  const grad = ctx.createLinearGradient(0, 0, 0, h);
-  grad.addColorStop(0, "rgba(255,154,107,0.14)");
-  grad.addColorStop(0.35, "rgba(24,183,167,0.10)");
-  grad.addColorStop(1, "rgba(0,0,0,0.15)");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, w, h);
-
-  // Horizon haze
-  ctx.fillStyle = "rgba(255,255,255,0.06)";
-  ctx.fillRect(0, h * 0.35, w, 1);
-
-  // Wave layers
-  const layers = [
-    { amp: 10, len: 140, y: 0.62, alpha: 0.14 },
-    { amp: 14, len: 190, y: 0.70, alpha: 0.12 },
-    { amp: 18, len: 240, y: 0.80, alpha: 0.10 },
+  // --- State ---
+  const tracks = [
+    { title: "“Soft Static”", meta: "Demo track • 02:48 • headphone hours" },
+    { title: "“Neon Lullaby”", meta: "Demo track • 03:12 • midnight glow" },
+    { title: "“After the Show”", meta: "Demo track • 04:01 • city haze" }
   ];
 
-  layers.forEach((L, i) => {
-    ctx.beginPath();
+  let t = 0;
+  let playing = false;
 
-    const baseY = h * L.y;
-    const A = L.amp * state.dpr;
-    const k = (Math.PI * 2) / (L.len * state.dpr);
-    const speed = (0.9 + i * 0.18) * state.breeze;
-
-    ctx.moveTo(0, baseY);
-
-    for (let x = 0; x <= w; x += 6 * state.dpr) {
-      const y =
-        baseY +
-        Math.sin(x * k + state.t * speed) * A +
-        Math.sin(x * k * 0.7 + state.t * speed * 1.3) * (A * 0.35);
-      ctx.lineTo(x, y);
-    }
-
-    ctx.lineTo(w, h);
-    ctx.lineTo(0, h);
-    ctx.closePath();
-
-    ctx.fillStyle = `rgba(24,183,167,${L.alpha})`;
-    ctx.fill();
-
-    ctx.strokeStyle = `rgba(255,255,255,${Math.min(0.16, L.alpha + 0.05)})`;
-    ctx.lineWidth = 1.2 * state.dpr;
-    ctx.stroke();
-  });
-
-  // Sparkle points
-  const sparkCount = 26;
-  for (let i = 0; i < sparkCount; i++) {
-    const x = (i * 97 + state.t * 22) % w;
-    const y =
-      h * 0.18 +
-      Math.sin(i * 1.7 + state.t * 0.9) * (h * 0.03) +
-      (i % 6) * 2 * state.dpr;
-    const r = (1 + (i % 3)) * state.dpr;
-
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.10)";
-    ctx.fill();
+  // --- Gate ---
+  function hideGate() {
+    if (!gate) return;
+    gate.setAttribute("hidden", "true");
+    // let fade transition finish then remove from layout
+    setTimeout(() => {
+      gate.style.display = "none";
+    }, 650);
   }
 
-  state.t += 0.016;
-  requestAnimationFrame(drawOcean);
-}
+  if (enterBtn) enterBtn.addEventListener("click", hideGate);
 
-if (canvas && ctx) {
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-  drawOcean();
-}
+  // Optional: click outside the inner card to enter
+  if (gate) {
+    gate.addEventListener("click", (e) => {
+      if (e.target === gate) hideGate();
+    });
+  }
 
-// Gentle parallax (pointer move) on the ocean window
-const oceanWindow = document.querySelector(".ocean-window");
-if (oceanWindow) {
-  oceanWindow.addEventListener("pointermove", (e) => {
-    const rect = oceanWindow.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width - 0.5;
-    const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    oceanWindow.style.transform = `translateY(-1px) rotateX(${(-ny * 2).toFixed(
-      2
-    )}deg) rotateY(${(nx * 2).toFixed(2)}deg)`;
+  // --- Modal ---
+  function openModal(title, desc, foot = "Press Esc to close") {
+    if (!modal) return;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    if (modalTitle) modalTitle.textContent = title || "";
+    if (modalDesc) modalDesc.textContent = desc || "";
+    if (modalFoot) modalFoot.textContent = foot || "";
+
+    // keep liner notes in sync with switch state
+    syncLinerNotes();
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  function modalIsOpen() {
+    return modal && modal.classList.contains("open");
+  }
+
+  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      // click backdrop closes
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // --- Keyboard (Esc closes modal; if none open, closes gate) ---
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+
+    if (modalIsOpen()) closeModal();
+    else if (gate && gate.style.display !== "none") hideGate();
   });
 
-  oceanWindow.addEventListener("pointerleave", () => {
-    oceanWindow.style.transform = "translateY(0px) rotateX(0deg) rotateY(0deg)";
-  });
-}
+  // --- Switches ---
+  function toggleSwitch(el) {
+    if (!el) return false;
+    el.classList.toggle("on");
+    const on = el.classList.contains("on");
+    el.setAttribute("aria-checked", on ? "true" : "false");
+    return on;
+  }
+
+  function handleSwitchKey(el, e) {
+    if (!el) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      el.click();
+    }
+  }
+
+  function syncLinerNotes() {
+    if (!linerBlock || !linerSwitch) return;
+    const on = linerSwitch.classList.contains("on");
+    linerBlock.style.display = on ? "block" : "none";
+  }
+
+  // Ambient switch changes intensity of mist/grain (purely visual)
+  if (ambSwitch) {
+    ambSwitch.addEventListener("click", () => {
+      const on = toggleSwitch(ambSwitch);
+      if (mist) mist.style.opacity = on ? "1" : ".75";
+      if (grain) grain.style.opacity = on ? ".15" : ".10";
+    });
+    ambSwitch.addEventListener("keydown", (e) => handleSwitchKey(ambSwitch, e));
+  }
+
+  // Liner notes switch reveals liner block inside modal
+  if (linerSwitch) {
+    linerSwitch.addEventListener("click", () => {
+      toggleSwitch(linerSwitch);
+      syncLinerNotes();
+    });
+    linerSwitch.addEventListener("keydown", (e) => handleSwitchKey(linerSwitch, e));
+  }
+
+  // --- Demo Player ---
+  function setTrack(i) {
+    t = (i + tracks.length) % tracks.length;
+    if (trackTitle) trackTitle.textContent = tracks[t].title;
+    if (trackMeta) trackMeta.textContent = tracks[t].meta;
+  }
+
+  function setPlaying(on) {
+    playing = !!on;
+    if (togglePlay) togglePlay.textContent = playing ? "❚❚ Pause" : "▶ Play";
+
+    // tiny feedback pulse: swap accent briefly
+    document.documentElement.style.setProperty("--accent", playing ? "#ff7aa5" : "#b88cff");
+    setTimeout(() => {
+      document.documentElement.style.setProperty("--accent", "#b88cff");
+    }, 420);
+  }
+
+  if (nextBtn) nextBtn.addEventListener("click", () => setTrack(t + 1));
+
+  if (togglePlay) {
+    togglePlay.addEventListener("click", () => {
+      setPlaying(!playing);
+    });
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      setPlaying(true);
+      openModal(
+        "Play the mood",
+        "Drop your real Able Heart embed here (Spotify, Apple Music, YouTube). The layout is designed so the player feels like part of the atmosphere—not a loud widget.",
+        "Tip: replace demo with an iframe embed"
+      );
+    });
+  }
+
+  // --- Cards: releases + moments open modal with their data attributes ---
+  function bindCardClick(root) {
+    if (!root) return;
+    root.addEventListener("click", (e) => {
+      const card = e.target.closest(".release");
+      if (!card) return;
+      const title = card.dataset.title || "Release";
+      const desc = card.dataset.desc || "—";
+      openModal(title, desc, "Click outside to close");
+    });
+  }
+
+  bindCardClick(releaseGrid);
+
+  if (visualsSection) {
+    // only bind within visuals section so “release” cards elsewhere don’t double-fire
+    $$("#visuals .release").forEach((el) => {
+      el.addEventListener("click", () => {
+        openModal(
+          el.dataset.title || "Moment",
+          el.dataset.desc || "—",
+          "Click outside to close"
+        );
+      });
+    });
+  }
+
+  // --- Secret note (edit this copy to be personal) ---
+  if (secretBtn) {
+    secretBtn.addEventListener("click", () => {
+      openModal(
+        "A note for you",
+        "I know how much Able Heart means to you. So I wanted to build a place that feels the way the music makes you feel—quiet, beautiful, and real. This is my love letter in code.",
+        "Replace this message with your exact words"
+      );
+      // Secret note is intentionally not a “liner notes” moment
+      if (linerBlock) linerBlock.style.display = "none";
+    });
+  }
+
+  if (openNoteBtn) {
+    openNoteBtn.addEventListener("click", () => {
+      if (secretBtn) secretBtn.click();
+    });
+  }
+
+  // --- Optional: smooth anchor scroll (native fallback) ---
+  // (Only apply if user hasn't requested reduced motion)
+  const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!prefersReducedMotion) {
+    $$('a[href^="#"]').forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        if (!href || href === "#") return;
+        const target = $(href);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }
+
+  // --- Initialize defaults ---
+  setTrack(0);
+  // gate stays until user clicks enter (intentional)
+})();
