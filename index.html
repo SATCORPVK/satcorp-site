@@ -3,687 +3,473 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <title>KORN_1990s // STATIC</title>
-  <meta name="description" content="A 1990s-inspired Korn theme: raw, distressed, industrial web aesthetic." />
-
-  <style>
-    :root{
-      --bg:#050506;
-      --ink:#e7e2da;
-      --muted:#a99f92;
-      --rust:#8f2a1f;
-      --bruise:#3a2a4a;
-      --sick:#8aa36a;
-      --steel:#1b1c21;
-      --line:rgba(255,255,255,.08);
-      --grain:rgba(255,255,255,.04);
-
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(143,42,31,.18), transparent 55%),
-                  radial-gradient(900px 700px at 80% 20%, rgba(58,42,74,.22), transparent 60%),
-                  radial-gradient(900px 900px at 60% 90%, rgba(138,163,106,.10), transparent 60%),
-                  linear-gradient(180deg, #040405 0%, #07070a 40%, #030304 100%);
-      color:var(--ink);
-      font-family:var(--sans);
-      overflow-x:hidden;
-    }
-
-    /* CRT + grain */
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,.035) 0px,
-          rgba(255,255,255,.035) 1px,
-          rgba(0,0,0,0) 3px,
-          rgba(0,0,0,0) 4px
-        );
-      mix-blend-mode:overlay;
-      opacity:.12;
-      z-index:5;
-    }
-    body::after{
-      content:"";
-      position:fixed; inset:-20%;
-      pointer-events:none;
-      background-image:
-        radial-gradient(var(--grain) 1px, transparent 1px),
-        radial-gradient(rgba(0,0,0,.08) 1px, transparent 1px);
-      background-size: 3px 3px, 4px 4px;
-      background-position: 0 0, 2px 2px;
-      opacity:.18;
-      filter: blur(.2px);
-      z-index:6;
-      animation: drift 10s linear infinite;
-    }
-    @keyframes drift{
-      from{transform:translate3d(-2%, -1%, 0)}
-      to{transform:translate3d(2%, 1%, 0)}
-    }
-
-    a{color:inherit}
-    .wrap{
-      width:min(1100px, 92vw);
-      margin:0 auto;
-      padding:28px 0 64px;
-      position:relative;
-      z-index:10;
-    }
-
-    /* top bar */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 12px;
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(27,28,33,.72), rgba(10,10,12,.42));
-      box-shadow: 0 12px 40px rgba(0,0,0,.45);
-      border-radius:14px;
-      position:sticky;
-      top:12px;
-      backdrop-filter: blur(8px);
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-family:var(--mono);
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      font-size:12px;
-      opacity:.92;
-    }
-    .sig{
-      width:34px; height:34px;
-      border-radius:10px;
-      border:1px solid var(--line);
-      background:
-        radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.14), transparent 60%),
-        linear-gradient(145deg, rgba(143,42,31,.35), rgba(58,42,74,.35));
-      position:relative;
-      overflow:hidden;
-    }
-    .sig::after{
-      content:"";
-      position:absolute; inset:-30%;
-      background: repeating-linear-gradient(135deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 6px, rgba(0,0,0,.25) 6px, rgba(0,0,0,.25) 9px);
-      opacity:.55;
-      transform:rotate(8deg);
-    }
-
-    nav{
-      display:flex; gap:10px; flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .navbtn{
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.25);
-      text-decoration:none;
-      position:relative;
-      overflow:hidden;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-    .navbtn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.18);
-      background: rgba(255,255,255,.05);
-    }
-    .navbtn:active{transform:translateY(0)}
-    .navbtn::after{
-      content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(200px 70px at var(--mx, 30%) var(--my, 50%), rgba(143,42,31,.22), transparent 60%);
-      opacity:0;
-      transition: opacity .16s ease;
-    }
-    .navbtn:hover::after{opacity:1}
-
-    /* hero */
-    header.hero{
-      margin-top:22px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.18)),
-        radial-gradient(600px 220px at 15% 10%, rgba(143,42,31,.22), transparent 70%),
-        radial-gradient(700px 240px at 80% 20%, rgba(58,42,74,.26), transparent 70%),
-        rgba(10,10,12,.55);
-      padding:34px 22px 24px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      position:relative;
-      overflow:hidden;
-    }
-    .hero::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.08), transparent 30%),
-        radial-gradient(circle at 85% 25%, rgba(255,255,255,.06), transparent 34%),
-        radial-gradient(circle at 40% 90%, rgba(255,255,255,.05), transparent 40%);
-      opacity:.55;
-      filter: blur(0.4px);
-      pointer-events:none;
-    }
-    .kornWord{
-      margin:0;
-      font-size: clamp(40px, 6vw, 72px);
-      line-height:1.0;
-      letter-spacing:-.04em;
-      text-transform:uppercase;
-      font-weight:800;
-      position:relative;
-      text-shadow:
-        0 2px 0 rgba(0,0,0,.8),
-        0 16px 50px rgba(0,0,0,.65);
-    }
-    .kornWord .glitch{
-      position:absolute; left:0; top:0;
-      opacity:.18;
-      filter: blur(.3px);
-      transform: translate(2px, 0);
-      color: var(--rust);
-      mix-blend-mode:screen;
-      pointer-events:none;
-    }
-    .kornWord .glitch2{
-      position:absolute; left:0; top:0;
-      opacity:.16;
-      transform: translate(-2px, 1px);
-      color: var(--bruise);
-      mix-blend-mode:screen;
-      pointer-events:none;
-    }
-    .tagline{
-      margin:12px 0 0;
-      color:var(--muted);
-      font-family:var(--mono);
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-size:12px;
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-      margin-top:22px;
-    }
-    @media (max-width: 860px){
-      .heroGrid{grid-template-columns:1fr}
-      nav{justify-content:flex-start}
-      .topbar{position:static}
-    }
-
-    .panel{
-      border:1px solid var(--line);
-      border-radius:16px;
-      background: rgba(0,0,0,.28);
-      padding:16px;
-      position:relative;
-      overflow:hidden;
-    }
-    .panel::after{
-      content:"";
-      position:absolute; inset:0;
-      background: repeating-linear-gradient( to right, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 9px);
-      opacity:.12;
-      pointer-events:none;
-    }
-    .panel h2{
-      margin:0 0 8px;
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--ink);
-      opacity:.9;
-    }
-    .panel p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.55;
-      font-size:14px;
-    }
-
-    .ctaRow{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:14px;
-    }
-    .cta{
-      display:inline-flex; align-items:center; gap:10px;
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(143,42,31,.18), rgba(0,0,0,.18));
-      text-decoration:none;
-      position:relative;
-      overflow:hidden;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
-      user-select:none;
-    }
-    .cta:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.22);
-      background: linear-gradient(180deg, rgba(143,42,31,.26), rgba(0,0,0,.20));
-    }
-    .cta.secondary{
-      background: linear-gradient(180deg, rgba(58,42,74,.20), rgba(0,0,0,.18));
-    }
-    .pill{
-      display:inline-flex;
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.28);
-      color: var(--muted);
-      font-size:11px;
-      font-family:var(--mono);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-left:10px;
-    }
-
-    /* sections */
-    main{margin-top:18px}
-    section{
-      margin-top:18px;
-      border-radius:18px;
-      border:1px solid var(--line);
-      background: rgba(10,10,12,.45);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-      overflow:hidden;
-    }
-    .secHead{
-      padding:16px 16px 10px;
-      border-bottom:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(27,28,33,.56), rgba(0,0,0,.18));
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .secHead h3{
-      margin:0;
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      opacity:.92;
-    }
-    .secBody{padding:16px}
-    .grid3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
-    @media (max-width: 900px){ .grid3{grid-template-columns:1fr} }
-
-    .card{
-      border:1px solid var(--line);
-      border-radius:16px;
-      background: rgba(0,0,0,.25);
-      padding:14px;
-      position:relative;
-      overflow:hidden;
-      transition: transform .12s ease, border-color .12s ease;
-      cursor:default;
-    }
-    .card:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.18);
-    }
-    .card strong{
-      display:block;
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      margin-bottom:8px;
-      opacity:.92;
-    }
-    .card span{
-      display:block;
-      color:var(--muted);
-      line-height:1.5;
-      font-size:13px;
-    }
-
-    /* terminal strip */
-    .terminal{
-      font-family:var(--mono);
-      font-size:12px;
-      letter-spacing:.08em;
-      border-top:1px solid var(--line);
-      background: rgba(0,0,0,.35);
-      padding:12px 16px;
-      color: rgba(231,226,218,.86);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .blink{
-      display:inline-block;
-      width:8px;
-      margin-left:4px;
-      border-bottom: 2px solid rgba(231,226,218,.8);
-      animation: blink 1s steps(2,end) infinite;
-      transform: translateY(-1px);
-    }
-    @keyframes blink{50%{opacity:0}}
-
-    footer{
-      margin-top:18px;
-      color:rgba(231,226,218,.62);
-      font-family:var(--mono);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:11px;
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:10px;
-      padding:10px 4px;
-      opacity:.85;
-    }
-
-    /* "broken" edges */
-    .tear{
-      position:absolute;
-      right:-40px;
-      top:14px;
-      width:180px;
-      height:60px;
-      transform: rotate(12deg);
-      background: linear-gradient(90deg, rgba(255,255,255,.08), transparent 60%);
-      filter: blur(.4px);
-      opacity:.35;
-      pointer-events:none;
-    }
-
-    /* reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      body::after{animation:none}
-      .blink{animation:none}
-      .navbtn,.cta,.card{transition:none}
-    }
-  </style>
+  <meta name="theme-color" content="#071a33" />
+  <title>SATCORP — Planetary Operations</title>
+  <meta name="description" content="SATCORP Planetary Operations Interface — global systems, intelligent execution." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Optional: swap to your preferred font in styles.css if you don't want Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand" aria-label="site brand">
-        <div class="sig" aria-hidden="true"></div>
-        <div>KORN_1990s // WEB_SHELL</div>
-      </div>
-
-      <nav aria-label="primary">
-        <a class="navbtn" href="#aesthetic">Aesthetic</a>
-        <a class="navbtn" href="#archive">Archive</a>
-        <a class="navbtn" href="#signals">Signals</a>
-        <a class="navbtn" href="#contact">Contact</a>
-      </nav>
-    </div>
-
-    <header class="hero">
-      <div class="tear" aria-hidden="true"></div>
-
-      <h1 class="kornWord">
-        <span class="glitch" aria-hidden="true">KORN // 1990s</span>
-        <span class="glitch2" aria-hidden="true">KORN // 1990s</span>
-        KORN // 1990s
-      </h1>
-
-      <p class="tagline">distortion • catharsis • industrial grain • late-night dial-up energy</p>
-
-      <div class="heroGrid">
-        <div class="panel">
-          <h2>ENTRY</h2>
-          <p>
-            A dark, distressed interface built like a relic: corroded edges, CRT scanlines,
-            film grain, and heavy negative space—an experience that feels discovered, not delivered.
-          </p>
-
-          <div class="ctaRow">
-            <a class="cta" href="#archive">Enter Archive <span class="pill">vhs-noise</span></a>
-            <a class="cta secondary" href="#signals">Transmit <span class="pill">feedback</span></a>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2>NOW PLAYING</h2>
-          <p>
-            No autoplay. No polish. The page breathes in silence unless you press play—
-            like a warehouse before the first note hits.
-          </p>
-
-          <div class="ctaRow">
-            <a class="cta secondary" href="#" id="toggleDistort" role="button" aria-pressed="false">Toggle Distort</a>
-            <a class="cta" href="#" id="panic" role="button">Panic Kill</a>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <section id="aesthetic" aria-label="aesthetic modules">
-        <div class="secHead">
-          <h3>AE S T H E T I C // MODULES</h3>
-          <span class="pill">distressed-ui</span>
-        </div>
-        <div class="secBody">
-          <div class="grid3">
-            <div class="card">
-              <strong>Grain + Static</strong>
-              <span>Always-on texture layers: noise, scanlines, and subtle drift to keep the page alive.</span>
-            </div>
-            <div class="card">
-              <strong>Broken Grid</strong>
-              <span>Clean structure, intentionally “damaged” by asymmetry and offsets—controlled chaos.</span>
-            </div>
-            <div class="card">
-              <strong>Rust / Bruise Accents</strong>
-              <span>Muted blood + bruised purple highlights—used sparingly like impact marks.</span>
-            </div>
-          </div>
-        </div>
-        <div class="terminal" aria-label="terminal strip">
-          &gt; system.boot() ... ok // signal:stable // noise:active<span class="blink" aria-hidden="true"></span>
-        </div>
-      </section>
-
-      <section id="archive" aria-label="archive">
-        <div class="secHead">
-          <h3>ARCHIVE // FRAGMENTS</h3>
-          <span class="pill">late-90s</span>
-        </div>
-        <div class="secBody">
-          <div class="grid3">
-            <div class="card">
-              <strong>POSTER WALL</strong>
-              <span>High-contrast imagery treatment, shadow-first, never glossy. Like a flyer stapled to steel.</span>
-            </div>
-            <div class="card">
-              <strong>LYRIC SCRAPS</strong>
-              <span>Small blocks of text that feel carved or stamped—emotion as artifact, not marketing copy.</span>
-            </div>
-            <div class="card">
-              <strong>TOUR LOG</strong>
-              <span>Monospace listings, imperfect spacing, and worn separators—like a photocopied setlist.</span>
-            </div>
-          </div>
-        </div>
-        <div class="terminal">
-          &gt; archive.mount("/relics") // ok // checksum: 0x1997<span class="blink" aria-hidden="true"></span>
-        </div>
-      </section>
-
-      <section id="signals" aria-label="signals">
-        <div class="secHead">
-          <h3>SIGNALS // FEEDBACK</h3>
-          <span class="pill">no-autoplay</span>
-        </div>
-        <div class="secBody">
-          <div class="panel" style="margin-bottom:14px;">
-            <h2>INTERACTION NOTE</h2>
-            <p>
-              Hover over nav buttons to see reactive heat. Toggle Distort to intensify the screen artifacts.
-              Panic Kill resets the page state instantly.
-            </p>
-          </div>
-
-          <div class="grid3">
-            <div class="card">
-              <strong>Hover Jitter</strong>
-              <span>Micro-movement and slight edge lift—feels unstable, but intentional.</span>
-            </div>
-            <div class="card">
-              <strong>CRT Layer</strong>
-              <span>Scanlines + subtle contrast bloom to simulate an old display at night.</span>
-            </div>
-            <div class="card">
-              <strong>Quiet Pressure</strong>
-              <span>Silence by default. The design implies sound without forcing it.</span>
-            </div>
-          </div>
-        </div>
-        <div class="terminal">
-          &gt; signal.listen() ... waiting for input<span class="blink" aria-hidden="true"></span>
-        </div>
-      </section>
-
-      <section id="contact" aria-label="contact">
-        <div class="secHead">
-          <h3>CONTACT // DROPBOX</h3>
-          <span class="pill">text-only</span>
-        </div>
-        <div class="secBody">
-          <div class="panel">
-            <h2>MESSAGE</h2>
-            <p style="margin-bottom:12px;">
-              This is a theme shell. Wire your real links here (music, merch, dates, socials) and swap in your assets.
-            </p>
-
-            <form onsubmit="return false" aria-label="contact form">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-                <input id="name" placeholder="NAME" aria-label="name"
-                       style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
-                <input id="channel" placeholder="CHANNEL" aria-label="channel"
-                       style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
-              </div>
-              <textarea id="msg" rows="4" placeholder="MESSAGE" aria-label="message"
-                        style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink);font-family:var(--mono);letter-spacing:.06em"></textarea>
-
-              <div class="ctaRow">
-                <a class="cta" href="#" id="fakeSend" role="button">Transmit</a>
-                <span class="pill" id="status">offline</span>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="terminal">
-          &gt; mailbox.ready = true // encryption:none // era:1999<span class="blink" aria-hidden="true"></span>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div>© <span id="year"></span> // KORN_1990s theme shell</div>
-      <div>built: static html • grain • rust • bruise</div>
-    </footer>
+  <!-- Ambient layers -->
+  <div class="bg" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="nebula"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
   </div>
 
-  <script>
-    // nav hover heat map
-    document.querySelectorAll(".navbtn").forEach(a => {
-      a.addEventListener("mousemove", (e) => {
-        const r = a.getBoundingClientRect();
-        const mx = ((e.clientX - r.left) / r.width) * 100;
-        const my = ((e.clientY - r.top) / r.height) * 100;
-        a.style.setProperty("--mx", mx + "%");
-        a.style.setProperty("--my", my + "%");
-      });
-    });
+  <!-- Boot / Entry sequence -->
+  <div id="boot" class="boot" role="dialog" aria-modal="true" aria-label="Initializing SATCORP systems">
+    <div class="boot__wrap">
+      <div class="boot__badge">
+        <span class="boot__sig">SATCORP</span>
+        <span class="boot__sub">PLANETARY OPERATIONS INTERFACE</span>
+      </div>
 
-    // Distort mode toggles stronger artifacts + micro jitter
-    const toggle = document.getElementById("toggleDistort");
-    let distortOn = false;
+      <div class="boot__console" aria-live="polite">
+        <div class="boot__line" data-bootline>
+          <span class="k">›</span> <span class="t">INITIALIZING GLOBAL SYSTEMS…</span>
+        </div>
+        <div class="boot__line" data-bootline>
+          <span class="k">›</span> <span class="t">ORBITAL NODES: <b>ONLINE</b></span>
+        </div>
+        <div class="boot__line" data-bootline>
+          <span class="k">›</span> <span class="t">NETWORK SYNCHRONIZED</span>
+        </div>
+        <div class="boot__line" data-bootline>
+          <span class="k">›</span> <span class="t">AI COORDINATION: <b>ACTIVE</b></span>
+        </div>
+      </div>
 
-    const setDistort = (on) => {
-      distortOn = on;
-      toggle.setAttribute("aria-pressed", String(on));
+      <div class="boot__progress" aria-hidden="true">
+        <div class="boot__bar"><span id="bootBar"></span></div>
+        <div class="boot__pct"><span id="bootPct">0</span>%</div>
+      </div>
 
-      if (on) {
-        document.body.style.filter = "contrast(1.08) saturate(1.06)";
-        document.body.style.animation = "shake .22s steps(2,end) infinite";
-      } else {
-        document.body.style.filter = "";
-        document.body.style.animation = "";
-      }
-    };
+      <button id="enterBtn" class="btn btn--primary boot__enter" type="button" disabled>
+        REQUEST ACCESS
+      </button>
 
-    // add shake keyframes dynamically (keeps html single-file)
-    const style = document.createElement("style");
-    style.textContent = `
-      @keyframes shake{
-        0%{transform:translate3d(0,0,0)}
-        25%{transform:translate3d(0.6px,-0.4px,0)}
-        50%{transform:translate3d(-0.5px,0.5px,0)}
-        75%{transform:translate3d(0.4px,0.2px,0)}
-        100%{transform:translate3d(0,0,0)}
-      }
-    `;
-    document.head.appendChild(style);
+      <p class="boot__hint">Tip: Press <kbd>Enter</kbd> to proceed once unlocked.</p>
+    </div>
+  </div>
 
-    toggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      setDistort(!distortOn);
-    });
+  <!-- Top system header -->
+  <header class="topbar" role="banner">
+    <a class="brand" href="#home" aria-label="SATCORP Home">
+      <span class="brand__mark">SATCORP</span>
+      <span class="brand__meta">GLOBAL SYSTEMS · INTELLIGENT EXECUTION</span>
+    </a>
 
-    // Panic kill: reset UI state
-    document.getElementById("panic").addEventListener("click", (e) => {
-      e.preventDefault();
-      setDistort(false);
-      document.getElementById("status").textContent = "offline";
-      document.getElementById("name").value = "";
-      document.getElementById("channel").value = "";
-      document.getElementById("msg").value = "";
-      window.location.hash = "";
-      window.scrollTo({ top: 0, behavior: "instant" });
-    });
+    <div class="topbar__right">
+      <div class="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        <span class="status__text">SYSTEMS: ACTIVE</span>
+      </div>
 
-    // Fake send (visual feedback only)
-    document.getElementById("fakeSend").addEventListener("click", (e) => {
-      e.preventDefault();
-      const status = document.getElementById("status");
-      status.textContent = "transmitting";
-      setTimeout(() => status.textContent = "sent", 600);
-      setTimeout(() => status.textContent = "offline", 2200);
-    });
+      <button id="modeBtn" class="btn btn--ghost" type="button" aria-pressed="false" aria-label="Toggle classified mode">
+        CLASSIFIED: OFF
+      </button>
 
-    // year
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+      <button id="accessBtn" class="btn btn--primary" type="button">
+        REQUEST ACCESS
+      </button>
+    </div>
+  </header>
+
+  <!-- Main interface -->
+  <main id="home" class="main" role="main">
+    <!-- Left HUD rail -->
+    <aside class="hud hud--left" aria-label="Telemetry rail">
+      <div class="panel">
+        <div class="panel__head">
+          <span>TELEMETRY</span>
+          <span class="chip">LIVE</span>
+        </div>
+        <dl class="kv">
+          <div><dt>LATENCY</dt><dd><span id="latency">—</span> ms</dd></div>
+          <div><dt>UPLINK</dt><dd><span id="uplink">—</span>%</dd></div>
+          <div><dt>COVERAGE</dt><dd><span id="coverage">—</span></dd></div>
+          <div><dt>REGIONS</dt><dd><span id="regions">—</span></dd></div>
+        </dl>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head">
+          <span>EVENT STREAM</span>
+          <span class="chip chip--soft">BUFFERED</span>
+        </div>
+        <ul id="events" class="events" aria-live="polite">
+          <li><span class="dot"></span> Node handshake complete</li>
+          <li><span class="dot"></span> Routing tables refreshed</li>
+          <li><span class="dot"></span> Edge cache synchronized</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Center stage: globe + radial nav -->
+    <section class="stage" aria-label="Global operations stage">
+      <div class="stage__title">
+        <h1 class="title">PLANETARY OPERATIONS</h1>
+        <p class="subtitle">A command interface for infrastructure, automation, and intelligence at scale.</p>
+      </div>
+
+      <div class="globe">
+        <!-- Canvas is a placeholder for WebGL/Three.js later; for now script.js can animate a simple HUD -->
+        <canvas id="globeCanvas" width="900" height="900" aria-label="Holographic Earth visualization"></canvas>
+
+        <!-- Orbital rings / UI overlays -->
+        <div class="orbit orbit--a" aria-hidden="true"></div>
+        <div class="orbit orbit--b" aria-hidden="true"></div>
+        <div class="orbit orbit--c" aria-hidden="true"></div>
+
+        <!-- Radial navigation -->
+        <nav class="radial" aria-label="Systems navigation">
+          <button class="radial__seg" data-target="#infrastructure" type="button">
+            <span class="radial__label">INFRASTRUCTURE</span>
+          </button>
+          <button class="radial__seg" data-target="#automation" type="button">
+            <span class="radial__label">AUTOMATION</span>
+          </button>
+          <button class="radial__seg" data-target="#intelligence" type="button">
+            <span class="radial__label">INTELLIGENCE</span>
+          </button>
+          <button class="radial__seg" data-target="#deployments" type="button">
+            <span class="radial__label">DEPLOYMENTS</span>
+          </button>
+          <button class="radial__seg" data-target="#contact" type="button">
+            <span class="radial__label">CONTACT</span>
+          </button>
+        </nav>
+
+        <!-- Center tag -->
+        <div class="coreTag" aria-hidden="true">
+          <span class="coreTag__k">STATUS</span>
+          <span class="coreTag__v">SYNCHRONIZED</span>
+        </div>
+      </div>
+
+      <!-- Capability strip -->
+      <div class="caps" aria-label="Capability matrix">
+        <article class="cap">
+          <h3>GLOBAL AUTOMATION</h3>
+          <p>Event-driven orchestration across edge + cloud.</p>
+          <div class="cap__meta">
+            <span class="pill">ACTIVE</span>
+            <span class="pill pill--soft">ADAPTIVE SCALE</span>
+            <span class="pill pill--soft">MULTI-REGION</span>
+          </div>
+        </article>
+
+        <article class="cap">
+          <h3>NETWORK INTELLIGENCE</h3>
+          <p>Telemetry, routing, and signal integrity monitoring.</p>
+          <div class="cap__meta">
+            <span class="pill">ONLINE</span>
+            <span class="pill pill--soft">REAL-TIME</span>
+            <span class="pill pill--soft">LOW LATENCY</span>
+          </div>
+        </article>
+
+        <article class="cap">
+          <h3>INFRASTRUCTURE LAYER</h3>
+          <p>Security-first systems architecture + deployment patterns.</p>
+          <div class="cap__meta">
+            <span class="pill">HARDENED</span>
+            <span class="pill pill--soft">AUDITABLE</span>
+            <span class="pill pill--soft">RESILIENT</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Right HUD rail -->
+    <aside class="hud hud--right" aria-label="System controls rail">
+      <div class="panel">
+        <div class="panel__head">
+          <span>ACTIVE MODULES</span>
+          <span class="chip">5</span>
+        </div>
+
+        <div class="modules">
+          <button class="module" data-target="#infrastructure" type="button">
+            <span class="module__name">INFRASTRUCTURE</span>
+            <span class="module__state">ACTIVE</span>
+          </button>
+          <button class="module" data-target="#automation" type="button">
+            <span class="module__name">AUTOMATION</span>
+            <span class="module__state">ACTIVE</span>
+          </button>
+          <button class="module" data-target="#intelligence" type="button">
+            <span class="module__name">INTELLIGENCE</span>
+            <span class="module__state">ACTIVE</span>
+          </button>
+          <button class="module" data-target="#deployments" type="button">
+            <span class="module__name">DEPLOYMENTS</span>
+            <span class="module__state">STABLE</span>
+          </button>
+          <button class="module" data-target="#contact" type="button">
+            <span class="module__name">CONTACT</span>
+            <span class="module__state">READY</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head">
+          <span>SECURITY</span>
+          <span class="chip chip--warn">ENFORCED</span>
+        </div>
+        <ul class="checks">
+          <li><span class="chk" aria-hidden="true"></span> Access request gated</li>
+          <li><span class="chk" aria-hidden="true"></span> Zero-trust posture</li>
+          <li><span class="chk" aria-hidden="true"></span> Audit trail enabled</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Sections below fold -->
+    <section id="infrastructure" class="section">
+      <div class="section__head">
+        <h2>INFRASTRUCTURE</h2>
+        <p>Systems architecture built for resilience, compliance, and speed.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Edge-First Routing</h3>
+          <p>Global request handling with deterministic cache + compute boundaries.</p>
+          <div class="tagrow">
+            <span class="tag">SSG/ISR</span><span class="tag">CDN</span><span class="tag">WAF</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Data Model Discipline</h3>
+          <p>Versioned schemas, forward migrations, and retention controls.</p>
+          <div class="tagrow">
+            <span class="tag">SCHEMA</span><span class="tag">MIGRATIONS</span><span class="tag">RETENTION</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Operational Hardening</h3>
+          <p>Least-privilege access, logging, and incident-ready workflows.</p>
+          <div class="tagrow">
+            <span class="tag">ZERO TRUST</span><span class="tag">AUDIT</span><span class="tag">IR</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="automation" class="section">
+      <div class="section__head">
+        <h2>AUTOMATION</h2>
+        <p>Event-driven systems that eliminate friction and scale execution.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Webhook Orchestration</h3>
+          <p>Tier-gated events, retries, and delivery receipts built in.</p>
+          <div class="tagrow">
+            <span class="tag">EVENTS</span><span class="tag">RETRY</span><span class="tag">SIGNATURES</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Workflow Engines</h3>
+          <p>Composable actions for posting, syncing, and notifications.</p>
+          <div class="tagrow">
+            <span class="tag">DISCORD</span><span class="tag">TIKTOK</span><span class="tag">GITHUB</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Guardrails</h3>
+          <p>Hard limits enforced. No silent deletes. Predictable behavior.</p>
+          <div class="tagrow">
+            <span class="tag">LIMITS</span><span class="tag">NO OVERFLOW</span><span class="tag">SAFE</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="intelligence" class="section">
+      <div class="section__head">
+        <h2>INTELLIGENCE</h2>
+        <p>Telemetry, observability, and decision support layered into the interface.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Signal Monitoring</h3>
+          <p>Live status, integrity checks, and route visibility.</p>
+          <div class="tagrow">
+            <span class="tag">UPTIME</span><span class="tag">ALERTS</span><span class="tag">TRACE</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>System Doctrine</h3>
+          <p>Short, declarative operating principles—no fluff.</p>
+          <div class="tagrow">
+            <span class="tag">CLARITY</span><span class="tag">DISCIPLINE</span><span class="tag">EXECUTION</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Adaptive Interfaces</h3>
+          <p>Mode toggles, priority routing, and contextual panels.</p>
+          <div class="tagrow">
+            <span class="tag">MODES</span><span class="tag">HUD</span><span class="tag">CONTEXT</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="deployments" class="section">
+      <div class="section__head">
+        <h2>DEPLOYMENTS</h2>
+        <p>Release systems built for stability, rollback, and clear ownership.</p>
+      </div>
+
+      <div class="timeline" aria-label="Deployment status timeline">
+        <div class="tl">
+          <div class="tl__dot" aria-hidden="true"></div>
+          <div class="tl__body">
+            <h3>EDGE PACKAGE</h3>
+            <p>Static build + cache key strategy enforced at publish pipeline.</p>
+            <div class="tagrow">
+              <span class="tag">CACHE</span><span class="tag">BUILD</span><span class="tag">PUBLISH</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl">
+          <div class="tl__dot" aria-hidden="true"></div>
+          <div class="tl__body">
+            <h3>WORKER LOGIC</h3>
+            <p>Signed webhooks, tier gating, and delivery receipts.</p>
+            <div class="tagrow">
+              <span class="tag">HMAC</span><span class="tag">RETRY</span><span class="tag">EVENTS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl">
+          <div class="tl__dot" aria-hidden="true"></div>
+          <div class="tl__body">
+            <h3>OBSERVABILITY</h3>
+            <p>Structured logs and operational dashboards.</p>
+            <div class="tagrow">
+              <span class="tag">LOGS</span><span class="tag">METRICS</span><span class="tag">ALERTING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--contact">
+      <div class="section__head">
+        <h2>CONTACT</h2>
+        <p>Access is granted — not sold. Submit a request channel.</p>
+      </div>
+
+      <div class="contactGrid">
+        <div class="card card--wide">
+          <h3>REQUEST CHANNEL</h3>
+          <p>Open the access terminal to submit scope and routing data.</p>
+          <div class="actions">
+            <button class="btn btn--primary" id="openTerminal" type="button">OPEN TERMINAL</button>
+            <a class="btn btn--ghost" href="#home">RETURN TO ORBIT</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>OPERATIONAL HOURS</h3>
+          <p>Deployment-ready windows scheduled by priority and availability.</p>
+          <div class="tagrow">
+            <span class="tag">SCHEDULED</span><span class="tag">PRIORITY</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>SECURE COMMS</h3>
+          <p>No random links. Provide materials directly in approved channels.</p>
+          <div class="tagrow">
+            <span class="tag">SAFE</span><span class="tag">VERIFIED</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__left">
+      <span class="muted">© <span id="year"></span> SATCORP</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="muted">SYSTEMS ONLINE</span>
+    </div>
+    <div class="footer__right">
+      <span class="muted">BUILD: <span id="buildId">OPS-ALPHA</span></span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="muted">MODE: <span id="modeLabel">PUBLIC</span></span>
+    </div>
+  </footer>
+
+  <!-- Access Terminal Modal -->
+  <div id="terminalModal" class="modal" role="dialog" aria-modal="true" aria-label="Access terminal" hidden>
+    <div class="modal__backdrop" data-close></div>
+
+    <div class="modal__panel" role="document">
+      <div class="modal__head">
+        <div class="modal__title">
+          <span class="chip">ACCESS TERMINAL</span>
+          <span class="muted">SECURE REQUEST CHANNEL</span>
+        </div>
+        <button class="btn btn--ghost" type="button" data-close aria-label="Close terminal">CLOSE</button>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal__screen" aria-live="polite">
+          <div class="terminal__line"><span class="k">›</span> SATCORP ACCESS GATE v1.0</div>
+          <div class="terminal__line"><span class="k">›</span> Provide minimal scope + desired outcome.</div>
+          <div class="terminal__line"><span class="k">›</span> No links. Attach files through approved channels.</div>
+        </div>
+
+        <form id="terminalForm" class="terminal__form">
+          <label class="field">
+            <span class="field__label">IDENTIFIER</span>
+            <input class="field__input" name="identifier" autocomplete="name" placeholder="Name / Handle" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">OPERATION TYPE</span>
+            <select class="field__input" name="opType" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Infrastructure</option>
+              <option>Automation</option>
+              <option>Intelligence</option>
+              <option>Brand / UI Systems</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <label class="field field--full">
+            <span class="field__label">SCOPE SIGNAL</span>
+            <textarea class="field__input" name="scope" rows="5" placeholder="Describe the objective, constraints, and what ‘done’ looks like." required></textarea>
+          </label>
+
+          <div class="terminal__actions">
+            <button class="btn btn--primary" type="submit">SUBMIT REQUEST</button>
+            <button class="btn btn--ghost" type="button" data-close>ABORT</button>
+          </div>
+
+          <p class="terminal__note muted">
+            This is a UI prototype. Hook this form to email, Discord, or an API endpoint in <code>script.js</code>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script.js" defer></script>
 </body>
 </html>
